@@ -1,18 +1,24 @@
 export type WhoisResult = {
   status: boolean;
+  time: number;
   result?: WhoisAnalyzeResult;
   error?: string;
 };
 
 export function lookupWhois(domain: string): Promise<WhoisResult> {
   const whois = require("whois");
+  const startTime = Date.now();
 
   return new Promise((resolve, reject) => {
     try {
       whois.lookup(domain, (err: Error, data: string) => {
+        const endTime = Date.now();
+        const usedTime = (endTime - startTime) / 1000;
+
         if (err) {
           resolve({
             status: false,
+            time: usedTime,
             error: err.message,
           });
         } else {
@@ -22,12 +28,14 @@ export function lookupWhois(domain: string): Promise<WhoisResult> {
           ) {
             resolve({
               status: false,
+              time: usedTime,
               error: `No match for domain ${domain} (e.g. domain is not registered)`,
             });
           }
 
           resolve({
             status: true,
+            time: usedTime,
             result: analyzeWhois(data),
           });
         }
@@ -36,6 +44,7 @@ export function lookupWhois(domain: string): Promise<WhoisResult> {
       const message = (e as Error).message;
       resolve({
         status: false,
+        time: 0,
         error: message,
       });
     }
@@ -186,5 +195,9 @@ export function analyzeWhois(data: string): WhoisAnalyzeResult {
   }
 
   result.rawWhoisContent = data;
+
+  result.status = result.status.filter((status) => status.status.length > 0); //@ts-ignore
+  result.status = [...new Set(result.status)];
+
   return result;
 }

@@ -53,7 +53,7 @@ function ErrorArea({ error }: ErrorAreaProps) {
         <CircleX className={`w-3.5 h-3.5 mr-1`} />
         Lookup Failed
       </div>
-      <div className={`text-sm mt-2`}>
+      <div className={`text-sm mt-2 text-center`}>
         <div
           className={`inline-block mr-1 w-3 h-3 cursor-pointer`}
           onClick={() => copy(error)}
@@ -153,7 +153,7 @@ function ResultTable({ result }: ResultTableProps) {
 
 function ResultComp({ data, target }: Props) {
   const copy = useClipboard();
-  const { status, result, error } = data;
+  const { status, result, error, time } = data;
 
   return (
     <Card className={`w-full h-fit mt-4`}>
@@ -162,7 +162,7 @@ function ResultComp({ data, target }: Props) {
           Result
           <div className={`flex-grow`} />
           <Badge
-            className={`inline-flex flex-row items-center cursor-pointer`}
+            className={`inline-flex flex-row items-center cursor-pointer mr-1`}
             onClick={() => copy(target)}
           >
             <div
@@ -173,6 +173,7 @@ function ResultComp({ data, target }: Props) {
             />
             {target}
           </Badge>
+          <Badge variant={`outline`}>{time.toFixed(1)}s</Badge>
         </CardTitle>
         <CardContent className={`w-full p-0`}>
           {!status ? (

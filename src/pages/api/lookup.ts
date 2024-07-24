@@ -3,6 +3,7 @@ import { lookupWhois, WhoisAnalyzeResult } from "@/lib/whois";
 
 type Data = {
   status: boolean;
+  time: number;
   result?: WhoisAnalyzeResult;
   error?: string;
 };
@@ -14,13 +15,15 @@ export default async function handler(
   const { query } = req.query;
 
   if (!query || typeof query !== "string" || query.length === 0) {
-    return res.status(400).json({ status: false, error: "Query is required" });
+    return res
+      .status(400)
+      .json({ time: -1, status: false, error: "Query is required" });
   }
 
-  const { status, result, error } = await lookupWhois(query);
+  const { time, status, result, error } = await lookupWhois(query);
   if (!status) {
-    return res.status(500).json({ status, error });
+    return res.status(500).json({ time, status, error });
   }
 
-  return res.status(200).json({ status, result });
+  return res.status(200).json({ time, status, result });
 }

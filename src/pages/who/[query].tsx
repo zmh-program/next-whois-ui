@@ -1,5 +1,5 @@
 import { lookupWhois, WhoisAnalyzeResult, WhoisResult } from "@/lib/whois";
-import { cn, isEnter, toSearchURI, useClipboard } from "@/lib/utils";
+import {cn, isEnter, toReadableISODate, toSearchURI, useClipboard} from "@/lib/utils";
 import { NextPageContext } from "next";
 import { Input } from "@/components/ui/input";
 import Link from "next/link";
@@ -134,9 +134,9 @@ function ResultTable({ result }: ResultTableProps) {
             </Link>
           </Row>
           <Row name={`Whois Server`} value={result.whoisServer} />
-          <Row name={`Updated Date`} value={result.updatedDate} />
-          <Row name={`Creation Date`} value={result.creationDate} />
-          <Row name={`Expiration Date`} value={result.expirationDate} />
+          <Row name={`Updated Date`} value={toReadableISODate(result.updatedDate)} />
+          <Row name={`Creation Date`} value={toReadableISODate(result.creationDate)} />
+          <Row name={`Expiration Date`} value={toReadableISODate(result.expirationDate)} />
           <Row
             name={`Registrant Organization`}
             value={result.registrantOrganization}

@@ -55,3 +55,7 @@ export function toSearchURI(query: string) {
   const q = query.trim();
   return q ? `/who/${encodeURIComponent(q)}` : "/";
 }
+
+export function toReadableISODate(date: string) {
+  return date.replace("T", " ").replace("Z", "").replace(".000", "");
+}

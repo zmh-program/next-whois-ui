@@ -189,7 +189,7 @@ export function analyzeWhois(data: string): WhoisAnalyzeResult {
         result.registrantPhone = value.replace("tel:", "").replace(".", " ");
         break;
       case "registrant email":
-        result.registrantEmail = value;
+        result.registrantEmail = value.replace("Select Request Email Form at ", "");
         break;
     }
   }

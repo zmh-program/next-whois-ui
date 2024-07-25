@@ -250,7 +250,7 @@ function ResultComp({ data, target }: Props) {
             />
             {target}
           </Badge>
-          <Badge variant={`outline`}>{time.toFixed(1)}s</Badge>
+          <Badge variant={`outline`}>{time.toFixed(2)}s</Badge>
         </CardTitle>
         <CardContent className={`w-full p-0`}>
           {!status ? (

@@ -20,7 +20,7 @@ import {
   Send,
   X,
 } from "lucide-react";
-import React, { useMemo } from "react";
+import React, { useEffect, useMemo } from "react";
 import { addHistory } from "@/lib/history";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -320,8 +320,11 @@ export default function Lookup({ data, target }: Props) {
 
   const goStage = (target: string) => {
     setLoading(true);
-    addHistory(target);
   };
+
+  useEffect(() => {
+    addHistory(target);
+  }, []);
 
   return (
     <ScrollArea className={`w-full h-full`}>
@@ -386,7 +389,7 @@ export default function Lookup({ data, target }: Props) {
           </div>
           <ResultComp data={data} target={target} />
         </div>
-        <p
+        <div
           className={`mt-12 text-sm flex flex-row items-center font-medium text-muted-foreground select-none`}
         >
           Powered by{" "}
@@ -398,7 +401,7 @@ export default function Lookup({ data, target }: Props) {
             Next Whois UI
           </Link>
           <Badge variant={`outline`}>v{VERSION}</Badge>
-        </p>
+        </div>
       </main>
     </ScrollArea>
   );

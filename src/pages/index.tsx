@@ -22,7 +22,6 @@ export default function Home() {
 
   const goStage = (target: string) => {
     setLoading(true);
-    addHistory(target);
   };
 
   return (
@@ -94,7 +93,7 @@ export default function Home() {
                 key={index}
                 onClick={() => goStage(item)}
               >
-                <Link2 className={`w-4 h-4 mr-1`} />
+                <Link2 className={`w-4 h-4 mr-1 shrink-0`} />
                 {item}
                 <ChevronRight
                   className={`transition-all w-4 h-4 ml-auto mr-1 group-hover:mr-0`}

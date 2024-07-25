@@ -30,7 +30,7 @@ export default function Home() {
       <div className={"flex flex-col items-center w-full h-fit max-w-[568px]"}>
         <h1
           className={
-            "text-lg md:text-2xl lg:text-3xl font-bold flex flex-row items-center"
+            "text-lg md:text-2xl lg:text-3xl font-bold flex flex-row items-center select-none"
           }
         >
           <Search className={`w-4 h-4 md:w-6 md:h-6 mr-1 md:mr-1.5 shrink-0`} />

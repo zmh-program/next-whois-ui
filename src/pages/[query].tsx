@@ -239,7 +239,7 @@ function ResultComp({ data, target }: Props) {
           Result
           <div className={`flex-grow`} />
           <Badge
-            className={`inline-flex flex-row items-center cursor-pointer mr-1`}
+            className={`inline-flex flex-row items-center cursor-pointer mr-1 select-none`}
             onClick={() => copy(target)}
           >
             <div
@@ -306,7 +306,7 @@ export default function Lookup({ data, target }: Props) {
         >
           <h1
             className={
-              "text-lg md:text-2xl lg:text-3xl font-bold flex flex-row items-center"
+              "text-lg md:text-2xl lg:text-3xl font-bold flex flex-row items-center select-none"
             }
           >
             <Search

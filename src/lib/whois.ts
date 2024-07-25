@@ -1,8 +1,4 @@
-import { filterRepeat } from "@/lib/utils";
-
-const MAX_WHOIS_FOLLOW = process.env.MAX_WHOIS_FOLLOW
-  ? parseInt(process.env.MAX_WHOIS_FOLLOW)
-  : 5;
+import { MAX_WHOIS_FOLLOW } from "@/lib/env";
 
 export type WhoisResult = {
   status: boolean;
@@ -11,17 +7,12 @@ export type WhoisResult = {
   error?: string;
 };
 
-export function lookupWhois(
-  domain: string,
-  disableFollow: boolean = true,
-): Promise<WhoisResult> {
+export function lookupWhois(domain: string): Promise<WhoisResult> {
   const whois = require("whois-raw");
   const startTime = Date.now();
 
-  // Where possible don't follow the detailed results to improve efficiency
-  // And follow 0 can solve the problem of `whois.dnspod.com connection refused`
   const options = {
-    follow: disableFollow ? 0 : MAX_WHOIS_FOLLOW,
+    follow: MAX_WHOIS_FOLLOW,
   };
 
   return new Promise((resolve) => {

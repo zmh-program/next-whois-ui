@@ -26,6 +26,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { TextArea } from "@/components/ui/textarea";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { VERSION } from "@/lib/env";
 
 type Props = {
   data: WhoisResult;
@@ -60,7 +61,9 @@ function cleanDomain(domain: string): string {
 
 export async function getServerSideProps(context: NextPageContext) {
   const { query } = context;
-  const target: string = cleanDomain(typeof query.query === "string" ? query.query : "");
+  const target: string = cleanDomain(
+    typeof query.query === "string" ? query.query : "",
+  );
 
   return {
     props: {
@@ -383,15 +386,18 @@ export default function Lookup({ data, target }: Props) {
           </div>
           <ResultComp data={data} target={target} />
         </div>
-        <p className={`mt-12 text-sm font-medium text-muted-foreground select-none`}>
+        <p
+          className={`mt-12 text-sm flex flex-row items-center font-medium text-muted-foreground select-none`}
+        >
           Powered by{" "}
           <Link
             href={`https://github.com/zmh-program/next-whois-ui`}
             target={`_blank`}
-            className={`text-primary underline underline-offset-2`}
+            className={`text-primary underline underline-offset-2 mx-1`}
           >
             Next Whois UI
           </Link>
+          <Badge variant={`outline`}>v{VERSION}</Badge>
         </p>
       </main>
     </ScrollArea>

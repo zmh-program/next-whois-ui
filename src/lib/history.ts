@@ -1,7 +1,4 @@
-// the maximum number of history items to keep in the local storage
-export const HistoryLimit: number = process.env.NEXT_PUBLIC_HISTORY_LIMIT
-  ? parseInt(process.env.NEXT_PUBLIC_HISTORY_LIMIT)
-  : 6;
+import { HISTORY_LIMIT } from "@/lib/env";
 
 export function listHistory(): string[] {
   const history = localStorage.getItem("history");
@@ -27,6 +24,6 @@ export function addHistory(query: string) {
     history = history.filter((item) => item !== domain);
   }
 
-  history = [domain, ...history].slice(0, HistoryLimit);
+  history = [domain, ...history].slice(0, HISTORY_LIMIT);
   localStorage.setItem("history", JSON.stringify(history));
 }

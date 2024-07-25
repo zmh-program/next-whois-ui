@@ -28,11 +28,15 @@ export function lookupWhois(domain: string): Promise<WhoisResult> {
             error: err.message,
           });
         } else {
+          const content = data.toLowerCase();
+
           if (
-            data.toLowerCase().includes("no match for domain") ||
-            data.toLowerCase().includes("this query returned 0 objects") ||
-            data.toLowerCase().includes("not found") ||
-            data.toLowerCase().includes("no entries found")
+            content.includes("no match for domain") ||
+            content.includes("this query returned 0 objects") ||
+            content.includes("not found") ||
+            content.includes("no entries found") ||
+            content.includes("malformed query") ||
+            content.includes("malformed request")
           ) {
             resolve({
               status: false,

@@ -25,6 +25,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { TextArea } from "@/components/ui/textarea";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { getDomain } from "tldjs";
 import { VERSION } from "@/lib/env";
 
 type Props = {
@@ -33,26 +34,17 @@ type Props = {
 };
 
 function cleanDomain(domain: string): string {
+  const hostname = getDomain(domain);
+  if (hostname) {
+    return hostname;
+  }
+
   // if contains ip, extract it and return
   const ipMatch = domain.match(
     /^(https?:\/\/)?((\d{1,3}\.){3}\d{1,3})(:\d+)?(\/.*)?$/,
   );
   if (ipMatch) {
     return ipMatch[2];
-  }
-
-  // if contains domain, extract it and return
-  const domainMatch = domain.match(/^(https?:\/\/)?([\w.-]+)(:\d+)?(\/.*)?$/);
-  if (domainMatch) {
-    let target = domainMatch[2];
-
-    // if is subdomain, extract the domain
-    const subdomain = target.split(".");
-    if (subdomain.length > 2) {
-      target = subdomain.slice(-2).join(".");
-    }
-
-    return target;
   }
 
   return domain;

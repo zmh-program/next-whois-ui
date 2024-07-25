@@ -1,5 +1,11 @@
 import { lookupWhois, WhoisAnalyzeResult, WhoisResult } from "@/lib/whois";
-import {cn, isEnter, toReadableISODate, toSearchURI, useClipboard} from "@/lib/utils";
+import {
+  cn,
+  isEnter,
+  toReadableISODate,
+  toSearchURI,
+  useClipboard,
+} from "@/lib/utils";
 import { NextPageContext } from "next";
 import { Input } from "@/components/ui/input";
 import Link from "next/link";
@@ -13,7 +19,7 @@ import {
   Send,
   X,
 } from "lucide-react";
-import React from "react";
+import React, { useMemo } from "react";
 import { addHistory } from "@/lib/history";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -75,19 +81,33 @@ function ResultTable({ result }: ResultTableProps) {
     name,
     value,
     children,
+    likeLink,
   }: {
     name: string;
     value: any;
     children?: React.ReactNode;
+    likeLink?: boolean;
   }) => (
     <tr>
       <td
-        className={`py-1 pr-2 text-right font-medium text-secondary whitespace-pre-wrap`}
+        className={`py-1 pr-2 text-right font-medium text-secondary whitespace-pre-wrap md:w-36`}
       >
         {name}
       </td>
       <td
-        className={`py-1 pl-2 text-left text-primary whitespace-pre-wrap break-all`}
+        className={cn(
+          `py-1 pl-2 text-left text-primary whitespace-pre-wrap break-all`,
+          likeLink && `cursor-pointer hover:underline`,
+        )}
+        onClick={() => {
+          if (likeLink) {
+            window.open(
+              value.startsWith("http") ? value : `http://${value}`,
+              "_blank",
+              "noopener,noreferrer",
+            );
+          }
+        }}
       >
         {value}
         {children}
@@ -95,33 +115,57 @@ function ResultTable({ result }: ResultTableProps) {
     </tr>
   );
 
+  const StatusComp = () => {
+    if (!result || result.status.length === 0) {
+      return "N/A";
+    }
+
+    const status = useMemo(() => {
+      const length = result.status.length;
+      if (length > 3 && !expand) {
+        return [
+          ...result.status.slice(0, 3),
+          {
+            status: `...${length - 3} more`,
+            url: "expand",
+          },
+        ];
+      }
+
+      return result.status;
+    }, [result.status]);
+
+    return (
+      <div className={`inline-flex flex-row items-center flex-wrap`}>
+        {status.map((status, index) => (
+          <Link
+            href={status.url}
+            key={index}
+            className={`inline-block m-0.5 cursor-pointer px-1 py-0.5 border rounded text-xs`}
+            onClick={(e) => {
+              if (status.url === "expand") {
+                e.preventDefault();
+                setExpand(!expand);
+              }
+            }}
+          >
+            {status.status}
+          </Link>
+        ))}
+      </div>
+    );
+  };
+
+  const [expand, setExpand] = React.useState<boolean>(false);
+
   return (
     result && (
       <table className={`w-full text-sm mb-4 whitespace-pre-wrap`}>
         <tbody>
-          <Row name={`Domain`} value={result.domain} />
-          <Row
-            name={`Status`}
-            value={
-              result.status.length > 0 ? (
-                <div className={`inline-flex flex-row items-center flex-wrap`}>
-                  {result.status.map((status, index) => (
-                    <Link
-                      href={status.url}
-                      key={index}
-                      className={`inline-block m-0.5 cursor-pointer px-1 py-0.5 border rounded text-xs`}
-                    >
-                      {status.status}
-                    </Link>
-                  ))}
-                </div>
-              ) : (
-                "N/A"
-              )
-            }
-          />
+          <Row name={`Domain Name`} value={result.domain} />
+          <Row name={`Domain Status`} value={<StatusComp />} />
           <Row name={`Registrar`} value={result.registrar} />
-          <Row name={`Registrar URL`} value={result.registrarURL} />
+          <Row name={`Registrar URL`} value={result.registrarURL} likeLink />
           <Row name={`IANA ID`} value={result.ianaId}>
             <Link
               className={`inline-flex ml-1`}
@@ -133,10 +177,37 @@ function ResultTable({ result }: ResultTableProps) {
               </Button>
             </Link>
           </Row>
-          <Row name={`Whois Server`} value={result.whoisServer} />
-          <Row name={`Updated Date`} value={toReadableISODate(result.updatedDate)} />
-          <Row name={`Creation Date`} value={toReadableISODate(result.creationDate)} />
-          <Row name={`Expiration Date`} value={toReadableISODate(result.expirationDate)} />
+          <Row name={`Whois Server`} value={result.whoisServer} likeLink />
+          <Row
+            name={`Updated Date`}
+            value={toReadableISODate(result.updatedDate)}
+          >
+            <div
+              className={`inline-flex ml-1 select-none px-1 py-0.5 border rounded-md text-xs`}
+            >
+              UTC
+            </div>
+          </Row>
+          <Row
+            name={`Creation Date`}
+            value={toReadableISODate(result.creationDate)}
+          >
+            <div
+              className={`inline-flex ml-1 select-none px-1 py-0.5 border rounded-md text-xs`}
+            >
+              UTC
+            </div>
+          </Row>
+          <Row
+            name={`Expiration Date`}
+            value={toReadableISODate(result.expirationDate)}
+          >
+            <div
+              className={`inline-flex ml-1 select-none px-1 py-0.5 border rounded-md text-xs`}
+            >
+              UTC
+            </div>
+          </Row>
           <Row
             name={`Registrant Organization`}
             value={result.registrantOrganization}
@@ -179,10 +250,13 @@ function ResultComp({ data, target }: Props) {
           {!status ? (
             <ErrorArea error={error || ""} />
           ) : (
-            <div className={`flex flex-col h-fit w-full`}>
+            <div className={`flex flex-col h-fit w-full mt-2`}>
               <ResultTable result={result} />
-              <Separator />
+
               <div className={`flex flex-row items-center mt-2 mb-1.5`}>
+                <p className={`text-sm text-secondary font-medium`}>
+                  Raw Whois Response
+                </p>
                 <div className={`flex-grow`} />
                 <Button
                   variant={`outline`}

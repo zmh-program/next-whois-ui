@@ -1,3 +1,9 @@
+import { filterRepeat } from "@/lib/utils";
+
+const MAX_WHOIS_FOLLOW = process.env.MAX_WHOIS_FOLLOW
+  ? parseInt(process.env.MAX_WHOIS_FOLLOW)
+  : 5;
+
 export type WhoisResult = {
   status: boolean;
   time: number;
@@ -5,13 +11,22 @@ export type WhoisResult = {
   error?: string;
 };
 
-export function lookupWhois(domain: string): Promise<WhoisResult> {
-  const whois = require("whois");
+export function lookupWhois(
+  domain: string,
+  disableFollow: boolean = true,
+): Promise<WhoisResult> {
+  const whois = require("whois-raw");
   const startTime = Date.now();
 
-  return new Promise((resolve, reject) => {
+  // Where possible don't follow the detailed results to improve efficiency
+  // And follow 0 can solve the problem of `whois.dnspod.com connection refused`
+  const options = {
+    follow: disableFollow ? 0 : MAX_WHOIS_FOLLOW,
+  };
+
+  return new Promise((resolve) => {
     try {
-      whois.lookup(domain, (err: Error, data: string) => {
+      whois.lookup(domain, options, (err: Error, data: string) => {
         const endTime = Date.now();
         const usedTime = (endTime - startTime) / 1000;
 
@@ -76,19 +91,19 @@ type DomainStatusProps = {
 
 const initialWhoisAnalyzeResult: WhoisAnalyzeResult = {
   domain: "",
-  registrar: "",
-  registrarURL: "",
-  ianaId: "",
-  whoisServer: "",
-  updatedDate: "",
-  creationDate: "",
-  expirationDate: "",
+  registrar: "Unknown",
+  registrarURL: "Unknown",
+  ianaId: "N/A",
+  whoisServer: "Unknown",
+  updatedDate: "Unknown",
+  creationDate: "Unknown",
+  expirationDate: "Unknown",
   status: [],
-  registrantOrganization: "",
-  registrantProvince: "",
-  registrantCountry: "",
-  registrantPhone: "",
-  registrantEmail: "",
+  registrantOrganization: "Unknown",
+  registrantProvince: "Unknown",
+  registrantCountry: "Unknown",
+  registrantPhone: "Unknown",
+  registrantEmail: "Unknown",
   rawWhoisContent: "",
 };
 
@@ -164,6 +179,9 @@ export function analyzeWhois(data: string): WhoisAnalyzeResult {
       case "registrar registration expiration date":
         result.expirationDate = analyzeTime(value);
         break;
+      case "registry expiry date":
+        result.expirationDate = analyzeTime(value);
+        break;
       case "status":
         result.status.push(analyzeDomainStatus(value));
         break;
@@ -189,15 +207,19 @@ export function analyzeWhois(data: string): WhoisAnalyzeResult {
         result.registrantPhone = value.replace("tel:", "").replace(".", " ");
         break;
       case "registrant email":
-        result.registrantEmail = value.replace("Select Request Email Form at ", "");
+        result.registrantEmail = value.replace(
+          "Select Request Email Form at ",
+          "",
+        );
         break;
     }
   }
 
   result.rawWhoisContent = data;
 
-  result.status = result.status.filter((status) => status.status.length > 0); //@ts-ignore
-  result.status = [...new Set(result.status)];
+  result.status = filterRepeat<DomainStatusProps>(
+    result.status.filter((status) => status.status.length > 0),
+  );
 
   return result;
 }

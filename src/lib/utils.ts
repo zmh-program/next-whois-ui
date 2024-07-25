@@ -59,3 +59,7 @@ export function toSearchURI(query: string) {
 export function toReadableISODate(date: string) {
   return date.replace("T", " ").replace("Z", "").replace(".000", "");
 }
+
+export function filterRepeat<T>(arr: T[]): T[] {
+  return Array.from(new Set(arr));
+}

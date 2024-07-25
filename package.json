@@ -26,7 +26,7 @@
     "sonner": "^1.5.0",
     "tailwind-merge": "^2.2.1",
     "tailwindcss-animate": "^1.0.7",
-    "whois": "^2.14.2"
+    "whois-raw": "^0.1.10"
   },
   "devDependencies": {
     "@types/node": "^20",

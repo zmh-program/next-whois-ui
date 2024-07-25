@@ -44,7 +44,11 @@ export default function Home() {
             className={`w-full text-center`}
             placeholder={`domain name (e.g. google.com)`}
             value={domain}
-            onChange={(e) => setDomain(e.target.value)}
+            onChange={(e) => {
+              const url = e.target.value;
+              const domain = url.replace(/^(https?:\/\/)?(www\.)?/, '').split('/')[0].split(':')[0];
+              setDomain(domain);
+            }}
             onKeyDown={(e) => {
               if (isEnter(e)) {
                 goStage(domain);

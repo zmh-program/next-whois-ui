@@ -5,6 +5,7 @@ import {
   CornerDownRight,
   Link2,
   Loader2,
+  Search,
   Send,
 } from "lucide-react";
 import React, { useEffect } from "react";
@@ -27,7 +28,12 @@ export default function Home() {
   return (
     <main className={"w-full h-full grid place-items-center p-4 md:p-6"}>
       <div className={"flex flex-col items-center w-full h-fit max-w-[568px]"}>
-        <h1 className={"text-lg md:text-2xl lg:text-3xl font-bold"}>
+        <h1
+          className={
+            "text-lg md:text-2xl lg:text-3xl font-bold flex flex-row items-center"
+          }
+        >
+          <Search className={`w-4 h-4 md:w-6 md:h-6 mr-1 md:mr-1.5 shrink-0`} />
           Whois Lookup
         </h1>
         <p className={"text-md text-center text-secondary"}>

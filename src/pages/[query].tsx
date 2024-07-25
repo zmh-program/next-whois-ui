@@ -16,6 +16,7 @@ import {
   CornerDownRight,
   ExternalLink,
   Loader2,
+  Search,
   Send,
   X,
 } from "lucide-react";
@@ -25,7 +26,6 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { TextArea } from "@/components/ui/textarea";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Separator } from "@/components/ui/separator";
 
 type Props = {
   data: WhoisResult;
@@ -214,7 +214,13 @@ function ResultTable({ result }: ResultTableProps) {
           />
           <Row name={`Registrant Province`} value={result.registrantProvince} />
           <Row name={`Registrant Country`} value={result.registrantCountry} />
-          <Row name={`Registrant Phone`} value={result.registrantPhone} />
+          <Row name={`Registrant Phone`} value={result.registrantPhone}>
+            <div
+              className={`inline-flex ml-1 select-none px-1 py-0.5 border rounded-md text-xs`}
+            >
+              Abuse
+            </div>
+          </Row>
           <Row name={`Registrant Email`} value={result.registrantEmail} />
         </tbody>
       </table>
@@ -298,7 +304,14 @@ export default function Lookup({ data, target }: Props) {
         <div
           className={"flex flex-col items-center w-full h-fit max-w-[568px]"}
         >
-          <h1 className={"text-lg md:text-2xl lg:text-3xl font-bold"}>
+          <h1
+            className={
+              "text-lg md:text-2xl lg:text-3xl font-bold flex flex-row items-center"
+            }
+          >
+            <Search
+              className={`w-4 h-4 md:w-6 md:h-6 mr-1 md:mr-1.5 shrink-0`}
+            />
             Whois Lookup
           </h1>
           <p className={"text-md text-center text-secondary"}>

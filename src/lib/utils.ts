@@ -53,7 +53,7 @@ export function useClipboard() {
 
 export function toSearchURI(query: string) {
   const q = query.trim();
-  return q ? `/who/${encodeURIComponent(q)}` : "/";
+  return q ? `/${encodeURIComponent(q)}` : "/";
 }
 
 export function toReadableISODate(date: string) {

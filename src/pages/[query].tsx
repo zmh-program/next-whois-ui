@@ -18,7 +18,6 @@ import {
   Loader2,
   Search,
   Send,
-  X,
 } from "lucide-react";
 import React, { useEffect, useMemo } from "react";
 import { addHistory } from "@/lib/history";
@@ -186,6 +185,7 @@ function ResultTable({ result }: ResultTableProps) {
   };
 
   const [expand, setExpand] = React.useState<boolean>(false);
+  const copy = useClipboard();
 
   return (
     result && (
@@ -251,6 +251,25 @@ function ResultTable({ result }: ResultTableProps) {
             </div>
           </Row>
           <Row name={`Registrant Email`} value={result.registrantEmail} />
+          <Row
+            name={`Name Server`}
+            value={
+              <div className={`flex flex-col`}>
+                {result.nameServers.length > 0
+                  ? result.nameServers.map((ns, index) => (
+                      <div
+                        key={index}
+                        className={`text-secondary text-xs border cursor-pointer rounded-md px-1 py-0.5 mt-0.5 w-fit inline-flex flex-row items-center`}
+                        onClick={() => copy(ns)}
+                      >
+                        <CopyIcon className={`w-2.5 h-2.5 mr-1`} />
+                        {ns}
+                      </div>
+                    ))
+                  : "N/A"}
+              </div>
+            }
+          />
         </tbody>
       </table>
     )
@@ -330,7 +349,7 @@ export default function Lookup({ data, target }: Props) {
     <ScrollArea className={`w-full h-full`}>
       <main
         className={
-          "w-full min-h-full grid place-items-center px-4 md:px-6 py-8 md:pt-[10vh] md:pb-[5vh]"
+          "relative w-full min-h-full grid place-items-center px-4 pt-20 pb-6"
         }
       >
         <div

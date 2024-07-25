@@ -69,6 +69,7 @@ export type WhoisAnalyzeResult = {
   creationDate: string;
   expirationDate: string;
   status: DomainStatusProps[];
+  nameServers: string[];
   registrantOrganization: string;
   registrantProvince: string;
   registrantCountry: string;
@@ -92,6 +93,7 @@ const initialWhoisAnalyzeResult: WhoisAnalyzeResult = {
   creationDate: "Unknown",
   expirationDate: "Unknown",
   status: [],
+  nameServers: [],
   registrantOrganization: "Unknown",
   registrantProvince: "Unknown",
   registrantCountry: "Unknown",
@@ -180,6 +182,9 @@ export function analyzeWhois(data: string): WhoisAnalyzeResult {
         break;
       case "domain status":
         result.status.push(analyzeDomainStatus(value));
+        break;
+      case "name server":
+        result.nameServers.push(value);
         break;
       case "registrant name":
         result.registrantOrganization = value;

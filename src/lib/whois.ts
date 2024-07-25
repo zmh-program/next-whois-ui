@@ -217,9 +217,13 @@ export function analyzeWhois(data: string): WhoisAnalyzeResult {
 
   result.rawWhoisContent = data;
 
-  result.status = filterRepeat<DomainStatusProps>(
-    result.status.filter((status) => status.status.length > 0),
-  );
+  let newStatus: DomainStatusProps[] = [];
+  for (let i = 0; i < result.status.length; i++) {
+    const status = result.status[i];
+    if (newStatus.find((item) => item.status === status.status)) continue;
+    newStatus.push(status);
+  }
+  result.status = newStatus;
 
   return result;
 }

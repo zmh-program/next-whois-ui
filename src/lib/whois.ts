@@ -39,7 +39,9 @@ export function lookupWhois(
         } else {
           if (
             data.toLowerCase().includes("no match for domain") ||
-            data.toLowerCase().includes("this query returned 0 objects")
+            data.toLowerCase().includes("this query returned 0 objects") ||
+            data.toLowerCase().includes("not found") ||
+            data.toLowerCase().includes("no entries found")
           ) {
             resolve({
               status: false,

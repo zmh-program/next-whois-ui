@@ -322,7 +322,11 @@ export default function Lookup({ data, target }: Props) {
               className={`w-full text-center`}
               placeholder={`domain name (e.g. google.com)`}
               value={inputDomain}
-              onChange={(e) => setInputDomain(e.target.value)}
+              onChange={(e) => {
+                const url = e.target.value;
+                const domain = url.replace(/^(https?:\/\/)?(www\.)?/, '').split('/')[0];
+                setInputDomain(domain);
+              }}
               onKeyDown={(e) => {
                 if (isEnter(e)) {
                   goStage(inputDomain);

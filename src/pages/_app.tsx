@@ -33,7 +33,7 @@ export default function App({ Component, pageProps }: AppProps) {
         <div className={cn(`relative w-full h-full`, inter.className)}>
           <div
             className={cn(
-              `absolute top-4 right-6 flex flex-row items-center z-50 space-x-2`,
+              `absolute top-4 right-4 flex flex-row items-center z-50 space-x-2`,
             )}
           >
             <ModeToggle />

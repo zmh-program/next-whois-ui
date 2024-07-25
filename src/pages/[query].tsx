@@ -298,7 +298,7 @@ export default function Lookup({ data, target }: Props) {
     <ScrollArea className={`w-full h-full`}>
       <main
         className={
-          "w-full min-h-full grid place-items-center px-4 md:px-6 py-8 md:py-[10vh]"
+          "w-full min-h-full grid place-items-center px-4 md:px-6 py-8 md:pt-[10vh] md:pb-[5vh]"
         }
       >
         <div
@@ -357,6 +357,16 @@ export default function Lookup({ data, target }: Props) {
           </div>
           <ResultComp data={data} target={target} />
         </div>
+        <p className={`mt-12 text-sm font-medium text-muted-foreground select-none`}>
+          Powered by{" "}
+          <Link
+            href={`https://github.com/zmh-program/next-whois-ui`}
+            target={`_blank`}
+            className={`text-primary underline underline-offset-2`}
+          >
+            Next Whois UI
+          </Link>
+        </p>
       </main>
     </ScrollArea>
   );

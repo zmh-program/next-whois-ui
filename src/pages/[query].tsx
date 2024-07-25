@@ -32,9 +32,35 @@ type Props = {
   target: string;
 };
 
+function cleanDomain(domain: string): string {
+  // if contains ip, extract it and return
+  const ipMatch = domain.match(
+    /^(https?:\/\/)?((\d{1,3}\.){3}\d{1,3})(:\d+)?(\/.*)?$/,
+  );
+  if (ipMatch) {
+    return ipMatch[2];
+  }
+
+  // if contains domain, extract it and return
+  const domainMatch = domain.match(/^(https?:\/\/)?([\w.-]+)(:\d+)?(\/.*)?$/);
+  if (domainMatch) {
+    let target = domainMatch[2];
+
+    // if is subdomain, extract the domain
+    const subdomain = target.split(".");
+    if (subdomain.length > 2) {
+      target = subdomain.slice(-2).join(".");
+    }
+
+    return target;
+  }
+
+  return domain;
+}
+
 export async function getServerSideProps(context: NextPageContext) {
   const { query } = context;
-  const target: string = typeof query.query === "string" ? query.query : "";
+  const target: string = cleanDomain(typeof query.query === "string" ? query.query : "");
 
   return {
     props: {

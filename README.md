@@ -26,5 +26,10 @@ No need to say more, just try it out! 🥳
 ## 🤯 Contribute
 👉 [Create Pull Request](https://github.com/zmh-program/next-whois-ui/pulls)
 
+### Roadmap
+- [ ] IPv4 & IPv6 Whois
+- [ ] Whois Cache & Retry
+- [ ] Result Capture
+
 ## ❤ Donate
-Reject all donations, just give me a star! ⭐
+just give me a star! ⭐

@@ -237,13 +237,13 @@ export function analyzeWhois(data: string): WhoisAnalyzeResult {
         break;
     }
 
-    if (includeArgs(key, "domain name")) {
+    if (includeArgs(key, "domain name") && !result.domain) {
       result.domain = value;
-    } else if (includeArgs(key, "registrar")) {
+    } else if (includeArgs(key, "registrar") && result.registrar === "Unknown") {
       result.registrar = value;
-    } else if (includeArgs(key, "contact email")) {
+    } else if (includeArgs(key, "contact email") && result.registrantEmail === "Unknown") {
       result.registrantEmail = value;
-    } else if (includeArgs(key, "contact phone")) {
+    } else if (includeArgs(key, "contact phone") && result.registrantPhone === "Unknown") {
       result.registrantPhone = value;
     } else if (
       includeArgs(
@@ -254,18 +254,23 @@ export function analyzeWhois(data: string): WhoisAnalyzeResult {
         "registration time",
         "registered",
         "commencement",
-      )
+      ) && result.creationDate === "Unknown"
     ) {
       result.creationDate = analyzeTime(value);
     } else if (
-      includeArgs(key, "expiration", "expiry", "expire", "expire date")
+      includeArgs(key, "expiration", "expiry", "expire", "expire date") &&
+      result.expirationDate === "Unknown"
     ) {
       result.expirationDate = analyzeTime(value);
     } else if (
-      includeArgs(key, "updated", "update", "last update", "last updated")
+      includeArgs(key, "updated", "update", "last update", "last updated") &&
+      result.updatedDate === "Unknown"
     ) {
       result.updatedDate = analyzeTime(value);
-    } else if (includeArgs(key, "account name", "registrant org")) {
+    } else if (
+      includeArgs(key, "account name", "registrant org") &&
+      result.registrantOrganization === "Unknown"
+    ) {
       result.registrantOrganization = value;
     }
   }

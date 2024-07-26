@@ -1,6 +1,6 @@
 import { MAX_WHOIS_FOLLOW } from "@/lib/env";
 import whois from "whois-raw";
-import {includeArgs} from "@/lib/utils";
+import { includeArgs } from "@/lib/utils";
 
 export type WhoisResult = {
   status: boolean;
@@ -140,7 +140,7 @@ export function analyzeWhois(data: string): WhoisAnalyzeResult {
     status: [],
     nameServers: [],
   };
-  
+
   for (let i = 0; i < lines.length; i++) {
     const line = lines[i];
 
@@ -245,11 +245,25 @@ export function analyzeWhois(data: string): WhoisAnalyzeResult {
       result.registrantEmail = value;
     } else if (includeArgs(key, "contact phone")) {
       result.registrantPhone = value;
-    } else if (includeArgs(key, "creation", "created", "created date", "registration time", "registered", "commencement")) {
+    } else if (
+      includeArgs(
+        key,
+        "creation",
+        "created",
+        "created date",
+        "registration time",
+        "registered",
+        "commencement",
+      )
+    ) {
       result.creationDate = analyzeTime(value);
-    } else if (includeArgs(key, "expiration", "expiry", "expire", "expire date")) {
+    } else if (
+      includeArgs(key, "expiration", "expiry", "expire", "expire date")
+    ) {
       result.expirationDate = analyzeTime(value);
-    } else if (includeArgs(key, "updated", "update", "last update", "last updated")) {
+    } else if (
+      includeArgs(key, "updated", "update", "last update", "last updated")
+    ) {
       result.updatedDate = analyzeTime(value);
     } else if (includeArgs(key, "account name", "registrant org")) {
       result.registrantOrganization = value;

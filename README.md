@@ -23,14 +23,7 @@ No need to say more, just try it out! 🥳
 9. 📡 [WIP] **Whois Cache & Retry**: Cache whois result by redis. ([#4](https://github.com/zmh-program/next-whois-ui/issues/4))
 10. 🌍 [WIP] **Internationalization**: Support multiple languages. ([#6](https://github.com/zmh-program/next-whois-ui/issues/6))
 
-
 👉 [Create Pull Request](https://github.com/zmh-program/next-whois-ui/pulls)
-
-
-### 🧠 Design
-- Next.js  
-- Shadcn UI & Tailwind CSS
-- Whois Core Lib (@[whois-raw](https://www.npmjs.com/package/whois-raw))
 
 ## Deploy
 #### `1` 🚀 Platforms (Recommended)
@@ -139,3 +132,8 @@ pnpm dev
 }
 ```
 </details>
+
+## 🧠 Tech Stack
+- Next.js
+- Shadcn UI & Tailwind CSS
+- Whois Core Lib (@[whois-raw](https://www.npmjs.com/package/whois-raw))

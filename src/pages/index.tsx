@@ -7,16 +7,20 @@ import {
   Loader2,
   Search,
   Send,
+  Trash2,
+  Undo2,
 } from "lucide-react";
 import React, { useEffect } from "react";
 import Link from "next/link";
 import { cn, isEnter, toSearchURI } from "@/lib/utils";
-import { addHistory, listHistory } from "@/lib/history";
+import { addHistory, listHistory, removeHistory } from "@/lib/history";
+import Icon from "@/components/icon";
 
 export default function Home() {
   const [domain, setDomain] = React.useState<string>("");
   const [loading, setLoading] = React.useState<boolean>(false);
   const [history, setHistory] = React.useState<string[]>([]);
+  const [trashMode, setTrashMode] = React.useState<boolean>(false);
 
   useEffect(() => setHistory(listHistory()), []);
 
@@ -77,30 +81,63 @@ export default function Home() {
           <p className={`px-1 py-0.5 border rounded-md`}>Enter</p>
         </div>
         {history.length > 0 && (
-          <div
-            className={`mt-6 md:mt-8 grid grid-cols-2 gap-2 w-full h-fit border-t pt-6`}
-          >
-            {history.map((item, index) => (
-              <Link
-                className={cn(
-                  `text-sm w-full h-full`,
-                  `flex flex-row items-center`,
-                  `border rounded-md pl-3.5 pr-2.5 py-2 text-secondary`,
-                  `group transition duration-500 ease-in-out`,
-                  `hover:bg-background hover:text-primary hover:border-hover`,
-                )}
-                href={toSearchURI(item)}
-                key={index}
-                onClick={() => goStage(item)}
+          <>
+            <div className={`mt-6 md:mt-8 grid grid-cols-2 gap-2 w-full h-fit`}>
+              {history.map((item, index) => (
+                <Link
+                  className={cn(
+                    `text-sm w-full h-full`,
+                    `flex flex-row items-center`,
+                    `border rounded-md pl-3.5 pr-2.5 py-2 text-secondary`,
+                    `group transition duration-500 ease-in-out`,
+                    `hover:bg-background hover:text-primary hover:border-hover`,
+                    //
+                    // // if the last element is the only one, then it takes two cells
+                    // (index === history.length - 1 && history.length % 2 === 1)
+                    //   && "md:col-span-2"
+                  )}
+                  href={toSearchURI(item)}
+                  key={index}
+                  onClick={(e) => {
+                    if (trashMode) {
+                      e.preventDefault();
+
+                      removeHistory(item);
+                      setHistory(listHistory());
+                      return;
+                    } else {
+                      goStage(item);
+                    }
+                  }}
+                >
+                  <Icon
+                    icon={!trashMode ? <Link2 /> : <Trash2 />}
+                    className={cn(
+                      "w-4 h-4 mr-1 shrink-0",
+                      trashMode && "text-red-600/80",
+                    )}
+                  />
+                  {item}
+                  <ChevronRight
+                    className={`transition-all w-4 h-4 ml-auto mr-1 group-hover:mr-0`}
+                  />
+                </Link>
+              ))}
+            </div>
+            <div className={`flex flex-row items-center w-full mt-2`}>
+              <Button
+                variant={`outline`}
+                size={`icon-sm`}
+                className={`ml-auto`}
+                onClick={() => setTrashMode(!trashMode)}
               >
-                <Link2 className={`w-4 h-4 mr-1 shrink-0`} />
-                {item}
-                <ChevronRight
-                  className={`transition-all w-4 h-4 ml-auto mr-1 group-hover:mr-0`}
+                <Icon
+                  icon={trashMode ? <Undo2 /> : <Trash2 />}
+                  className={`w-3.5 h-3.5`}
                 />
-              </Link>
-            ))}
-          </div>
+              </Button>
+            </div>
+          </>
         )}
       </div>
     </main>

@@ -27,3 +27,15 @@ export function addHistory(query: string) {
   history = [domain, ...history].slice(0, HISTORY_LIMIT);
   localStorage.setItem("history", JSON.stringify(history));
 }
+
+export function removeHistory(query: string) {
+  if (!query || query.length === 0) return;
+
+  let history = listHistory();
+  const domain = query.trim();
+
+  if (!history.includes(domain)) return;
+
+  history = history.filter((item) => item !== domain);
+  localStorage.setItem("history", JSON.stringify(history));
+}

@@ -134,7 +134,12 @@ export function analyzeWhois(data: string): WhoisAnalyzeResult {
     .map((line) => line.trim())
     .filter((line) => line.length > 0);
 
-  const result: WhoisAnalyzeResult = { ...initialWhoisAnalyzeResult };
+  const result: WhoisAnalyzeResult = {
+    ...initialWhoisAnalyzeResult,
+    status: [],
+    nameServers: [],
+  };
+  
   for (let i = 0; i < lines.length; i++) {
     const line = lines[i];
 

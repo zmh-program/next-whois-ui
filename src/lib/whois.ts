@@ -1,4 +1,5 @@
 import { MAX_WHOIS_FOLLOW } from "@/lib/env";
+import whois from "whois-raw";
 
 export type WhoisResult = {
   status: boolean;
@@ -8,7 +9,6 @@ export type WhoisResult = {
 };
 
 export function lookupWhois(domain: string): Promise<WhoisResult> {
-  const whois = require("whois-raw");
   const startTime = Date.now();
 
   const options = {

@@ -1,5 +1,6 @@
 import { MAX_WHOIS_FOLLOW } from "@/lib/env";
 import whois from "whois-raw";
+import {includeArgs} from "@/lib/utils";
 
 export type WhoisResult = {
   status: boolean;
@@ -177,6 +178,9 @@ export function analyzeWhois(data: string): WhoisAnalyzeResult {
       case "creation date":
         result.creationDate = analyzeTime(value);
         break;
+      case "domain name commencement date":
+        result.creationDate = analyzeTime(value);
+        break;
       case "expiration date":
         result.expirationDate = analyzeTime(value);
         break;
@@ -195,10 +199,19 @@ export function analyzeWhois(data: string): WhoisAnalyzeResult {
       case "name server":
         result.nameServers.push(value);
         break;
+      case "nameservers":
+        result.nameServers.push(value);
+        break;
+      case "nserver":
+        result.nameServers.push(value);
+        break;
       case "registrant name":
         result.registrantOrganization = value;
         break;
       case "registrant organization":
+        result.registrantOrganization = value;
+        break;
+      case "registrant":
         result.registrantOrganization = value;
         break;
       case "registrant state/province":
@@ -219,6 +232,27 @@ export function analyzeWhois(data: string): WhoisAnalyzeResult {
           "",
         );
         break;
+      case "email":
+        result.registrantEmail = value;
+        break;
+    }
+
+    if (includeArgs(key, "domain name")) {
+      result.domain = value;
+    } else if (includeArgs(key, "registrar")) {
+      result.registrar = value;
+    } else if (includeArgs(key, "contact email")) {
+      result.registrantEmail = value;
+    } else if (includeArgs(key, "contact phone")) {
+      result.registrantPhone = value;
+    } else if (includeArgs(key, "creation", "created", "created date", "registration time", "registered", "commencement")) {
+      result.creationDate = analyzeTime(value);
+    } else if (includeArgs(key, "expiration", "expiry", "expire", "expire date")) {
+      result.expirationDate = analyzeTime(value);
+    } else if (includeArgs(key, "updated", "update", "last update", "last updated")) {
+      result.updatedDate = analyzeTime(value);
+    } else if (includeArgs(key, "account name", "registrant org")) {
+      result.registrantOrganization = value;
     }
   }
 

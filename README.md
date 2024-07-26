@@ -33,14 +33,14 @@ No need to say more, just try it out! 🥳
 - Whois Core Lib (@[whois-raw](https://www.npmjs.com/package/whois-raw))
 
 ## Deploy
-#### 🚀 Platforms (Recommended)
+#### `1` 🚀 Platforms (Recommended)
 [Vercel](https://vercel.com/import/project?template=https://github.com/zmh-program/next-whois-ui) / [Netlify](https://app.netlify.com/start/deploy?repository=https://github.com/zmh-program/next-whois-ui) / [Zeabur](https://zeabur.com/templates/UHCCCT)
-#### 🐳 Docker
+#### `2` 🐳 Docker 
 ```bash
 docker run -d -p 3000:3000 programzmh/next-whois-ui
 ```
 
-#### 🔨 Source Code
+#### `3` 🔨 Source Code
 ```bash
 git clone https://github.com/zmh-program/next-whois-ui
 cd next-whois-ui

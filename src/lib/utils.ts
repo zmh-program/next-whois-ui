@@ -63,3 +63,7 @@ export function toReadableISODate(date: string) {
 export function filterRepeat<T>(arr: T[]): T[] {
   return Array.from(new Set(arr));
 }
+
+export function includeArgs(from: string, ...args: string[]): boolean {
+  return args.some((arg) => from.toLowerCase().includes(arg.toLowerCase()));
+}

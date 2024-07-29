@@ -1,3 +1,4 @@
+// the whois parser is based on regexp
 // thanks to https://github.com/benfiratkaya/whois-parsed-v2/blob/main/parse-raw-data.js
 
 export type DomainRegex = {

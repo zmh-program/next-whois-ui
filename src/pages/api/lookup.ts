@@ -1,5 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { lookupWhois, WhoisAnalyzeResult } from "@/lib/whois/lookup";
+import { lookupWhois } from "@/lib/whois/lookup";
+import { WhoisAnalyzeResult } from "@/lib/whois/types";
 
 type Data = {
   status: boolean;

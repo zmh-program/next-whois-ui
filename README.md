@@ -137,3 +137,8 @@ pnpm dev
 - Next.js
 - Shadcn UI & Tailwind CSS
 - Whois Core Lib (@[whois-raw](https://www.npmjs.com/package/whois-raw))
+
+## 💪 TLDs Support
+👉 [TLDs Whois Parser Lib Source Code](./src/lib/whois/lib.ts)
+
+❤ TIP: The Whois Parser for some TLDs may not be currently compatible, thanks for contributing your [Pull Request](https://github.com/zmh-program/next-whois-ui/pulls) to make this project support more TLDs!

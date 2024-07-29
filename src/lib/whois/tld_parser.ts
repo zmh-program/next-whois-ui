@@ -94,7 +94,8 @@ export function parseWhoisData(rawData: string, domain: string) {
     const regex = new RegExp(filterRegex.expirationDate);
     const match = rawData.match(regex);
     if (match) {
-      result.expirationDate = moment(match[1], filterRegex.dateFormat).toJSON();
+      const expirationDate = moment(match[1], filterRegex.dateFormat).toJSON();
+      expirationDate && (result.expirationDate = expirationDate);
     }
   }
 
@@ -103,7 +104,8 @@ export function parseWhoisData(rawData: string, domain: string) {
     const regex = new RegExp(filterRegex.creationDate);
     const match = rawData.match(regex);
     if (match) {
-      result.creationDate = moment(match[1], filterRegex.dateFormat).toJSON();
+      const creationDate = moment(match[1], filterRegex.dateFormat).toJSON();
+      creationDate && (result.creationDate = creationDate);
     }
   }
 
@@ -112,7 +114,8 @@ export function parseWhoisData(rawData: string, domain: string) {
     const regex = new RegExp(filterRegex.updatedDate);
     const match = rawData.match(regex);
     if (match) {
-      result.updatedDate = moment(match[1], filterRegex.dateFormat).toJSON();
+      const updatedDate = moment(match[1], filterRegex.dateFormat).toJSON();
+      updatedDate && (result.updatedDate = updatedDate);
     }
   }
 

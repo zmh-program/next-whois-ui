@@ -56,7 +56,8 @@ export function toSearchURI(query: string) {
   return q ? `/${encodeURIComponent(q)}` : "/";
 }
 
-export function toReadableISODate(date: string) {
+export function toReadableISODate(date: string | null) {
+  if (!date) return "Unknown";
   return date.replace("T", " ").replace("Z", "").replace(".000", "");
 }
 

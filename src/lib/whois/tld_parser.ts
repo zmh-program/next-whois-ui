@@ -15,24 +15,25 @@ export function parseWhoisData(rawData: string, domain: string) {
   const filterRegex = getDomainRegex(domain.toLowerCase());
 
   // notFound Match
+  const rawContent = rawData.toLowerCase();
   if (
-    rawData.match(filterRegex.notFound) ||
-    rawData.includes("no match for domain") ||
-    rawData.includes("this query returned 0 objects") ||
-    rawData.includes("not found") ||
-    rawData.includes("no entries found") ||
-    rawData.includes("malformed query") ||
-    rawData.includes("malformed request")
+    rawContent.match(filterRegex.notFound) ||
+    rawContent.includes("no match for domain") ||
+    rawContent.includes("this query returned 0 objects") ||
+    rawContent.includes("not found") ||
+    rawContent.includes("no entries found") ||
+    rawContent.includes("malformed query") ||
+    rawContent.includes("malformed request")
   ) {
-    throw new Error("Domain not found");
+    throw new Error("Domain or TLD not found");
   }
 
   // rateLimited Match
   if (
     filterRegex.rateLimited &&
     (rawData.match(filterRegex.rateLimited) ||
-      rawData.toLowerCase().includes("rate limit") ||
-      rawData.toLowerCase().includes("server too busy"))
+      rawContent.includes("rate limit") ||
+      rawContent.includes("server too busy"))
   ) {
     throw new Error("Rate Limited");
   }

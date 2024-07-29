@@ -67,3 +67,12 @@ export function filterRepeat<T>(arr: T[]): T[] {
 export function includeArgs(from: string, ...args: string[]): boolean {
   return args.some((arg) => from.toLowerCase().includes(arg.toLowerCase()));
 }
+
+export function toErrorMessage(e: any): string {
+  return e.message || "Unknown error";
+}
+
+export function countDuration(startTime: number, _endTime?: number): number {
+  const endTime = _endTime ?? Date.now();
+  return (endTime - startTime) / 1000; // seconds
+}

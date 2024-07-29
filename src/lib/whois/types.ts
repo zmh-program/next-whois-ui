@@ -25,6 +25,7 @@ export type WhoisAnalyzeResult = {
 
   cidr: string;
   inetNum: string;
+  inet6Num: string;
   netRange: string;
   netName: string;
   netType: string;
@@ -56,6 +57,7 @@ export const initialWhoisAnalyzeResult: WhoisAnalyzeResult = {
 
   cidr: "Unknown",
   inetNum: "Unknown",
+  inet6Num: "Unknown",
   netRange: "Unknown",
   netName: "Unknown",
   netType: "Unknown",

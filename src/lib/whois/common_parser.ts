@@ -43,8 +43,11 @@ export function analyzeWhois(data: string): WhoisAnalyzeResult {
   for (let i = 0; i < lines.length; i++) {
     const line = lines[i];
 
-    const segments = line.split(":");
+    let segments = line.split(":");
     if (segments.length < 2) continue;
+    if (segments.length >= 3 && segments[0].toLowerCase() === "network") {
+      segments = segments.slice(1);
+    }
 
     const key = segments[0].trim().toLowerCase();
     const value = segments.slice(1).join(":").trim();
@@ -122,7 +125,13 @@ export function analyzeWhois(data: string): WhoisAnalyzeResult {
       case "organisation":
         result.registrantOrganization = value;
         break;
+      case "org-name":
+        result.registrantOrganization = value;
+        break;
       case "registrant":
+        result.registrantOrganization = value;
+        break;
+      case "descr":
         result.registrantOrganization = value;
         break;
       case "registrant state/province":
@@ -155,11 +164,18 @@ export function analyzeWhois(data: string): WhoisAnalyzeResult {
       case "email":
         result.registrantEmail = value;
         break;
+      case "e-mail":
+        result.registrantEmail === "Unknown" &&
+          (result.registrantEmail = value);
+        break;
       case "cidr":
         result.cidr = value;
         break;
       case "inetnum":
         result.inetNum = value;
+        break;
+      case "inet6num":
+        result.inet6Num = value;
         break;
       case "netrange":
         result.netRange = value;
@@ -167,10 +183,16 @@ export function analyzeWhois(data: string): WhoisAnalyzeResult {
       case "netname":
         result.netName = value;
         break;
+      case "network-name":
+        result.netName = value;
+        break;
       case "nettype":
         result.netType = value;
         break;
       case "originas":
+        result.originAS = value;
+        break;
+      case "origin":
         result.originAS = value;
         break;
     }
@@ -211,7 +233,14 @@ export function analyzeWhois(data: string): WhoisAnalyzeResult {
     ) {
       result.expirationDate = analyzeTime(value);
     } else if (
-      includeArgs(key, "updated", "update", "last update", "last updated") &&
+      includeArgs(
+        key,
+        "updated",
+        "update",
+        "last update",
+        "last updated",
+        "last-modified",
+      ) &&
       result.updatedDate === "Unknown"
     ) {
       result.updatedDate = analyzeTime(value);

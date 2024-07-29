@@ -251,6 +251,11 @@ function ResultTable({ result, target }: ResultTableProps) {
             hidden={!result.inetNum || result.inetNum === "Unknown"}
           />
           <Row
+            name={`INet6 Num`}
+            value={result.inet6Num}
+            hidden={!result.inet6Num || result.inet6Num === "Unknown"}
+          />
+          <Row
             name={`Net Range`}
             value={result.netRange}
             hidden={!result.netRange || result.netRange === "Unknown"}

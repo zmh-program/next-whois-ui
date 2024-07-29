@@ -45,8 +45,8 @@ pnpm dev
 
 ## 📏 Envs
 - `NEXT_PUBLIC_HISTORY_LIMIT`: History Limit (Default: 6)
-- `MAX_WHOIS_FOLLOW`: Max Whois Follow (Default: 0)
-
+- `NEXT_PUBLIC_MAX_WHOIS_FOLLOW`: Max Domain Whois Follow (Default: 0)
+- `NEXT_PUBLIC_MAX_IP_WHOIS_FOLLOW`: Max IP Whois Follow (Default: 5)
 ## 📝 API Reference
 `GET` `/api/lookup?query=google.com`
 

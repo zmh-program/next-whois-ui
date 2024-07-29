@@ -1,111 +1,9 @@
-import { MAX_WHOIS_FOLLOW } from "@/lib/env";
-import whois from "whois-raw";
+import {
+  DomainStatusProps,
+  initialWhoisAnalyzeResult,
+  WhoisAnalyzeResult,
+} from "@/lib/whois/types";
 import { includeArgs } from "@/lib/utils";
-
-export type WhoisResult = {
-  status: boolean;
-  time: number;
-  result?: WhoisAnalyzeResult;
-  error?: string;
-};
-
-export function lookupWhois(domain: string): Promise<WhoisResult> {
-  const startTime = Date.now();
-
-  const options = {
-    follow: MAX_WHOIS_FOLLOW,
-  };
-
-  return new Promise((resolve) => {
-    try {
-      whois.lookup(domain, options, (err: Error, data: string) => {
-        const endTime = Date.now();
-        const usedTime = (endTime - startTime) / 1000;
-
-        if (err) {
-          resolve({
-            status: false,
-            time: usedTime,
-            error: err.message,
-          });
-        } else {
-          const content = data.toLowerCase();
-
-          if (
-            content.includes("no match for domain") ||
-            content.includes("this query returned 0 objects") ||
-            content.includes("not found") ||
-            content.includes("no entries found") ||
-            content.includes("malformed query") ||
-            content.includes("malformed request")
-          ) {
-            resolve({
-              status: false,
-              time: usedTime,
-              error: `No match for domain ${domain} (e.g. domain is not registered)`,
-            });
-          }
-
-          resolve({
-            status: true,
-            time: usedTime,
-            result: analyzeWhois(data),
-          });
-        }
-      });
-    } catch (e) {
-      const message = (e as Error).message;
-      resolve({
-        status: false,
-        time: 0,
-        error: message,
-      });
-    }
-  });
-}
-
-export type WhoisAnalyzeResult = {
-  domain: string;
-  registrar: string;
-  registrarURL: string;
-  ianaId: string;
-  whoisServer: string;
-  updatedDate: string;
-  creationDate: string;
-  expirationDate: string;
-  status: DomainStatusProps[];
-  nameServers: string[];
-  registrantOrganization: string;
-  registrantProvince: string;
-  registrantCountry: string;
-  registrantPhone: string;
-  registrantEmail: string;
-  rawWhoisContent: string;
-};
-
-type DomainStatusProps = {
-  status: string;
-  url: string;
-};
-
-const initialWhoisAnalyzeResult: WhoisAnalyzeResult = {
-  domain: "",
-  registrar: "Unknown",
-  registrarURL: "Unknown",
-  ianaId: "N/A",
-  whoisServer: "Unknown",
-  updatedDate: "Unknown",
-  creationDate: "Unknown",
-  expirationDate: "Unknown",
-  status: [],
-  nameServers: [],
-  registrantOrganization: "Unknown",
-  registrantProvince: "Unknown",
-  registrantCountry: "Unknown",
-  registrantPhone: "Unknown",
-  registrantEmail: "Unknown",
-  rawWhoisContent: "",
-};
 
 function analyzeDomainStatus(status: string): DomainStatusProps {
   const segments = status.split(" ");
@@ -139,6 +37,7 @@ export function analyzeWhois(data: string): WhoisAnalyzeResult {
     ...initialWhoisAnalyzeResult,
     status: [],
     nameServers: [],
+    rawWhoisContent: data,
   };
 
   for (let i = 0; i < lines.length; i++) {
@@ -239,11 +138,20 @@ export function analyzeWhois(data: string): WhoisAnalyzeResult {
 
     if (includeArgs(key, "domain name") && !result.domain) {
       result.domain = value;
-    } else if (includeArgs(key, "registrar") && result.registrar === "Unknown") {
+    } else if (
+      includeArgs(key, "registrar") &&
+      result.registrar === "Unknown"
+    ) {
       result.registrar = value;
-    } else if (includeArgs(key, "contact email") && result.registrantEmail === "Unknown") {
+    } else if (
+      includeArgs(key, "contact email") &&
+      result.registrantEmail === "Unknown"
+    ) {
       result.registrantEmail = value;
-    } else if (includeArgs(key, "contact phone") && result.registrantPhone === "Unknown") {
+    } else if (
+      includeArgs(key, "contact phone") &&
+      result.registrantPhone === "Unknown"
+    ) {
       result.registrantPhone = value;
     } else if (
       includeArgs(
@@ -254,7 +162,8 @@ export function analyzeWhois(data: string): WhoisAnalyzeResult {
         "registration time",
         "registered",
         "commencement",
-      ) && result.creationDate === "Unknown"
+      ) &&
+      result.creationDate === "Unknown"
     ) {
       result.creationDate = analyzeTime(value);
     } else if (
@@ -274,8 +183,6 @@ export function analyzeWhois(data: string): WhoisAnalyzeResult {
       result.registrantOrganization = value;
     }
   }
-
-  result.rawWhoisContent = data;
 
   let newStatus: DomainStatusProps[] = [];
   for (let i = 0; i < result.status.length; i++) {

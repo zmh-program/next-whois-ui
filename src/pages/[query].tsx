@@ -1,4 +1,4 @@
-import { lookupWhois, WhoisAnalyzeResult, WhoisResult } from "@/lib/whois";
+import { lookupWhois } from "@/lib/whois/lookup";
 import {
   cn,
   isEnter,
@@ -15,9 +15,11 @@ import {
   CopyIcon,
   CornerDownRight,
   ExternalLink,
+  Link2,
   Loader2,
   Search,
   Send,
+  Unlink2,
 } from "lucide-react";
 import React, { useEffect, useMemo } from "react";
 import { addHistory } from "@/lib/history";
@@ -27,6 +29,7 @@ import { TextArea } from "@/components/ui/textarea";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { getDomain } from "tldjs";
 import { VERSION } from "@/lib/env";
+import { WhoisAnalyzeResult, WhoisResult } from "@/lib/whois/types";
 
 type Props = {
   data: WhoisResult;
@@ -161,7 +164,8 @@ function ResultTable({ result }: ResultTableProps) {
           <Link
             href={status.url}
             key={index}
-            className={`inline-block m-0.5 cursor-pointer px-1 py-0.5 border rounded text-xs`}
+            target={`_blank`}
+            className={`inline-flex flex-row items-center m-0.5 cursor-pointer px-1 py-0.5 border rounded text-xs`}
             onClick={(e) => {
               if (status.url === "expand") {
                 e.preventDefault();
@@ -169,6 +173,7 @@ function ResultTable({ result }: ResultTableProps) {
               }
             }}
           >
+            {status.url !== "expand" && <Link2 className={`w-3 h-3 mr-1`} />}
             {status.status}
           </Link>
         ))}
@@ -190,7 +195,7 @@ function ResultTable({ result }: ResultTableProps) {
           <Row name={`IANA ID`} value={result.ianaId}>
             <Link
               className={`inline-flex ml-1`}
-              href={`https://www.internic.net/registrars/registrar-${result.ianaId}.html`}
+              href={`https://www.internic.net/registrars/registrar-${result.ianaId ?? 0}.html`}
               target={`_blank`}
             >
               <Button variant={`ghost`} size={`icon-xs`}>
@@ -331,6 +336,7 @@ export default function Lookup({ data, target }: Props) {
 
   const goStage = (target: string) => {
     setLoading(true);
+    window.location.href = toSearchURI(inputDomain);
   };
 
   useEffect(() => {
@@ -369,27 +375,21 @@ export default function Lookup({ data, target }: Props) {
               onKeyDown={(e) => {
                 if (isEnter(e)) {
                   goStage(inputDomain);
-                  window.location.href = toSearchURI(inputDomain);
                 }
               }}
             />
-            <Link
-              href={toSearchURI(inputDomain)}
-              className={`absolute right-0`}
+            <Button
+              size={`icon`}
+              variant={`outline`}
+              className={`absolute right-0 rounded-l-none`}
               onClick={() => goStage(inputDomain)}
             >
-              <Button
-                size={`icon`}
-                variant={`outline`}
-                className={`rounded-l-none`}
-              >
-                {loading ? (
-                  <Loader2 className={`w-4 h-4 animate-spin`} />
-                ) : (
-                  <Send className={`w-4 h-4`} />
-                )}
-              </Button>
-            </Link>
+              {loading ? (
+                <Loader2 className={`w-4 h-4 animate-spin`} />
+              ) : (
+                <Send className={`w-4 h-4`} />
+              )}
+            </Button>
           </div>
           <div
             className={`flex items-center flex-row w-full text-xs mt-1.5 select-none text-secondary`}

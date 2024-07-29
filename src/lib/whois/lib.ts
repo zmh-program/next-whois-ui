@@ -1,8 +1,22 @@
 // thanks to https://github.com/benfiratkaya/whois-parsed-v2/blob/main/parse-raw-data.js
 
-var moment = require("moment");
+export type DomainRegex = {
+  domainName: string;
+  registrar?: string;
+  updatedDate?: string;
+  creationDate?: string;
+  expirationDate?: string;
+  status?: string;
+  nameServers?: string;
+  dateFormat?: string;
 
-var defaultRegex = {
+  notFound: string;
+  rateLimited?: string;
+
+  unknownTLD?: boolean;
+};
+
+const defaultRegex: DomainRegex = {
   domainName: "Domain Name: *([^\\s]+)",
   registrar: "Registrar: *(.+)",
   updatedDate: "Updated Date: *(.+)",
@@ -12,9 +26,10 @@ var defaultRegex = {
   nameServers: "Name Server: *(.+)",
   dateFormat: "YYYY-MM-DDThh:mm:ssZ",
   notFound: "(No match for |Domain not found|NOT FOUND\\s)",
+  unknownTLD: true,
 };
 
-var comRegex = {
+const comRegex: DomainRegex = {
   domainName: "Domain Name: *([^\\s]+)",
   registrar: "Registrar: *(.+)",
   updatedDate: "Updated Date: *(.+)",
@@ -25,7 +40,7 @@ var comRegex = {
   notFound: "No match for ",
 };
 
-var orgRegex = {
+const orgRegex: DomainRegex = {
   domainName: "Domain Name: *([^\\s]+)",
   registrar: "Registrar: *(.+)",
   updatedDate: "Updated Date: *(.+)",
@@ -36,7 +51,7 @@ var orgRegex = {
   notFound: "^NOT FOUND",
 };
 
-var auRegex = {
+const auRegex: DomainRegex = {
   domainName: "Domain Name: *([^\\s]+)",
   updatedDate: "Last Modified: *(.+)",
   registrar: "Registrar Name: *(.+)",
@@ -46,7 +61,7 @@ var auRegex = {
   notFound: "^NOT FOUND",
 };
 
-var usRegex = {
+const usRegex: DomainRegex = {
   domainName: "Domain Name: *([^\\s]+)",
   registrar: "Registrar: *(.+)",
   status: "Domain Status: *(.+)",
@@ -58,7 +73,7 @@ var usRegex = {
   dateFormat: "YYYY-MM-DDThh:mm:ssZ",
 };
 
-var ruRegex = {
+const ruRegex: DomainRegex = {
   // and .рф .su
   domainName: "domain: *([^\\s]+)",
   registrar: "registrar: *(.+)",
@@ -68,7 +83,7 @@ var ruRegex = {
   notFound: "No entries found",
 };
 
-var ukRegex = {
+const ukRegex: DomainRegex = {
   domainName: "Domain name:\\s*([^\\s]+)",
   registrar: "Registrar:\\s*(.+)",
   status: "Registration status:\\s*(.+)",
@@ -79,7 +94,7 @@ var ukRegex = {
   dateFormat: "DD-MMM-YYYY",
 };
 
-var frRegex = {
+const frRegex: DomainRegex = {
   domainName: "domain: *([^\\s]+)",
   registrar: "registrar: *(.+)",
   creationDate: "created: *(.+)",
@@ -90,7 +105,7 @@ var frRegex = {
   dateFormat: "YYYY-MM-DDThh:mm:ssZ",
 };
 
-var nlRegex = {
+const nlRegex: DomainRegex = {
   domainName: "Domain Name: *([^\\s]+)",
   registrar: "Registrar: *\\s*(.+)",
   status: "Status: *(.+)",
@@ -98,7 +113,7 @@ var nlRegex = {
   rateLimited: "maximum number of requests per second exceeded",
 };
 
-var fiRegex = {
+const fiRegex: DomainRegex = {
   domainName: "domain\\.*: *([\\S]+)",
   registrar: "registrar\\.*: *(.*)",
   status: "status\\.*: *([\\S]+)",
@@ -109,7 +124,7 @@ var fiRegex = {
   dateFormat: "DD.MM.YYYY hh:mm:ss",
 };
 
-var jpRegex = {
+const jpRegex: DomainRegex = {
   domainName: "\\[Domain Name\\]\\s*([^\\s]+)",
   creationDate: "\\[Created on\\]\\s*(.+)",
   updatedDate: "\\[Last Updated\\]\\s?(.+)",
@@ -119,7 +134,7 @@ var jpRegex = {
   dateFormat: "YYYY/MM/DD",
 };
 
-var plRegex = {
+const plRegex: DomainRegex = {
   domainName: "DOMAIN NAME: *([^\\s]+)[s]+$",
   registrar: "REGISTRAR: *\\s*(.+)",
   status: "Registration status:\\n\\s*(.+)",
@@ -130,7 +145,7 @@ var plRegex = {
   dateFormat: "YYYY.MM.DD hh:mm:ss",
 };
 
-var brRegex = {
+const brRegex: DomainRegex = {
   domainName: "domain: *([^\\s]+)\n",
   status: "status: *(.+)",
   creationDate: "created: *(.+)",
@@ -140,13 +155,13 @@ var brRegex = {
   notFound: "No match for ",
 };
 
-var euRegex = {
+const euRegex: DomainRegex = {
   domainName: "Domain: *([^\\n\\r]+)",
   registrar: "Registrar: *\\n *Name: *([^\\n\\r]+)",
   notFound: "Status: AVAILABLE",
 };
 
-var eeRegex = {
+const eeRegex: DomainRegex = {
   domainName: "Domain: *[\\n\\r]+s*name: *([^\\n\\r]+)",
   status: "Domain: *[\\n\\r]+\\s*name: *[^\\n\\r]+\\sstatus: *([^\\n\\r]+)",
   creationDate:
@@ -160,7 +175,7 @@ var eeRegex = {
   dateFormat: "YYYY-MM-DD",
 };
 
-var krRegex = {
+const krRegex: DomainRegex = {
   domainName: "Domain Name\\s*: *([^\\s]+)",
   creationDate: "Registered Date\\s*: *(.+)",
   updatedDate: "Last Updated Date\\s*: *(.+)",
@@ -170,21 +185,21 @@ var krRegex = {
   notFound: "The requested domain was not found ",
 };
 
-var bgRegex = {
+const bgRegex: DomainRegex = {
   domainName: "DOMAIN NAME: *([^\\s]+)",
   status: "registration status:\\s*(.+)",
   notFound: "registration status: available",
   rateLimited: "Query limit exceeded",
 };
 
-var deRegex = {
+const deRegex: DomainRegex = {
   domainName: "Domain: *([^\\s]+)",
   status: "Status: *(.+)",
   updatedDate: "Changed: *(.+)",
   notFound: "Status: *free",
 };
 
-var atRegex = {
+const atRegex: DomainRegex = {
   domainName: "domain: *([^\\s]+)",
   updatedDate: "changed: *(.+)",
   registrar: "registrar: *(.+)",
@@ -193,7 +208,7 @@ var atRegex = {
   rateLimited: "Quota exceeded",
 };
 
-var caRegex = {
+const caRegex: DomainRegex = {
   domainName: "Domain Name: *([^\\s]+)",
   status: "Domain Status: *(.+)",
   updatedDate: "Updated Date: *(.+)",
@@ -203,7 +218,7 @@ var caRegex = {
   notFound: "Not found: ",
 };
 
-var beRegex = {
+const beRegex: DomainRegex = {
   domainName: "Domain:\\s*([^\\s]+)",
   registrar: "Registrar: *[\\n\\r]+\\s*Name:\\s*(.+)",
   status: "Status:\\s*(.+)",
@@ -212,7 +227,7 @@ var beRegex = {
   notFound: "Status:\\s*AVAILABLE",
 };
 
-var infoRegex = {
+const infoRegex: DomainRegex = {
   domainName: "Domain Name: *([^\\s]+)",
   registrar: "Registrar: *(.+)",
   updatedDate: "Updated Date: *(.+)",
@@ -224,7 +239,7 @@ var infoRegex = {
   //'dateFormat':       'YYYY-MM-DDTHH:mm:ssZ'
 };
 
-var kgRegex = {
+const kgRegex: DomainRegex = {
   domainName: "^Domain\\s*([^\\s]+)",
   registrar: "Domain support: \\s*(.+)",
   creationDate: "Record created:\\s*(.+)",
@@ -234,7 +249,7 @@ var kgRegex = {
   notFound: "domain is available for registration",
 };
 
-// var chRegex = {
+// const chRegex: DomainRegex = {
 //     'domainName':                      '\\nDomain name:\\n*([^\s]+)',
 //     'registrar':                        'Registrar:\n*(.+)',
 //     'creationDate':                    'First registration date:\\n*(.+)',
@@ -243,7 +258,7 @@ var kgRegex = {
 //     'dateFormat':                       'YYYY-MM-DD'
 // };
 
-var idRegex = {
+const idRegex: DomainRegex = {
   domainName: "Domain Name:([^\\s]+)",
   creationDate: "Created On:(.+)",
   expirationDate: "Expiration Date(.+)",
@@ -254,7 +269,7 @@ var idRegex = {
   dateFormat: "DD-MMM-YYYY HH:mm:ss UTC",
 };
 
-var skRegex = {
+const skRegex: DomainRegex = {
   domainName: "Domain:\\s*([^\\s]+)",
   creationDate: "Created:\\s*(.+)",
   expirationDate: "Valid Until:\\s*(.+)",
@@ -265,7 +280,7 @@ var skRegex = {
   notFound: "Domain not found",
 };
 
-var seRegex = {
+const seRegex: DomainRegex = {
   domainName: "domain\\.*: *([^\\s]+)",
   creationDate: "created\\.*: *(.+)",
   updatedDate: "modified\\.*: *(.+)",
@@ -276,7 +291,7 @@ var seRegex = {
   notFound: '\\" not found.',
 };
 
-var isRegex = {
+const isRegex: DomainRegex = {
   domainName: "domain\\.*: *([^\\s]+)",
   creationDate: "created\\.*: *(.+)",
   expirationDate: "expires\\.*: *(.+)",
@@ -284,7 +299,7 @@ var isRegex = {
   notFound: "No entries found for query",
 };
 
-var coRegex = {
+const coRegex: DomainRegex = {
   domainName: "Domain Name: *([^\\s]+)",
   registrar: "Registrar: *(.+)",
   updatedDate: "Updated Date: *(.+)",
@@ -295,7 +310,7 @@ var coRegex = {
   notFound: "No Data Found",
 };
 
-var trRegex = {
+const trRegex: DomainRegex = {
   domainName: "Domain Name: *([^\\s]+)",
   registrar: "Organization Name\t: *(.+)",
   creationDate: "Created on..............: *(.+)",
@@ -304,179 +319,78 @@ var trRegex = {
   notFound: "No match found",
 };
 
-var parseRawData = function (rawData, domain) {
-  if (rawData === null) {
-    throw new Error("No Whois data received");
-  } else if (rawData.length <= 10) {
-    throw new Error('Bad WHOIS Data: "' + rawData + '"');
-  }
-
-  var result = { domainName: domain };
-
-  var unknownTLD = false;
-  var domainRegex = "";
+export function getDomainRegex(domain: string): DomainRegex {
   if (
     domain.endsWith(".com") ||
     domain.endsWith(".net") ||
     domain.endsWith(".name")
   ) {
-    domainRegex = comRegex;
+    return comRegex;
   } else if (
     domain.endsWith(".org") ||
     domain.endsWith(".me") ||
     domain.endsWith(".mobi")
   ) {
-    domainRegex = orgRegex;
+    return orgRegex;
   } else if (domain.endsWith(".au")) {
-    domainRegex = auRegex;
+    return auRegex;
   } else if (
     domain.endsWith(".ru") ||
     domain.endsWith(".рф") ||
     domain.endsWith(".su")
   ) {
-    domainRegex = ruRegex;
+    return ruRegex;
   } else if (domain.endsWith(".us") || domain.endsWith(".biz")) {
-    domainRegex = usRegex;
+    return usRegex;
   } else if (domain.endsWith(".uk")) {
-    domainRegex = ukRegex;
+    return ukRegex;
   } else if (domain.endsWith(".fr")) {
-    domainRegex = frRegex;
+    return frRegex;
   } else if (domain.endsWith(".nl")) {
-    domainRegex = nlRegex;
+    return nlRegex;
   } else if (domain.endsWith(".fi")) {
-    domainRegex = fiRegex;
+    return fiRegex;
   } else if (domain.endsWith(".jp")) {
-    domainRegex = jpRegex;
+    return jpRegex;
   } else if (domain.endsWith(".pl")) {
-    domainRegex = plRegex;
+    return plRegex;
   } else if (domain.endsWith(".br")) {
-    domainRegex = brRegex;
+    return brRegex;
   } else if (domain.endsWith(".eu")) {
-    domainRegex = euRegex;
+    return euRegex;
   } else if (domain.endsWith(".ee")) {
-    domainRegex = eeRegex;
+    return eeRegex;
   } else if (domain.endsWith(".kr")) {
-    domainRegex = krRegex;
+    return krRegex;
   } else if (domain.endsWith(".bg")) {
-    domainRegex = bgRegex;
+    return bgRegex;
   } else if (domain.endsWith(".de")) {
-    domainRegex = deRegex;
+    return deRegex;
   } else if (domain.endsWith(".at")) {
-    domainRegex = atRegex;
+    return atRegex;
   } else if (domain.endsWith(".ca")) {
-    domainRegex = caRegex;
+    return caRegex;
   } else if (domain.endsWith(".be")) {
-    domainRegex = beRegex;
+    return beRegex;
   } else if (domain.endsWith(".kg")) {
-    domainRegex = kgRegex;
+    return kgRegex;
   } else if (domain.endsWith(".info")) {
-    domainRegex = infoRegex;
+    return infoRegex;
     // } else if (domain.endsWith('.ch') || domain.endsWith('.li')) {
-    //   domainRegex = infoRegex;
+    //   return infoRegex;
   } else if (domain.endsWith(".id")) {
-    domainRegex = idRegex;
+    return idRegex;
   } else if (domain.endsWith(".sk")) {
-    domainRegex = skRegex;
+    return skRegex;
   } else if (domain.endsWith(".se") || domain.endsWith(".nu")) {
-    domainRegex = seRegex;
+    return seRegex;
   } else if (domain.endsWith(".is")) {
-    domainRegex = isRegex;
+    return isRegex;
   } else if (domain.endsWith(".co")) {
-    domainRegex = coRegex;
+    return coRegex;
   } else if (domain.endsWith(".tr")) {
-    domainRegex = trRegex;
+    return trRegex;
   } else {
-    domainRegex = defaultRegex;
-    unknownTLD = true;
+    return defaultRegex;
   }
-
-  Object.keys(domainRegex).forEach(function (key) {
-    // Find multiple matches for status field
-    if (key === "status" || key === "nameServers") {
-      var regex = new RegExp(domainRegex[key], "g");
-    } else {
-      var regex = new RegExp(domainRegex[key]);
-    }
-
-    if (rawData.match(regex) && key !== "dateFormat") {
-      // dateformat not used for line matching
-      if (key === "rateLimited") {
-        throw new Error("Rate Limited");
-      } else if (key === "notFound") {
-        if (!result.hasOwnProperty("isAvailable")) {
-          result["isAvailable"] = true;
-        }
-      } else {
-        var value = rawData.match(regex)[rawData.match(regex).length - 1];
-        if (key === "status") {
-          var matches = [];
-          while ((matches = regex.exec(rawData))) {
-            if (result[key]) {
-              result[key].push(matches[1]);
-            } else {
-              result[key] = [matches[1]];
-            }
-          }
-        } else if (key === "nameServers") {
-          var matches = [];
-          while ((matches = regex.exec(rawData))) {
-            if (result[key]) {
-              result[key].push(matches[1]);
-            } else {
-              result[key] = [matches[1]];
-            }
-          }
-        } else if (key === "expirationDate") {
-          if (domainRegex.hasOwnProperty("dateFormat")) {
-            result[key] = moment(value, domainRegex.dateFormat).toJSON();
-          } else {
-            result[key] = moment(value).toJSON();
-          }
-        } else if (key === "creationDate") {
-          if (domainRegex.hasOwnProperty("dateFormat")) {
-            result[key] = moment(value, domainRegex.dateFormat).toJSON();
-          } else {
-            result[key] = moment(value).toJSON();
-          }
-        } else if (key === "updatedDate") {
-          if (domainRegex.hasOwnProperty("dateFormat")) {
-            result[key] = moment(value, domainRegex.dateFormat).toJSON();
-          } else {
-            result[key] = moment(value).toJSON();
-          }
-        } else if (key === "domainName") {
-          result[key] = value.toLowerCase();
-        } else {
-          result[key] = value;
-        }
-      }
-    }
-  });
-  if (!result.hasOwnProperty("isAvailable")) {
-    result.isAvailable = false;
-  }
-
-  // console.log('rawData: "' + rawData + '"');
-  // console.log('result ' + JSON.stringify(result));
-
-  // Check to make sure certain fields are set for unknown TLDs to ensure the default pattern matching worked
-  // If not then throw TLD not supported error.
-  if (unknownTLD) {
-    if (!result.isAvailable) {
-      if (
-        !result.hasOwnProperty("creationDate") ||
-        !result.hasOwnProperty("expirationDate") ||
-        !result.hasOwnProperty("updatedDate") ||
-        !result.hasOwnProperty("registrar")
-      ) {
-        throw new Error("TLD not supported");
-      }
-    }
-  }
-  return {
-    ...result,
-    raw: rawData,
-  };
-};
-
-module.exports = parseRawData;
+}

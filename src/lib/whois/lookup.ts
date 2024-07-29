@@ -12,13 +12,19 @@ const lookupOptions = {
 
 export function getLookupRawWhois(domain: string, options?: any): Promise<string> {
   return new Promise((resolve, reject) => {
-    whois.lookup(domain, options, (err: Error, data: string) => {
-      if (err) {
-        reject(err);
-      } else {
-        resolve(data);
-      }
-    });
+    try {
+      whois.lookup(domain, options, (err: Error, data: string) => {
+        if (err) {
+          // reject err like tld error
+          reject(err);
+        } else {
+          resolve(data);
+        }
+      });
+    } catch (e) {
+      // reject err like connection error
+      reject(e);
+    }
   });
 }
 export async function lookupWhois(domain: string): Promise<WhoisResult> {

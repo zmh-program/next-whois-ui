@@ -18,7 +18,7 @@ export function parseWhoisData(rawData: string, domain: string) {
   const rawContent = rawData.toLowerCase();
   if (
     rawContent.match(filterRegex.notFound) ||
-    rawContent.includes("no match for domain") ||
+    rawContent.includes("no match") ||
     rawContent.includes("this query returned 0 objects") ||
     rawContent.includes("not found") ||
     rawContent.includes("no entries found") ||

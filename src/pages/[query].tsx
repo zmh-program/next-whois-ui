@@ -30,6 +30,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { getDomain } from "tldjs";
 import { VERSION } from "@/lib/env";
 import { WhoisAnalyzeResult, WhoisResult } from "@/lib/whois/types";
+import Icon from "@/components/icon";
 
 type Props = {
   data: WhoisResult;
@@ -97,46 +98,50 @@ function ErrorArea({ error }: ErrorAreaProps) {
 
 type ResultTableProps = {
   result?: WhoisAnalyzeResult;
+  target: string;
 };
 
-function ResultTable({ result }: ResultTableProps) {
+function ResultTable({ result, target }: ResultTableProps) {
   const Row = ({
     name,
     value,
     children,
+    hidden,
     likeLink,
   }: {
     name: string;
     value: any;
+    hidden?: boolean;
     children?: React.ReactNode;
     likeLink?: boolean;
-  }) => (
-    <tr>
-      <td
-        className={`py-1 pr-2 text-right font-medium text-secondary whitespace-pre-wrap md:w-36`}
-      >
-        {name}
-      </td>
-      <td
-        className={cn(
-          `py-1 pl-2 text-left text-primary whitespace-pre-wrap break-all`,
-          likeLink && `cursor-pointer hover:underline`,
-        )}
-        onClick={() => {
-          if (likeLink) {
-            window.open(
-              value.startsWith("http") ? value : `http://${value}`,
-              "_blank",
-              "noopener,noreferrer",
-            );
-          }
-        }}
-      >
-        {value}
-        {children}
-      </td>
-    </tr>
-  );
+  }) =>
+    !hidden && (
+      <tr>
+        <td
+          className={`py-1 pr-2 text-right font-medium text-secondary whitespace-pre-wrap md:w-36`}
+        >
+          {name}
+        </td>
+        <td
+          className={cn(
+            `py-1 pl-2 text-left text-primary whitespace-pre-wrap break-all`,
+            likeLink && `cursor-pointer hover:underline`,
+          )}
+          onClick={() => {
+            if (likeLink) {
+              window.open(
+                value.startsWith("http") ? value : `http://${value}`,
+                "_blank",
+                "noopener,noreferrer",
+              );
+            }
+          }}
+        >
+          {value}
+          {children}
+        </td>
+      </tr>
+    );
 
   const StatusComp = () => {
     if (!result || result.status.length === 0) {
@@ -170,10 +175,17 @@ function ResultTable({ result }: ResultTableProps) {
               if (status.url === "expand") {
                 e.preventDefault();
                 setExpand(!expand);
+              } else if (!status.url) {
+                e.preventDefault();
               }
             }}
           >
-            {status.url !== "expand" && <Link2 className={`w-3 h-3 mr-1`} />}
+            {status.url !== "expand" && (
+              <Icon
+                icon={status.url ? <Link2 /> : <Unlink2 />}
+                className={`w-3 h-3 mr-1`}
+              />
+            )}
             {status.status}
           </Link>
         ))}
@@ -188,11 +200,24 @@ function ResultTable({ result }: ResultTableProps) {
     result && (
       <table className={`w-full text-sm mb-4 whitespace-pre-wrap`}>
         <tbody>
-          <Row name={`Domain Name`} value={result.domain} />
-          <Row name={`Domain Status`} value={<StatusComp />} />
-          <Row name={`Registrar`} value={result.registrar} />
-          <Row name={`Registrar URL`} value={result.registrarURL} likeLink />
-          <Row name={`IANA ID`} value={result.ianaId}>
+          <Row name={`Name`} value={result.domain || target.toUpperCase()} />
+          <Row name={`Status`} value={<StatusComp />} />
+          <Row
+            name={`Registrar`}
+            value={result.registrar}
+            hidden={!result.registrar || result.registrar === "Unknown"}
+          />
+          <Row
+            name={`Registrar URL`}
+            value={result.registrarURL}
+            likeLink
+            hidden={!result.registrarURL || result.registrarURL === "Unknown"}
+          />
+          <Row
+            name={`IANA ID`}
+            value={result.ianaId}
+            hidden={!result.ianaId || result.ianaId === "N/A"}
+          >
             <Link
               className={`inline-flex ml-1`}
               href={`https://www.internic.net/registrars/registrar-${result.ianaId ?? 0}.html`}
@@ -203,10 +228,51 @@ function ResultTable({ result }: ResultTableProps) {
               </Button>
             </Link>
           </Row>
-          <Row name={`Whois Server`} value={result.whoisServer} likeLink />
+
+          {/* IP Whois Only */}
           <Row
-            name={`Updated Date`}
-            value={toReadableISODate(result.updatedDate)}
+            name={`CIDR`}
+            value={result.cidr}
+            hidden={!result.cidr || result.cidr === "Unknown"}
+          />
+          <Row
+            name={`Net Type`}
+            value={result.netType}
+            hidden={!result.netType || result.netType === "Unknown"}
+          />
+          <Row
+            name={`Net Name`}
+            value={result.netName}
+            hidden={!result.netName || result.netName === "Unknown"}
+          />
+          <Row
+            name={`INet Num`}
+            value={result.inetNum}
+            hidden={!result.inetNum || result.inetNum === "Unknown"}
+          />
+          <Row
+            name={`Net Range`}
+            value={result.netRange}
+            hidden={!result.netRange || result.netRange === "Unknown"}
+          />
+          <Row
+            name={`Origin AS`}
+            value={result.originAS}
+            hidden={!result.originAS || result.originAS === "Unknown"}
+          />
+          {/* IP Whois Only End */}
+
+          <Row
+            name={`Whois Server`}
+            value={result.whoisServer}
+            likeLink
+            hidden={!result.whoisServer || result.whoisServer === "Unknown"}
+          />
+
+          <Row
+            name={`Creation Date`}
+            value={toReadableISODate(result.creationDate)}
+            hidden={!result.creationDate || result.creationDate === "Unknown"}
           >
             <div
               className={`inline-flex ml-1 select-none px-1 py-0.5 border rounded-md text-xs`}
@@ -215,8 +281,9 @@ function ResultTable({ result }: ResultTableProps) {
             </div>
           </Row>
           <Row
-            name={`Creation Date`}
-            value={toReadableISODate(result.creationDate)}
+            name={`Updated Date`}
+            value={toReadableISODate(result.updatedDate)}
+            hidden={!result.updatedDate || result.updatedDate === "Unknown"}
           >
             <div
               className={`inline-flex ml-1 select-none px-1 py-0.5 border rounded-md text-xs`}
@@ -227,6 +294,9 @@ function ResultTable({ result }: ResultTableProps) {
           <Row
             name={`Expiration Date`}
             value={toReadableISODate(result.expirationDate)}
+            hidden={
+              !result.expirationDate || result.expirationDate === "Unknown"
+            }
           >
             <div
               className={`inline-flex ml-1 select-none px-1 py-0.5 border rounded-md text-xs`}
@@ -237,35 +307,64 @@ function ResultTable({ result }: ResultTableProps) {
           <Row
             name={`Registrant Organization`}
             value={result.registrantOrganization}
+            hidden={
+              !result.registrantOrganization ||
+              result.registrantOrganization === "Unknown"
+            }
           />
-          <Row name={`Registrant Province`} value={result.registrantProvince} />
-          <Row name={`Registrant Country`} value={result.registrantCountry} />
-          <Row name={`Registrant Phone`} value={result.registrantPhone}>
+          <Row
+            name={`Registrant Province`}
+            value={result.registrantProvince}
+            hidden={
+              !result.registrantProvince ||
+              result.registrantProvince === "Unknown"
+            }
+          />
+          <Row
+            name={`Registrant Country`}
+            value={result.registrantCountry}
+            hidden={
+              !result.registrantCountry ||
+              result.registrantCountry === "Unknown"
+            }
+          />
+          <Row
+            name={`Registrant Phone`}
+            value={result.registrantPhone}
+            hidden={
+              !result.registrantPhone || result.registrantPhone === "Unknown"
+            }
+          >
             <div
               className={`inline-flex ml-1 select-none px-1 py-0.5 border rounded-md text-xs`}
             >
               Abuse
             </div>
           </Row>
-          <Row name={`Registrant Email`} value={result.registrantEmail} />
           <Row
-            name={`Name Server`}
+            name={`Registrant Email`}
+            value={result.registrantEmail}
+            hidden={
+              !result.registrantEmail || result.registrantEmail === "Unknown"
+            }
+          />
+          <Row
+            name={`Name Servers`}
             value={
               <div className={`flex flex-col`}>
-                {result.nameServers.length > 0
-                  ? result.nameServers.map((ns, index) => (
-                      <div
-                        key={index}
-                        className={`text-secondary text-xs border cursor-pointer rounded-md px-1 py-0.5 mt-0.5 w-fit inline-flex flex-row items-center`}
-                        onClick={() => copy(ns)}
-                      >
-                        <CopyIcon className={`w-2.5 h-2.5 mr-1`} />
-                        {ns}
-                      </div>
-                    ))
-                  : "N/A"}
+                {result.nameServers.map((ns, index) => (
+                  <div
+                    key={index}
+                    className={`text-secondary text-xs border cursor-pointer rounded-md px-1 py-0.5 mt-0.5 w-fit inline-flex flex-row items-center`}
+                    onClick={() => copy(ns)}
+                  >
+                    <CopyIcon className={`w-2.5 h-2.5 mr-1`} />
+                    {ns}
+                  </div>
+                ))}
               </div>
             }
+            hidden={result.nameServers.length === 0}
           />
         </tbody>
       </table>
@@ -302,7 +401,7 @@ function ResultComp({ data, target }: Props) {
             <ErrorArea error={error || ""} />
           ) : (
             <div className={`flex flex-col h-fit w-full mt-2`}>
-              <ResultTable result={result} />
+              <ResultTable result={result} target={target} />
 
               <div className={`flex flex-row items-center mt-2 mb-1.5`}>
                 <p className={`text-sm text-secondary font-medium`}>
@@ -369,7 +468,7 @@ export default function Lookup({ data, target }: Props) {
           <div className={"relative flex flex-row items-center w-full mt-2"}>
             <Input
               className={`w-full text-center`}
-              placeholder={`domain name (e.g. google.com)`}
+              placeholder={`domain name (e.g. google.com, 8.8.8.8)`}
               value={inputDomain}
               onChange={(e) => setInputDomain(e.target.value)}
               onKeyDown={(e) => {

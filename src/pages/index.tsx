@@ -45,7 +45,7 @@ export default function Home() {
         <div className={"relative flex flex-row items-center w-full mt-2"}>
           <Input
             className={`w-full text-center`}
-            placeholder={`domain name (e.g. google.com)`}
+            placeholder={`domain name (e.g. google.com, 8.8.8.8)`}
             value={domain}
             onChange={(e) => setDomain(e.target.value)}
             onKeyDown={(e) => {

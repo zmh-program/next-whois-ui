@@ -22,6 +22,13 @@ export type WhoisAnalyzeResult = {
   registrantPhone: string;
   registrantEmail: string;
   rawWhoisContent: string;
+
+  cidr: string;
+  inetNum: string;
+  netRange: string;
+  netName: string;
+  netType: string;
+  originAS: string;
 };
 
 export type DomainStatusProps = {
@@ -46,4 +53,11 @@ export const initialWhoisAnalyzeResult: WhoisAnalyzeResult = {
   registrantPhone: "Unknown",
   registrantEmail: "Unknown",
   rawWhoisContent: "",
+
+  cidr: "Unknown",
+  inetNum: "Unknown",
+  netRange: "Unknown",
+  netName: "Unknown",
+  netType: "Unknown",
+  originAS: "Unknown",
 };

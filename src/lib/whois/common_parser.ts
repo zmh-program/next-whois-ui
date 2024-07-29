@@ -68,10 +68,16 @@ export function analyzeWhois(data: string): WhoisAnalyzeResult {
       case "whois server":
         result.whoisServer = value;
         break;
+      case "whois":
+        result.whoisServer = value;
+        break;
       case "registrar whois server":
         result.whoisServer = value;
         break;
       case "updated date":
+        result.updatedDate = analyzeTime(value);
+        break;
+      case "changed":
         result.updatedDate = analyzeTime(value);
         break;
       case "creation date":
@@ -110,13 +116,25 @@ export function analyzeWhois(data: string): WhoisAnalyzeResult {
       case "registrant organization":
         result.registrantOrganization = value;
         break;
+      case "organization":
+        result.registrantOrganization = value;
+        break;
+      case "organisation":
+        result.registrantOrganization = value;
+        break;
       case "registrant":
         result.registrantOrganization = value;
         break;
       case "registrant state/province":
         result.registrantProvince = value;
         break;
+      case "city":
+        result.registrantProvince = value;
+        break;
       case "registrant country":
+        result.registrantCountry = value;
+        break;
+      case "country":
         result.registrantCountry = value;
         break;
       case "registrant phone":
@@ -124,6 +142,9 @@ export function analyzeWhois(data: string): WhoisAnalyzeResult {
         break;
       case "registrar abuse contact phone":
         result.registrantPhone = value.replace("tel:", "").replace(".", " ");
+        break;
+      case "orgtechphone":
+        result.registrantPhone = value;
         break;
       case "registrant email":
         result.registrantEmail = value.replace(
@@ -133,6 +154,24 @@ export function analyzeWhois(data: string): WhoisAnalyzeResult {
         break;
       case "email":
         result.registrantEmail = value;
+        break;
+      case "cidr":
+        result.cidr = value;
+        break;
+      case "inetnum":
+        result.inetNum = value;
+        break;
+      case "netrange":
+        result.netRange = value;
+        break;
+      case "netname":
+        result.netName = value;
+        break;
+      case "nettype":
+        result.netType = value;
+        break;
+      case "originas":
+        result.originAS = value;
         break;
     }
 

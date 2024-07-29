@@ -18,7 +18,7 @@ No need to say more, just try it out! 🥳
 4. 🚀 **Fast Query**: Powered by Next.js, support serverless deployment.
 5. 📚 **Record History**: History records are stored in local storage, easy to view and query history.
 6. 📡 **Open API**: Simple API for whois query, easy to integrate with other services.
-7. 🌍 [WIP] **IPv4 & IPv6 Whois**: Support IPv4 & IPv6 whois query. ([#3](https://github.com/zmh-program/next-whois-ui/issues/3))
+7. 🌍 **IPv4 & IPv6 Whois**: Support IPv4 & IPv6 whois query.
 8. 📦 [WIP] **Result Capture**: Capture whois result, easy to share and save. ([#5](https://github.com/zmh-program/next-whois-ui/issues/5))
 9. 📡 [WIP] **Whois Cache & Retry**: Cache whois result by redis. ([#4](https://github.com/zmh-program/next-whois-ui/issues/4))
 10. 🌍 [WIP] **Internationalization**: Support multiple languages. ([#6](https://github.com/zmh-program/next-whois-ui/issues/6))

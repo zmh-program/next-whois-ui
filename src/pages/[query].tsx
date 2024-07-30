@@ -5,6 +5,7 @@ import {
   toReadableISODate,
   toSearchURI,
   useClipboard,
+  useSaver,
 } from "@/lib/utils";
 import { NextPageContext } from "next";
 import { Input } from "@/components/ui/input";
@@ -14,6 +15,7 @@ import {
   CircleX,
   CopyIcon,
   CornerDownRight,
+  DownloadIcon,
   ExternalLink,
   Link2,
   Loader2,
@@ -379,6 +381,7 @@ function ResultTable({ result, target }: ResultTableProps) {
 
 function ResultComp({ data, target }: Props) {
   const copy = useClipboard();
+  const save = useSaver();
   const { status, result, error, time } = data;
 
   return (
@@ -416,9 +419,22 @@ function ResultComp({ data, target }: Props) {
                 <Button
                   variant={`outline`}
                   size={`icon-sm`}
+                  className={`mr-1`}
                   onClick={() => copy(result?.rawWhoisContent || "")}
                 >
                   <CopyIcon className={`w-3 h-3`} />
+                </Button>
+                <Button
+                  variant={`outline`}
+                  size={`icon-sm`}
+                  onClick={() =>
+                    save(
+                      `${target.replace(/\./g, "-")}-whois.txt`,
+                      result?.rawWhoisContent || "",
+                    )
+                  }
+                >
+                  <DownloadIcon className={`w-3 h-3`} />
                 </Button>
               </div>
               <TextArea

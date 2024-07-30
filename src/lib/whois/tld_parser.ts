@@ -68,6 +68,7 @@ export function parseWhoisData(rawData: string, domain: string) {
     let newStatus: DomainStatusProps[] = [];
     while ((match = statusRegex.exec(rawData)) !== null) {
       let [status, url] = match[1].split(" ");
+      url = url ?? "";
       url = url.startsWith("(") && url.endsWith(")") ? url.slice(1, -1) : url;
       newStatus.push({ status, url });
     }

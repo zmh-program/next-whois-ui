@@ -1,4 +1,4 @@
-export const VERSION = "0.0.2";
+export const VERSION = "0.1.0";
 
 export const HISTORY_LIMIT: number = intEnv("NEXT_PUBLIC_HISTORY_LIMIT", 6);
 // The maximum number of history items to keep in the local storage

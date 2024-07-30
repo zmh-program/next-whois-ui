@@ -12,6 +12,22 @@ export function isEnter(e: React.KeyboardEvent) {
   return e.key === "Enter" && e.keyCode !== 229;
 }
 
+export function saveAsFile(filename: string, content: string) {
+  /**
+   * Save text as file
+   * @param filename Filename
+   * @param content File content
+   * @example
+   * saveAsFile("hello.txt", "Hello world!");
+   * @see https://developer.mozilla.org/en-US/docs/Web/API/Blob
+   */
+
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(new Blob([content]));
+  a.download = filename;
+  a.click();
+}
+
 async function copyClipboard(text: string) {
   if (navigator.clipboard && navigator.clipboard.writeText) {
     return await navigator.clipboard.writeText(text);
@@ -47,6 +63,19 @@ export function useClipboard() {
 
       const err = e as Error;
       toast(`Failed to copy: ${err.message}`);
+    }
+  };
+}
+
+export function useSaver() {
+  return (filename: string, content: string) => {
+    try {
+      saveAsFile(filename, content);
+      toast("Saved!");
+    } catch (e) {
+      console.error(e);
+
+      toast(`Failed to save: ${toErrorMessage(e)}`);
     }
   };
 }

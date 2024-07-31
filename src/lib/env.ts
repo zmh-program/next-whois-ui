@@ -19,3 +19,7 @@ function intEnv(name: string, defaultValue: number): number {
 
   return parsed;
 }
+
+export function strEnv(name: string, defaultValue: string): string {
+  return process.env[name] || defaultValue;
+}

@@ -8,20 +8,29 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { ThemeProvider } from "@/components/theme-provider";
 import { ModeToggle } from "@/components/theme-switch";
+import { strEnv } from "@/lib/env";
 
 const inter = Inter({ subsets: ["latin"] });
+
+const siteTitle = strEnv("NEXT_PUBLIC_SITE_TITLE", "Next Whois UI");
+const siteDescription = strEnv(
+  "NEXT_PUBLIC_SITE_DESCRIPTION",
+  "Next Whois Lookup Tool, Support Domain/IPv4/IPv6/ASN/CIDR Whois Lookup, Provided Beautiful, Clean and Simple UI.",
+);
+const siteKeywords = strEnv(
+  "NEXT_PUBLIC_SITE_KEYWORDS",
+  "Whois, Lookup, Tool, Next Whois UI",
+);
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
     <>
       <Head>
-        <title>Next Whois Lookup</title>
-        <meta
-          name="description"
-          content="Next Whois Lookup Tool, Provided Beautiful, Clean and Simple UI"
-        />
+        <title>{siteTitle}</title>
+        <meta name="description" content={siteDescription} />
+        <meta name="tags" content={siteKeywords} />
+        <meta name="keywords" content={siteKeywords} />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta name="tags" content="Whois, Lookup, Tool, Next Whois UI" />
       </Head>
       <Toaster />
       <ThemeProvider

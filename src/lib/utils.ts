@@ -2,6 +2,8 @@ import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 import React from "react";
 import { toast } from "sonner";
+import { getDomain } from "tldjs";
+import { ParsedUrlQuery } from "node:querystring";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -57,12 +59,12 @@ export function useClipboard() {
   return async (text: string) => {
     try {
       await copyClipboard(text);
-      toast("Copied!");
+      toast.success("Copied!");
     } catch (e) {
       console.error(e);
 
       const err = e as Error;
-      toast(`Failed to copy: ${err.message}`);
+      toast.error(`Failed to copy: ${err.message}`);
     }
   };
 }
@@ -71,11 +73,11 @@ export function useSaver() {
   return (filename: string, content: string) => {
     try {
       saveAsFile(filename, content);
-      toast("Saved!");
+      toast.success("Saved!");
     } catch (e) {
       console.error(e);
 
-      toast(`Failed to save: ${toErrorMessage(e)}`);
+      toast.error(`Failed to save: ${toErrorMessage(e)}`);
     }
   };
 }
@@ -105,4 +107,28 @@ export function toErrorMessage(e: any): string {
 export function countDuration(startTime: number, _endTime?: number): number {
   const endTime = _endTime ?? Date.now();
   return (endTime - startTime) / 1000; // seconds
+}
+
+export function cleanDomain(domain: string): string {
+  const hostname = getDomain(domain);
+  if (hostname) {
+    return hostname;
+  }
+
+  // if contains ip, extract it and return
+  const ipMatch = domain.match(
+    /^(https?:\/\/)?((\d{1,3}\.){3}\d{1,3})(:\d+)?(\/.*)?$/,
+  );
+  if (ipMatch) {
+    return ipMatch[2];
+  }
+
+  return domain;
+}
+
+export function cleanDomainQuery(query: ParsedUrlQuery): string {
+  const domain =
+    (query.query as string | string[] | undefined)?.toString() ?? "";
+
+  return cleanDomain(domain);
 }

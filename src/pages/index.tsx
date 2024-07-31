@@ -117,9 +117,9 @@ export default function Home() {
                       trashMode && "text-red-600/80",
                     )}
                   />
-                  {item}
+                  <p className={`grow text-ellipsis overflow-hidden`}>{item}</p>
                   <ChevronRight
-                    className={`transition-all w-4 h-4 ml-auto mr-1 group-hover:mr-0`}
+                    className={`transition-all shrink-0 w-4 h-4 ml-auto mr-1 group-hover:mr-0`}
                   />
                 </Link>
               ))}

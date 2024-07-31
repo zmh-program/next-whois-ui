@@ -1,21 +1,20 @@
 import { lookupWhois } from "@/lib/whois/lookup";
 import {
+  cleanDomainQuery,
   cn,
   isEnter,
   toReadableISODate,
   toSearchURI,
   useClipboard,
-  useSaver,
 } from "@/lib/utils";
 import { NextPageContext } from "next";
 import { Input } from "@/components/ui/input";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import {
-  CircleX,
+  Camera,
   CopyIcon,
   CornerDownRight,
-  DownloadIcon,
   ExternalLink,
   Link2,
   Loader2,
@@ -23,44 +22,38 @@ import {
   Send,
   Unlink2,
 } from "lucide-react";
+import {
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerDescription,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from "@/components/ui/drawer";
 import React, { useEffect, useMemo } from "react";
 import { addHistory } from "@/lib/history";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { TextArea } from "@/components/ui/textarea";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { getDomain } from "tldjs";
 import { VERSION } from "@/lib/env";
 import { WhoisAnalyzeResult, WhoisResult } from "@/lib/whois/types";
 import Icon from "@/components/icon";
+import { useImageCapture } from "@/lib/image";
+import ErrorArea from "@/components/items/error-area";
+import RichTextarea from "@/components/items/rich-textarea";
+import InfoText from "@/components/items/info-text";
 
 type Props = {
   data: WhoisResult;
   target: string;
+  isCapture?: boolean;
 };
-
-function cleanDomain(domain: string): string {
-  const hostname = getDomain(domain);
-  if (hostname) {
-    return hostname;
-  }
-
-  // if contains ip, extract it and return
-  const ipMatch = domain.match(
-    /^(https?:\/\/)?((\d{1,3}\.){3}\d{1,3})(:\d+)?(\/.*)?$/,
-  );
-  if (ipMatch) {
-    return ipMatch[2];
-  }
-
-  return domain;
-}
 
 export async function getServerSideProps(context: NextPageContext) {
   const { query } = context;
-  const target: string = cleanDomain(
-    typeof query.query === "string" ? query.query : "",
-  );
+  const target: string = cleanDomainQuery(query);
 
   return {
     props: {
@@ -68,34 +61,6 @@ export async function getServerSideProps(context: NextPageContext) {
       target,
     },
   };
-}
-
-type ErrorAreaProps = {
-  error: string;
-};
-
-function ErrorArea({ error }: ErrorAreaProps) {
-  const copy = useClipboard();
-
-  return (
-    <div
-      className={`flex flex-col items-center w-full h-fit mt-2 p-2 border border-red-500 rounded-md text-red-500`}
-    >
-      <div className={`text-md inline-flex flex-row items-center`}>
-        <CircleX className={`w-3.5 h-3.5 mr-1`} />
-        Lookup Failed
-      </div>
-      <div className={`text-sm mt-2 text-center`}>
-        <div
-          className={`inline-block mr-1 w-3 h-3 cursor-pointer`}
-          onClick={() => copy(error)}
-        >
-          <CopyIcon className={`w-3 h-3`} />
-        </div>
-        {error}
-      </div>
-    </div>
-  );
 }
 
 type ResultTableProps = {
@@ -172,7 +137,7 @@ function ResultTable({ result, target }: ResultTableProps) {
             href={status.url}
             key={index}
             target={`_blank`}
-            className={`inline-flex flex-row items-center m-0.5 cursor-pointer px-1 py-0.5 border rounded text-xs`}
+            className={`inline-flex flex-row whitespace-nowrap flex-nowrap items-center m-0.5 cursor-pointer px-1 py-0.5 border rounded text-xs`}
             onClick={(e) => {
               if (status.url === "expand") {
                 e.preventDefault();
@@ -185,7 +150,7 @@ function ResultTable({ result, target }: ResultTableProps) {
             {status.url !== "expand" && (
               <Icon
                 icon={status.url ? <Link2 /> : <Unlink2 />}
-                className={`w-3 h-3 mr-1`}
+                className={`w-3 h-3 mr-1 shrink-0`}
               />
             )}
             {status.status}
@@ -281,22 +246,14 @@ function ResultTable({ result, target }: ResultTableProps) {
             value={toReadableISODate(result.creationDate)}
             hidden={!result.creationDate || result.creationDate === "Unknown"}
           >
-            <div
-              className={`inline-flex ml-1 select-none px-1 py-0.5 border rounded-md text-xs`}
-            >
-              UTC
-            </div>
+            <InfoText content={`UTC`} />
           </Row>
           <Row
             name={`Updated Date`}
             value={toReadableISODate(result.updatedDate)}
             hidden={!result.updatedDate || result.updatedDate === "Unknown"}
           >
-            <div
-              className={`inline-flex ml-1 select-none px-1 py-0.5 border rounded-md text-xs`}
-            >
-              UTC
-            </div>
+            <InfoText content={`UTC`} />
           </Row>
           <Row
             name={`Expiration Date`}
@@ -305,11 +262,7 @@ function ResultTable({ result, target }: ResultTableProps) {
               !result.expirationDate || result.expirationDate === "Unknown"
             }
           >
-            <div
-              className={`inline-flex ml-1 select-none px-1 py-0.5 border rounded-md text-xs`}
-            >
-              UTC
-            </div>
+            <InfoText content={`UTC`} />
           </Row>
           <Row
             name={`Registrant Organization`}
@@ -342,11 +295,7 @@ function ResultTable({ result, target }: ResultTableProps) {
               !result.registrantPhone || result.registrantPhone === "Unknown"
             }
           >
-            <div
-              className={`inline-flex ml-1 select-none px-1 py-0.5 border rounded-md text-xs`}
-            >
-              Abuse
-            </div>
+            <InfoText content={`Abuse`} />
           </Row>
           <Row
             name={`Registrant Email`}
@@ -379,76 +328,108 @@ function ResultTable({ result, target }: ResultTableProps) {
   );
 }
 
-function ResultComp({ data, target }: Props) {
-  const copy = useClipboard();
-  const save = useSaver();
-  const { status, result, error, time } = data;
+const ResultComp = React.forwardRef<HTMLDivElement, Props>(
+  ({ data, target, isCapture }: Props, ref) => {
+    const copy = useClipboard();
 
-  return (
-    <Card className={`w-full h-fit mt-4`}>
-      <CardHeader>
-        <CardTitle className={`flex flex-row items-center`}>
-          Result
-          <div className={`flex-grow`} />
-          <Badge
-            className={`inline-flex flex-row items-center cursor-pointer mr-1 select-none`}
-            onClick={() => copy(target)}
-          >
-            <div
-              className={cn(
-                "w-2 h-2 rounded-full mr-1",
-                status ? "bg-green-500" : "bg-red-500",
+    const captureObject = React.useRef<HTMLDivElement>(null);
+    const capture = useImageCapture(captureObject);
+
+    const { status, result, error, time } = data;
+
+    return (
+      <div
+        className={cn(
+          "w-full h-fit mt-4",
+          isCapture &&
+            "flex flex-col items-center m-0 p-4 w-full bg-background",
+        )}
+      >
+        <Card
+          ref={ref}
+          className={cn("shadow", isCapture && "w-fit max-w-[768px]")}
+        >
+          <CardHeader>
+            <CardTitle
+              className={`flex flex-row items-center text-lg md:text-xl`}
+            >
+              Result
+              {!isCapture && (
+                <Drawer>
+                  <DrawerTrigger asChild>
+                    <Button
+                      variant={`outline`}
+                      size={`icon-sm`}
+                      className={`ml-2`}
+                    >
+                      <Camera className={`w-4 h-4`} />
+                    </Button>
+                  </DrawerTrigger>
+                  <DrawerContent>
+                    <DrawerHeader>
+                      <DrawerTitle>Result Capture</DrawerTitle>
+                      <DrawerClose />
+                    </DrawerHeader>
+                    <div className={`my-2`}>
+                      <ResultComp
+                        data={data}
+                        target={target}
+                        ref={captureObject}
+                        isCapture={true}
+                      />
+                    </div>
+                    <DrawerFooter>
+                      <Button
+                        variant={`outline`}
+                        onClick={() => capture(`whois-${target}`)}
+                        className={`flex flex-row items-center w-full max-w-[768px] mx-auto`}
+                      >
+                        <Camera className={`w-4 h-4 mr-2`} />
+                        Capture
+                      </Button>
+                    </DrawerFooter>
+                  </DrawerContent>
+                </Drawer>
               )}
-            />
-            {target}
-          </Badge>
-          <Badge variant={`outline`}>{time.toFixed(2)}s</Badge>
-        </CardTitle>
-        <CardContent className={`w-full p-0`}>
-          {!status ? (
-            <ErrorArea error={error || ""} />
-          ) : (
-            <div className={`flex flex-col h-fit w-full mt-2`}>
-              <ResultTable result={result} target={target} />
+              <div className={`flex-grow`} />
+              <Badge
+                className={`inline-flex max-w-36 md:max-w-64 flex-row items-center cursor-pointer ml-2 mr-1 select-none`}
+                onClick={() => copy(target)}
+              >
+                <div
+                  className={cn(
+                    "w-2 h-2 shrink-0 rounded-full mr-1",
+                    status ? "bg-green-500" : "bg-red-500",
+                  )}
+                />
+                <p className={`grow text-ellipsis overflow-hidden`}>{target}</p>
+              </Badge>
+              <Badge variant={`outline`}>{time.toFixed(2)}s</Badge>
+            </CardTitle>
+            <CardContent className={`w-full p-0`}>
+              {!status ? (
+                <ErrorArea error={error} />
+              ) : (
+                <div className={`flex flex-col h-fit w-full mt-2`}>
+                  <ResultTable result={result} target={target} />
 
-              <div className={`flex flex-row items-center mt-2 mb-1.5`}>
-                <p className={`text-sm text-secondary font-medium`}>
-                  Raw Whois Response
-                </p>
-                <div className={`flex-grow`} />
-                <Button
-                  variant={`outline`}
-                  size={`icon-sm`}
-                  className={`mr-1`}
-                  onClick={() => copy(result?.rawWhoisContent || "")}
-                >
-                  <CopyIcon className={`w-3 h-3`} />
-                </Button>
-                <Button
-                  variant={`outline`}
-                  size={`icon-sm`}
-                  onClick={() =>
-                    save(
-                      `${target.replace(/\./g, "-")}-whois.txt`,
-                      result?.rawWhoisContent || "",
-                    )
-                  }
-                >
-                  <DownloadIcon className={`w-3 h-3`} />
-                </Button>
-              </div>
-              <TextArea
-                rows={10}
-                readOnly={true}
-                value={result?.rawWhoisContent || ""}
-              />
-            </div>
-          )}
-        </CardContent>
-      </CardHeader>
-    </Card>
-  );
-}
+                  {!isCapture && (
+                    <RichTextarea
+                      className={`mt-2`}
+                      name={`Raw Whois Response`}
+                      value={result?.rawWhoisContent}
+                      saveFileName={`${target.replace(/\./g, "-")}-whois.txt`}
+                    />
+                  )}
+                </div>
+              )}
+            </CardContent>
+          </CardHeader>
+        </Card>
+      </div>
+    );
+  },
+);
 
 export default function Lookup({ data, target }: Props) {
   const [inputDomain, setInputDomain] = React.useState<string>(target);
@@ -471,7 +452,9 @@ export default function Lookup({ data, target }: Props) {
         }
       >
         <div
-          className={"flex flex-col items-center w-full h-fit max-w-[568px]"}
+          className={
+            "flex flex-col items-center w-full h-fit max-w-[568px] m-2"
+          }
         >
           <h1
             className={

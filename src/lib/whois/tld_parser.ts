@@ -22,10 +22,24 @@ export function parseWhoisData(rawData: string, domain: string) {
     rawContent.includes("this query returned 0 objects") ||
     rawContent.includes("not found") ||
     rawContent.includes("no entries found") ||
+    rawContent.includes("no data found")
+  ) {
+    throw new Error("Domain or TLD not found");
+  }
+
+  if (
+    rawContent.includes("invalid query") ||
+    rawContent.includes("invalid request") ||
+    rawContent.includes("invalid domain name") ||
+    rawContent.includes("invalid input") ||
+    rawContent.includes("invalid object") ||
+    rawContent.includes("invalid syntax") ||
+    rawContent.includes("invalid character") ||
+    rawContent.includes("invalid data") ||
     rawContent.includes("malformed query") ||
     rawContent.includes("malformed request")
   ) {
-    throw new Error("Domain or TLD not found");
+    throw new Error("Invalid format");
   }
 
   // rateLimited Match

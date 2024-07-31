@@ -132,3 +132,11 @@ textarea {
 textarea::-webkit-scrollbar {
   display: none;
 }
+
+.grow {
+  flex-grow: 1;
+}
+
+.no-capture {
+
+}

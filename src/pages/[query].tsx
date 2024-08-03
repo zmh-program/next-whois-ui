@@ -20,6 +20,9 @@ import {
   Loader2,
   Search,
   Send,
+  ShieldIcon,
+  ShieldOffIcon,
+  ShieldQuestionIcon,
   Unlink2,
 } from "lucide-react";
 import {
@@ -67,6 +70,22 @@ type ResultTableProps = {
   result?: WhoisAnalyzeResult;
   target: string;
 };
+
+function getDnssecIcon(dnssec?: string) {
+  if (!dnssec) {
+    return <ShieldQuestionIcon />;
+  }
+  const key = dnssec.toLowerCase();
+
+  switch (key) {
+    case "unsigned":
+      return <ShieldOffIcon />;
+    case "signed":
+      return <ShieldIcon />;
+    default:
+      return <ShieldQuestionIcon />;
+  }
+}
 
 function ResultTable({ result, target }: ResultTableProps) {
   const Row = ({
@@ -322,6 +341,12 @@ function ResultTable({ result, target }: ResultTableProps) {
             }
             hidden={result.nameServers.length === 0}
           />
+          <Row name={`DNSSEC`} value={result.dnssec} hidden={!result.dnssec}>
+            <Icon
+              className={`inline w-3.5 h-3.5 ml-1.5`}
+              icon={getDnssecIcon(result.dnssec)}
+            />
+          </Row>
         </tbody>
       </table>
     )

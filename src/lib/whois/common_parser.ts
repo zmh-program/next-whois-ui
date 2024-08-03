@@ -132,7 +132,8 @@ export function analyzeWhois(data: string): WhoisAnalyzeResult {
         result.registrantOrganization = value;
         break;
       case "descr":
-        result.registrantOrganization = value;
+        result.registrantOrganization === "Unknown" &&
+          (result.registrantOrganization = value);
         break;
       case "registrant state/province":
         result.registrantProvince = value;
@@ -160,6 +161,9 @@ export function analyzeWhois(data: string): WhoisAnalyzeResult {
           "Select Request Email Form at ",
           "",
         );
+        break;
+      case "dnssec":
+        result.dnssec = value;
         break;
       case "email":
         result.registrantEmail = value;

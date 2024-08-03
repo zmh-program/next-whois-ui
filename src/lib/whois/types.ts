@@ -21,6 +21,7 @@ export type WhoisAnalyzeResult = {
   registrantCountry: string;
   registrantPhone: string;
   registrantEmail: string;
+  dnssec: string;
   rawWhoisContent: string;
 
   cidr: string;
@@ -53,6 +54,7 @@ export const initialWhoisAnalyzeResult: WhoisAnalyzeResult = {
   registrantCountry: "Unknown",
   registrantPhone: "Unknown",
   registrantEmail: "Unknown",
+  dnssec: "",
   rawWhoisContent: "",
 
   cidr: "Unknown",

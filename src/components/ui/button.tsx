@@ -1,8 +1,8 @@
 import * as React from "react";
 import { Slot } from "@radix-ui/react-slot";
 import { cva, type VariantProps } from "class-variance-authority";
-
 import { cn } from "@/lib/utils";
+import Clickable from "@/components/motion/clickable";
 
 const buttonVariants = cva(
   "inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none disabled:pointer-events-none disabled:opacity-50",
@@ -39,18 +39,51 @@ export interface ButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement>,
     VariantProps<typeof buttonVariants> {
   asChild?: boolean;
+  tapScale?: number;
+  tapDuration?: number;
+  tapClassName?: string;
+  tapEnabled?: boolean;
 }
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, variant, size, asChild = false, ...props }, ref) => {
+  (
+    {
+      className,
+      variant,
+      size,
+      tapEnabled,
+      tapClassName,
+      tapScale,
+      tapDuration,
+      asChild = false,
+      ...props
+    },
+    ref,
+  ) => {
     const Comp = asChild ? Slot : "button";
-    return (
+    const Btn = (
       <Comp
         className={cn(buttonVariants({ variant, size, className }))}
         ref={ref}
         {...props}
       />
     );
+
+    const isTap =
+      tapEnabled || (tapClassName !== undefined && tapScale !== null);
+    if (isTap) {
+      return (
+        <Clickable
+          className={cn(tapClassName)}
+          tapScale={tapScale}
+          tapDuration={tapDuration}
+        >
+          {Btn}
+        </Clickable>
+      );
+    }
+
+    return Btn;
   },
 );
 Button.displayName = "Button";

@@ -101,6 +101,8 @@
     --ring: 240 4.9% 83.9%;
     --text: 0 0% 100%;
     --text-secondary: 0 0% 80%;
+
+    --shadow: #ffffff05 !important;
   }
 }
 

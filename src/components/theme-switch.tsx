@@ -15,7 +15,7 @@ import { Inter } from "next/font/google";
 
 const inter = Inter({ subsets: ["latin"] });
 
-export function ModeToggle() {
+export function ThemeToggle() {
   const { setTheme } = useTheme();
 
   return (

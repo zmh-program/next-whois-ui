@@ -2,11 +2,10 @@ import { MAX_IP_WHOIS_FOLLOW, MAX_WHOIS_FOLLOW } from "@/lib/env";
 import whois from "whois-raw";
 import { WhoisResult } from "@/lib/whois/types";
 import { parseWhoisData } from "@/lib/whois/tld_parser";
-import { countDuration, toErrorMessage } from "@/lib/utils";
-import { getDomain } from "tldjs";
+import { countDuration, extractDomain, toErrorMessage } from "@/lib/utils";
 
 export function getLookupOptions(domain: string) {
-  const isDomain = !!getDomain(domain);
+  const isDomain = !!extractDomain(domain);
   return {
     follow: isDomain ? MAX_WHOIS_FOLLOW : MAX_IP_WHOIS_FOLLOW,
   };

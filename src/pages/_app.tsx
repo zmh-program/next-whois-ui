@@ -7,7 +7,7 @@ import { Toaster } from "sonner";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { ThemeProvider } from "@/components/theme-provider";
-import { ModeToggle } from "@/components/theme-switch";
+import { ThemeToggle } from "@/components/theme-switch";
 import { strEnv } from "@/lib/env";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -45,12 +45,12 @@ export default function App({ Component, pageProps }: AppProps) {
               `absolute top-4 right-4 flex flex-row items-center z-50 space-x-2`,
             )}
           >
-            <ModeToggle />
+            <ThemeToggle />
             <Link
               href={`https://github.com/zmh-program/next-whois-ui`}
               target={`_blank`}
             >
-              <Button variant={`outline`} size={`icon`}>
+              <Button variant={`outline`} size={`icon`} tapEnabled>
                 <svg
                   role="img"
                   viewBox="0 0 24 24"

@@ -4,6 +4,7 @@ import React from "react";
 import { toast } from "sonner";
 import { getDomain } from "tldjs";
 import { ParsedUrlQuery } from "node:querystring";
+import { getSpecialDomain } from "@/lib/whois/lib";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -109,8 +110,16 @@ export function countDuration(startTime: number, _endTime?: number): number {
   return (endTime - startTime) / 1000; // seconds
 }
 
+export function extractDomain(url: string): string | null {
+  try {
+    return getDomain(getSpecialDomain(url));
+  } catch {
+    return null;
+  }
+}
+
 export function cleanDomain(domain: string): string {
-  const hostname = getDomain(domain);
+  const hostname = extractDomain(domain);
   if (hostname) {
     return hostname;
   }

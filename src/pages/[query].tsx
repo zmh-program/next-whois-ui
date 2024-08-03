@@ -47,6 +47,7 @@ import { useImageCapture } from "@/lib/image";
 import ErrorArea from "@/components/items/error-area";
 import RichTextarea from "@/components/items/rich-textarea";
 import InfoText from "@/components/items/info-text";
+import Clickable from "@/components/motion/clickable";
 
 type Props = {
   data: WhoisResult;
@@ -156,7 +157,7 @@ function ResultTable({ result, target }: ResultTableProps) {
             href={status.url}
             key={index}
             target={`_blank`}
-            className={`inline-flex flex-row whitespace-nowrap flex-nowrap items-center m-0.5 cursor-pointer px-1 py-0.5 border rounded text-xs`}
+            className={`inline-flex group flex-row whitespace-nowrap flex-nowrap items-center m-0.5 cursor-pointer px-1 py-0.5 border rounded text-xs`}
             onClick={(e) => {
               if (status.url === "expand") {
                 e.preventDefault();
@@ -169,7 +170,7 @@ function ResultTable({ result, target }: ResultTableProps) {
             {status.url !== "expand" && (
               <Icon
                 icon={status.url ? <Link2 /> : <Unlink2 />}
-                className={`w-3 h-3 mr-1 shrink-0`}
+                className={`w-3 h-3 mr-1 shrink-0 text-muted-foreground transition group-hover:text-primary`}
               />
             )}
             {status.status}
@@ -330,7 +331,7 @@ function ResultTable({ result, target }: ResultTableProps) {
                 {result.nameServers.map((ns, index) => (
                   <div
                     key={index}
-                    className={`text-secondary text-xs border cursor-pointer rounded-md px-1 py-0.5 mt-0.5 w-fit inline-flex flex-row items-center`}
+                    className={`text-secondary hover:text-primary transition duration-500 text-xs border cursor-pointer rounded-md px-1 py-0.5 mt-0.5 w-fit inline-flex flex-row items-center`}
                     onClick={() => copy(ns)}
                   >
                     <CopyIcon className={`w-2.5 h-2.5 mr-1`} />
@@ -386,6 +387,7 @@ const ResultComp = React.forwardRef<HTMLDivElement, Props>(
                       variant={`outline`}
                       size={`icon-sm`}
                       className={`ml-2`}
+                      tapEnabled
                     >
                       <Camera className={`w-4 h-4`} />
                     </Button>
@@ -408,6 +410,7 @@ const ResultComp = React.forwardRef<HTMLDivElement, Props>(
                         variant={`outline`}
                         onClick={() => capture(`whois-${target}`)}
                         className={`flex flex-row items-center w-full max-w-[768px] mx-auto`}
+                        tapEnabled
                       >
                         <Camera className={`w-4 h-4 mr-2`} />
                         Capture
@@ -417,18 +420,30 @@ const ResultComp = React.forwardRef<HTMLDivElement, Props>(
                 </Drawer>
               )}
               <div className={`flex-grow`} />
-              <Badge
-                className={`inline-flex max-w-36 md:max-w-64 flex-row items-center cursor-pointer ml-2 mr-1 select-none`}
-                onClick={() => copy(target)}
-              >
-                <div
+              <Clickable className={`w-fit h-fit inline-flex ml-2 mr-1`}>
+                <Badge
                   className={cn(
-                    "w-2 h-2 shrink-0 rounded-full mr-1",
-                    status ? "bg-green-500" : "bg-red-500",
+                    `inline-flex max-w-36 md:max-w-64 flex-row items-center space-x-1 cursor-pointer select-none`,
+                    isCapture && "max-w-72",
                   )}
-                />
-                <p className={`grow text-ellipsis overflow-hidden`}>{target}</p>
-              </Badge>
+                  onClick={() => copy(target)}
+                >
+                  <div
+                    className={cn(
+                      "w-2 h-2 shrink-0 rounded-full",
+                      status ? "bg-green-500" : "bg-red-500",
+                    )}
+                  />
+                  <p
+                    className={cn(
+                      `grow`,
+                      !isCapture && `text-ellipsis overflow-hidden`,
+                    )}
+                  >
+                    {target}
+                  </p>
+                </Badge>
+              </Clickable>
               <Badge variant={`outline`}>{time.toFixed(2)}s</Badge>
             </CardTitle>
             <CardContent className={`w-full p-0`}>
@@ -496,7 +511,7 @@ export default function Lookup({ data, target }: Props) {
           </p>
           <div className={"relative flex flex-row items-center w-full mt-2"}>
             <Input
-              className={`w-full text-center`}
+              className={`w-full text-center transition-all duration-300 hover:shadow`}
               placeholder={`domain name (e.g. google.com, 8.8.8.8)`}
               value={inputDomain}
               onChange={(e) => setInputDomain(e.target.value)}
@@ -520,7 +535,10 @@ export default function Lookup({ data, target }: Props) {
             </Button>
           </div>
           <div
-            className={`flex items-center flex-row w-full text-xs mt-1.5 select-none text-secondary`}
+            className={cn(
+              `flex items-center flex-row w-full text-xs mt-1.5 select-none text-secondary transition`,
+              loading && "text-primary",
+            )}
           >
             <div className={`flex-grow`} />
             <CornerDownRight className={`w-3 h-3 mr-1`} />

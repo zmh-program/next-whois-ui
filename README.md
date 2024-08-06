@@ -15,10 +15,10 @@ No need to say more, just try it out! 🥳
 1. ✨ **Pretty UI**: Modern design with [Shadcn UI](https://ui.shadcn.com), make you feel comfortable.
 2. 📱 **Responsive**: Works well on Mobile✅ / Tablet✅ / Desktop✅.
 3. 🌈 **Multi Theme**: Multi theme support (*Light & Dark*), system theme detection, switch theme as you like.
-4. 🚀 **Fast Query**: Powered by Next.js, support serverless deployment.
+4. 🚀 **Flexible Query**: Powered by Next.js, support serverless deployment and fast query.
 5. 📚 **Record History**: History records are stored in local storage, easy to view and query history.
 6. 📡 **Open API**: Simple API for whois query, easy to integrate with other services.
-7. 🌍 **IPv4 & IPv6 Whois**: Support IPv4 & IPv6 whois query.
+7. 🌍 **IPv4 & IPv6 Whois**: Support IPv4, IPv6, Domain, ASN, CIDR whois query.
 8. 📦 **Result Capture**: Capture whois result, easy to share and save.
 9. 📡 **Whois Cache**: Support whois cache based on Redis, improve query speed.
 10. 🌍 [WIP] **Internationalization**: Support multiple languages. ([#6](https://github.com/zmh-program/next-whois-ui/issues/6))

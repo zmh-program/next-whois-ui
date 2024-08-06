@@ -20,7 +20,7 @@ No need to say more, just try it out! 🥳
 6. 📡 **Open API**: Simple API for whois query, easy to integrate with other services.
 7. 🌍 **IPv4 & IPv6 Whois**: Support IPv4 & IPv6 whois query.
 8. 📦 **Result Capture**: Capture whois result, easy to share and save.
-9. 📡 [WIP] **Whois Cache & Retry**: Cache whois result by redis. ([#4](https://github.com/zmh-program/next-whois-ui/issues/4))
+9. 📡 **Whois Cache**: Support whois cache based on Redis, improve query speed.
 10. 🌍 [WIP] **Internationalization**: Support multiple languages. ([#6](https://github.com/zmh-program/next-whois-ui/issues/6))
 
 👉 [Create Pull Request](https://github.com/zmh-program/next-whois-ui/pulls)
@@ -44,12 +44,25 @@ pnpm dev
 ```
 
 ## 📏 Envs
+
+### SEO
 - `NEXT_PUBLIC_SITE_TITLE`: Site Title
 - `NEXT_PUBLIC_SITE_DESCRIPTION`: Site Description
 - `NEXT_PUBLIC_SITE_KEYWORDS`: Site Keywords
+
+### WHOIS
 - `NEXT_PUBLIC_HISTORY_LIMIT`: History Limit (Default: 6)
 - `NEXT_PUBLIC_MAX_WHOIS_FOLLOW`: Max Domain Whois Follow (Default: 0)
 - `NEXT_PUBLIC_MAX_IP_WHOIS_FOLLOW`: Max IP Whois Follow (Default: 5)
+
+### CACHE
+> TIP: If you want to enable Redis Cache, you need to set the following environment variables.
+- `REDIS_HOST`: Redis Host
+- `REDIS_PORT`: Redis Port
+- `REDIS_PASSWORD`: Redis Password
+- `REDIS_DB`: Redis DB (Default: 0)
+- `REDIS_CACHE_TTL`: Redis Cache TTL Secs (Default: 3600)
+
 ## 📝 API Reference
 `GET` `/api/lookup?query=google.com`
 
@@ -60,6 +73,7 @@ pnpm dev
 {
   "time": 1.547,
   "status": true,
+  "cached": false,
   "result": {
     "domain": "GOOGLE.COM",
     "registrar": "MarkMonitor Inc.",

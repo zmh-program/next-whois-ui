@@ -1,6 +1,7 @@
 export type WhoisResult = {
   status: boolean;
   time: number;
+  cached?: boolean;
   result?: WhoisAnalyzeResult;
   error?: string;
 };

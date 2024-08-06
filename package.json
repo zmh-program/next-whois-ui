@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "turbo": "next dev --turbo",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
@@ -20,6 +21,7 @@
     "clsx": "^2.1.0",
     "framer-motion": "^11.3.21",
     "html-to-image": "^1.11.11",
+    "ioredis": "^5.4.1",
     "lucide-react": "^0.414.0",
     "moment": "^2.30.1",
     "net": "^1.0.2",

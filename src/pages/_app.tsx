@@ -8,7 +8,7 @@ import Link from "next/link";
 import { ThemeProvider } from "@/components/theme-provider";
 import { ThemeToggle } from "@/components/theme-switch";
 import { strEnv } from "@/lib/env";
-import { inter } from "@/lib/global";
+import { inter } from "@/lib/fonts";
 
 const siteTitle = strEnv("NEXT_PUBLIC_SITE_TITLE", "Next Whois UI");
 const siteDescription = strEnv(

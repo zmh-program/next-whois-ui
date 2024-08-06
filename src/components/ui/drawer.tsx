@@ -2,7 +2,7 @@ import * as React from "react";
 import { Drawer as DrawerPrimitive } from "vaul";
 
 import { cn } from "@/lib/utils";
-import { inter } from "@/lib/global";
+import { inter } from "@/lib/fonts";
 
 const Drawer = ({
   shouldScaleBackground = true,

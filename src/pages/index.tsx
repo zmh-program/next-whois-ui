@@ -139,12 +139,8 @@ export default function Home() {
                       `text-sm w-full h-full`,
                       `flex flex-row items-center`,
                       `border rounded-md pl-3.5 pr-2.5 py-2 text-secondary`,
-                      `group transition duration-500 ease-in-out`,
-                      `hover:bg-background hover:text-primary hover:border-hover`,
-
-                      // // if the last element is the only one, then it takes two cells
-                      // (index === history.length - 1 && history.length % 2 === 1)
-                      //   && "md:col-span-2 md:w-1/2 md:mx-auto",
+                      `group transition duration-300 bg-muted/20 hover:bg-muted/40`,
+                      `hover:text-primary hover:border-hover`,
                     )}
                     href={toSearchURI(item)}
                     key={index}
@@ -167,11 +163,13 @@ export default function Home() {
                         trashMode && "text-red-600/80",
                       )}
                     />
-                    <p className={`grow text-ellipsis overflow-hidden`}>
+                    <p
+                      className={`grow text-ellipsis overflow-hidden text-primary`}
+                    >
                       {item}
                     </p>
                     <ChevronRight
-                      className={`transition-all shrink-0 w-4 h-4 ml-auto mr-1 group-hover:mr-0`}
+                      className={`transition-all shrink-0 w-4 h-4 ml-auto mr-0.5`}
                     />
                   </Link>
                 </Clickable>

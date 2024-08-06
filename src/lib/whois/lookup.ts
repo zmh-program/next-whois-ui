@@ -3,6 +3,7 @@ import whois from "whois-raw";
 import { WhoisResult } from "@/lib/whois/types";
 import { parseWhoisData } from "@/lib/whois/tld_parser";
 import { countDuration, extractDomain, toErrorMessage } from "@/lib/utils";
+import { getJsonRedisValue, setJsonRedisValue } from "@/lib/server/redis";
 
 export function getLookupOptions(domain: string) {
   const isDomain = !!extractDomain(domain);
@@ -51,4 +52,28 @@ export async function lookupWhois(domain: string): Promise<WhoisResult> {
       error: toErrorMessage(e),
     };
   }
+}
+
+export async function lookupWhoisWithCache(
+  domain: string,
+): Promise<WhoisResult> {
+  const key = `whois:${domain}`;
+  const cached = await getJsonRedisValue<WhoisResult>(key);
+  if (cached) {
+    return {
+      ...cached,
+      time: 0,
+      cached: true,
+    };
+  }
+
+  const result = await lookupWhois(domain);
+  if (result.status) {
+    await setJsonRedisValue<WhoisResult>(key, result);
+  }
+
+  return {
+    ...result,
+    cached: false,
+  };
 }

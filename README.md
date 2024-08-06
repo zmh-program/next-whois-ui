@@ -56,10 +56,9 @@ pnpm dev
 - `NEXT_PUBLIC_MAX_IP_WHOIS_FOLLOW`: Max IP Whois Follow (Default: 5)
 
 ### CACHE
-> TIP: If you want to enable Redis Cache, you need to set the following environment variables.
-- `REDIS_HOST`: Redis Host
-- `REDIS_PORT`: Redis Port
-- `REDIS_PASSWORD`: Redis Password
+- `REDIS_HOST`: Redis Host (CACHE DISABLED WHEN EMPTY)
+- `REDIS_PORT`: Redis Port (Default: 6379)
+- `REDIS_PASSWORD`: Redis Password (OPTIONAL)
 - `REDIS_DB`: Redis DB (Default: 0)
 - `REDIS_CACHE_TTL`: Redis Cache TTL Secs (Default: 3600)
 

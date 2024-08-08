@@ -13,7 +13,7 @@
 No need to say more, just try it out! 🥳
 
 1. ✨ **Pretty UI**: Modern design with [Shadcn UI](https://ui.shadcn.com), make you feel comfortable.
-2. 📱 **Responsive**: Works well on Mobile✅ / Tablet✅ / Desktop✅.
+2. 📱 **Responsive**: Works well on Mobile✅ / Tablet✅ / Desktop✅, PWA App Support.
 3. 🌈 **Multi Theme**: Multi theme support (*Light & Dark*), system theme detection, switch theme as you like.
 4. 🚀 **Flexible Query**: Powered by Next.js, support serverless deployment and fast query.
 5. 📚 **Record History**: History records are stored in local storage, easy to view and query history.

@@ -133,7 +133,7 @@ export default function Home() {
               className={`mt-6 md:mt-8 grid grid-cols-1 md:grid-cols-2 gap-2 w-full h-fit`}
             >
               {history.map((item, index) => (
-                <Clickable tapScale={0.985}>
+                <Clickable tapScale={0.985} key={index}>
                   <Link
                     className={cn(
                       `text-sm w-full h-full`,
@@ -143,7 +143,6 @@ export default function Home() {
                       `hover:text-primary hover:border-hover`,
                     )}
                     href={toSearchURI(item)}
-                    key={index}
                     onClick={(e) => {
                       if (trashMode) {
                         e.preventDefault();

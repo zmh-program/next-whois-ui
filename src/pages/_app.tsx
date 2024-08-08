@@ -13,7 +13,7 @@ import { inter } from "@/lib/fonts";
 const siteTitle = strEnv("NEXT_PUBLIC_SITE_TITLE", "Next Whois UI");
 const siteDescription = strEnv(
   "NEXT_PUBLIC_SITE_DESCRIPTION",
-  "Next Whois Lookup Tool, Support Domain/IPv4/IPv6/ASN/CIDR Whois Lookup, Provided Beautiful, Clean and Simple UI.",
+  "🧪 Your Next Generation Of Whois Lookup Tool With Modern UI. Support Domain/IPv4/IPv6/ASN/CIDR Whois Lookup And Powerful Features.",
 );
 const siteKeywords = strEnv(
   "NEXT_PUBLIC_SITE_KEYWORDS",

@@ -141,3 +141,10 @@ export function cleanDomainQuery(query: ParsedUrlQuery): string {
 
   return cleanDomain(domain);
 }
+
+export function getWindowHref(): string {
+  // if in server side, return empty string
+  if (typeof window === "undefined") return "";
+
+  return window.location.href;
+}

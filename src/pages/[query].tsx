@@ -2,6 +2,7 @@ import { lookupWhoisWithCache } from "@/lib/whois/lookup";
 import {
   cleanDomainQuery,
   cn,
+  getWindowHref,
   isEnter,
   toReadableISODate,
   toSearchURI,
@@ -366,6 +367,8 @@ const ResultComp = React.forwardRef<HTMLDivElement, Props>(
 
     const { status, result, error, time } = data;
 
+    const current = getWindowHref();
+
     return (
       <div
         className={cn(
@@ -412,7 +415,7 @@ const ResultComp = React.forwardRef<HTMLDivElement, Props>(
                   <Button
                     variant={`outline`}
                     onClick={() => capture(`whois-${target}`)}
-                    className={`flex flex-row items-center w-full max-w-[768px] mx-auto`}
+                    className={`flex flex-row items-center w-full max-w-[568px] mx-auto`}
                     tapEnabled
                   >
                     <Camera className={`w-4 h-4 mr-2`} />
@@ -455,13 +458,13 @@ const ResultComp = React.forwardRef<HTMLDivElement, Props>(
                   <Link
                     href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(
                       `Whois Lookup Result: ${target} - ${status ? "Success" : "Failed"}`,
-                    )}&url=${encodeURIComponent(location.href)}`}
+                    )}&url=${encodeURIComponent(current)}`}
                     target={`_blank`}
                   >
                     <Button size={`icon-sm`} variant={`outline`} tapEnabled>
                       <svg
                         role="img"
-                        className="h-3.5 w-3.5"
+                        className="h-3.5 w-3.5 fill-primary"
                         viewBox="0 0 24 24"
                         xmlns="http://www.w3.org/2000/svg"
                       >
@@ -474,14 +477,14 @@ const ResultComp = React.forwardRef<HTMLDivElement, Props>(
                   {/*  facebook */}
                   <Link
                     href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
-                      location.href,
+                      current,
                     )}`}
                     target={`_blank`}
                   >
                     <Button size={`icon-sm`} variant={`outline`} tapEnabled>
                       <svg
                         role="img"
-                        className="h-4 w-4"
+                        className="h-4 w-4 fill-primary"
                         viewBox="0 0 24 24"
                         xmlns="http://www.w3.org/2000/svg"
                       >
@@ -494,14 +497,14 @@ const ResultComp = React.forwardRef<HTMLDivElement, Props>(
                   {/*  reddit */}
                   <Link
                     href={`https://reddit.com/submit?url=${encodeURIComponent(
-                      location.href,
+                      current,
                     )}`}
                     target={`_blank`}
                   >
                     <Button size={`icon-sm`} variant={`outline`} tapEnabled>
                       <svg
                         role="img"
-                        className="h-4 w-4"
+                        className="h-4 w-4 fill-primary"
                         viewBox="0 0 24 24"
                         xmlns="http://www.w3.org/2000/svg"
                       >
@@ -514,14 +517,14 @@ const ResultComp = React.forwardRef<HTMLDivElement, Props>(
                   {/*  whatsapp */}
                   <Link
                     href={`https://api.whatsapp.com/send?text=${encodeURIComponent(
-                      location.href,
+                      current,
                     )}`}
                     target={`_blank`}
                   >
                     <Button size={`icon-sm`} variant={`outline`} tapEnabled>
                       <svg
                         role="img"
-                        className="h-4 w-4"
+                        className="h-4 w-4 fill-primary"
                         viewBox="0 0 24 24"
                         xmlns="http://www.w3.org/2000/svg"
                       >
@@ -534,14 +537,14 @@ const ResultComp = React.forwardRef<HTMLDivElement, Props>(
                   {/*  telegram */}
                   <Link
                     href={`https://t.me/share/url?url=${encodeURIComponent(
-                      location.href,
+                      current,
                     )}`}
                     target={`_blank`}
                   >
                     <Button size={`icon-sm`} variant={`outline`} tapEnabled>
                       <svg
                         role="img"
-                        className="h-4 w-4"
+                        className="h-4 w-4 fill-primary"
                         viewBox="0 0 24 24"
                         xmlns="http://www.w3.org/2000/svg"
                       >
@@ -557,13 +560,13 @@ const ResultComp = React.forwardRef<HTMLDivElement, Props>(
                   >
                     <Input
                       className={`flex-grow border-r-0 rounded-r-none text-center`}
-                      value={location.href}
+                      value={current}
                       readOnly
                     />
                     <Button
                       size={`icon`}
                       variant={`secondary`}
-                      onClick={() => copy(location.href)}
+                      onClick={() => copy(current)}
                       className={`rounded-l-none`}
                       tapEnabled
                     >
@@ -577,7 +580,7 @@ const ResultComp = React.forwardRef<HTMLDivElement, Props>(
         )}
         <Card
           ref={ref}
-          className={cn("shadow", isCapture && "w-fit max-w-[768px]")}
+          className={cn(isCapture ? "w-full max-w-[568px]" : "shadow")}
         >
           <CardHeader>
             <CardTitle

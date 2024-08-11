@@ -34,18 +34,17 @@ export default function App({ Component, pageProps }: AppProps) {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
       <Toaster />
-      <PWAInstaller
-        manifest-url="/manifest.json"
-        name="Next Whois UI"
-        description="🧪 Your Next Generation Of Whois Lookup Tool With Modern UI. Support Domain/IPv4/IPv6/ASN/CIDR Whois Lookup And Powerful Features."
-        icon="/icons/icon-192x192.png"
-      />
       <ThemeProvider
         attribute="class"
         defaultTheme="system"
         enableSystem
         disableTransitionOnChange
       >
+        <PWAInstaller
+          manifest-url="/manifest.json"
+          name="Next Whois UI"
+          description="🧪 Your Next Generation Of Whois Lookup Tool With Modern UI. Support Domain/IPv4/IPv6/ASN/CIDR Whois Lookup And Powerful Features."
+        />
         <div className={cn(`relative w-full h-full`, inter.className)}>
           <div
             className={cn(

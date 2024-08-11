@@ -92,7 +92,7 @@ export default function Home() {
             value={domain}
             onChange={(e) => setDomain(e.target.value)}
             onKeyDown={(e) => {
-              if (isEnter(e)) {
+              if (isEnter(e) && domain.length > 0) {
                 goStage(domain);
                 window.location.href = toSearchURI(domain);
               }
@@ -106,8 +106,10 @@ export default function Home() {
             <Button
               size={`icon`}
               variant={`outline`}
-              className={`rounded-l-none transition`}
-              disabled={domain.length === 0}
+              className={cn(
+                `rounded-l-none transition duration-300`,
+                domain.length === 0 && "text-muted-foreground",
+              )}
             >
               {loading ? (
                 <Loader2 className={`w-4 h-4 animate-spin`} />

@@ -488,7 +488,7 @@ export default function Lookup({ data, target }: Props) {
     <ScrollArea className={`w-full h-full`}>
       <main
         className={
-          "relative w-full min-h-full grid place-items-center px-4 pt-20 pb-6"
+          "relative w-full min-h-full grid place-items-center px-4 pt-24 pb-6"
         }
       >
         <div

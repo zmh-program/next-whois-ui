@@ -9,6 +9,7 @@ import { ThemeProvider } from "@/components/theme-provider";
 import { ThemeToggle } from "@/components/theme-switch";
 import { strEnv } from "@/lib/env";
 import { inter } from "@/lib/fonts";
+import PWAInstaller, { usePWAInstaller } from "@/components/PWAInstaller";
 
 const siteTitle = strEnv("NEXT_PUBLIC_SITE_TITLE", "Next Whois UI");
 const siteDescription = strEnv(
@@ -21,6 +22,8 @@ const siteKeywords = strEnv(
 );
 
 export default function App({ Component, pageProps }: AppProps) {
+  const { install } = usePWAInstaller();
+
   return (
     <>
       <Head>
@@ -31,6 +34,12 @@ export default function App({ Component, pageProps }: AppProps) {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
       <Toaster />
+      <PWAInstaller
+        manifest-url="/manifest.json"
+        name="Next Whois UI"
+        description="🧪 Your Next Generation Of Whois Lookup Tool With Modern UI. Support Domain/IPv4/IPv6/ASN/CIDR Whois Lookup And Powerful Features."
+        icon="/icons/icon-192x192.png"
+      />
       <ThemeProvider
         attribute="class"
         defaultTheme="system"
@@ -40,9 +49,18 @@ export default function App({ Component, pageProps }: AppProps) {
         <div className={cn(`relative w-full h-full`, inter.className)}>
           <div
             className={cn(
-              `absolute top-4 right-4 flex flex-row items-center z-50 space-x-2`,
+              `absolute w-full p-2 px-4 bg-background border-b select-none flex flex-row items-center z-50 space-x-2`,
             )}
           >
+            <img
+              src={`/icons/icon-192x192.png`}
+              alt={``}
+              className={`cursor-pointer w-10 h-10 p-1 shadow-sm bg-black border rounded-md transition hover:shadow`}
+              onClick={() => {
+                install(true);
+              }}
+            />
+            <div className={`grow`} />
             <ThemeToggle />
             <Link
               href={`https://github.com/zmh-program/next-whois-ui`}

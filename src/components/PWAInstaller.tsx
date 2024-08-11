@@ -21,7 +21,7 @@ export function usePWAInstaller() {
   return {
     install: (force?: boolean) => {
       const installer = getInstallerElement();
-      installer?.install();
+      installer?.install(force);
     },
   };
 }

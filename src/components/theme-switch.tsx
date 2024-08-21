@@ -11,11 +11,9 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Inter } from "next/font/google";
+import { inter } from "@/lib/fonts";
 
-const inter = Inter({ subsets: ["latin"] });
-
-export function ModeToggle() {
+export function ThemeToggle() {
   const { setTheme } = useTheme();
 
   return (

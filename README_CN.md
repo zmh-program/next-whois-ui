@@ -5,7 +5,7 @@
 
 😎 现代代 Whois 查询工具
 
-[English](README.md) | [简体中文](README_CN.md)
+[English](README.md) · [简体中文](README_CN.md) · [繁體中文](README_TW.md)
 
 [![Deploy to Vercel](https://vercel.com/button)](https://vercel.com/import/project?template=https://github.com/zmh-program/next-whois-ui)
 
@@ -19,14 +19,14 @@
 
 1. ✨ **美观界面**：采用现代简约设计的 [Shadcn UI](https://ui.shadcn.com) 风格。
 2. 📱 **响应式设计**：适配手机端✅ / Pad✅ / 桌面端✅，并支持 PWA 应用。
-3. 🌈 **多主题支持**：支持多种主题（*亮色 & 暗色*），系统主题自动检测，随心切换。
-4. 🚀 **灵活的查询**：基于 Next.js，支持无服务器部署，更快查询速度。
+3. 🌈 **多主题支持**：支持亮/暗色切换，自动检测系统主题。
+4. 🚀 **灵活查询**：基于 Next.js，支持无服务器部署，更快查询速度。
 5. 📚 **历史记录**：历史记录存储在本地存储中，方便查看和查询历史。
-6. 📡 **开放 API**：提供简单的 whois 查询 API，易于与其他服务集成。
-7. 🌍 **IPv4 & IPv6 Whois 查询**：支持 IPv4、IPv6、域名、ASN、CIDR 的 Whois 查询。
-8. 📦 **查询结果分享**：支持获取 Whois 查询结果，方便分享和保存。
-9. 📡 **Whois 缓存**：支持基于 Redis 的 Whois 缓存，提升查询速度。
-10. 🌍 [计划] **国际化**：支持多语言。([#6](https://github.com/zmh-program/next-whois-ui/issues/6))
+6. 📡 **开放接口**：提供简单的 whois 查询 API，易于与其他服务集成。
+7. 🌍 **强大支持**：支持 IPv4、IPv6、域名、ASN、CIDR 的 Whois 查询。
+8. 📦 **结果分享**：支持获取 Whois 查询结果，方便分享和保存。
+9. 📡 **结果缓存**：支持基于 Redis 的 Whois 缓存，提升查询速度。
+10. 🌍 [计划] **国际化**：支持多语言 ([#6](https://github.com/zmh-program/next-whois-ui/issues/6))
 
 👉 [贡献代码](https://github.com/zmh-program/next-whois-ui/pulls)
 

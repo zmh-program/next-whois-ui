@@ -1,9 +1,10 @@
 <div align="center">
 
 # 🧪 Next Whois UI
-😎 Lightweight & Beautiful Whois Query Tool
 
-[English](README.md) · [简体中文](README_CN.md) · [繁體中文](README_TW.md)
+😎 現代代 Whois 查詢工具
+
+[English](README.md) · [簡體中文](README_CN.md) · [繁體中文](README_TW.md)
 
 [![Deploy to Vercel](https://vercel.com/button)](https://vercel.com/import/project?template=https://github.com/zmh-program/next-whois-ui)
 
@@ -11,31 +12,37 @@
 
 </div>
 
-## 😎 Features
-No need to say more, just try it out! 🥳
+## 😎 特性
 
-1. ✨ **Pretty UI**: Modern design with [Shadcn UI](https://ui.shadcn.com), make you feel comfortable.
-2. 📱 **Responsive**: Works well on Mobile✅ / Tablet✅ / Desktop✅, PWA App Support.
-3. 🌈 **Multi Theme**: Multi theme support (*Light & Dark*), system theme detection, switch theme as you like.
-4. 🚀 **Flexible Query**: Powered by Next.js, support serverless deployment and fast query.
-5. 📚 **Record History**: History records are stored in local storage, easy to view and query history.
-6. 📡 **Open API**: Simple API for whois query, easy to integrate with other services.
-7. 🌍 **IPv4 & IPv6 Whois**: Support IPv4, IPv6, Domain, ASN, CIDR whois query.
-8. 📦 **Result Capture**: Capture whois result, easy to share and save.
-9. 📡 **Whois Cache**: Support whois cache based on Redis, improve query speed.
-10. 🌍 [WIP] **Internationalization**: Support multiple languages. ([#6](https://github.com/zmh-program/next-whois-ui/issues/6))
+無需多言，直接試試吧！🥳
 
-👉 [Create Pull Request](https://github.com/zmh-program/next-whois-ui/pulls)
+1. ✨ **美觀界麵**：採用現代簡約設計的 [Shadcn UI](https://ui.shadcn.com) 風格。
+2. 📱 **響應式設計**：適配手機端✅ / Pad✅ / 桌麵端✅，並支持 PWA 應用。
+3. 🌈 **多主題支持**：支持亮/暗色切換，自動檢測繫統主題。
+4. 🚀 **靈活查詢**：基於 Next.js，支持無服務器部署，更快查詢速度。
+5. 📚 **曆史記錄**：曆史記錄存儲在本地存儲中，方便查看和查詢曆史。
+6. 📡 **開放接口**：提供簡單的 whois 查詢 API，易於與其他服務集成。
+7. 🌍 **強大支持**：支持 IPv4、IPv6、域名、ASN、CIDR 的 Whois 查詢。
+8. 📦 **結果分享**：支持獲取 Whois 查詢結果，方便分享和保存。
+9. 📡 **結果緩存**：支持基於 Redis 的 Whois 緩存，提昇查詢速度。
+10. 🌍 [計劃] **國際化**：支持多語言 ([#6](https://github.com/zmh-program/next-whois-ui/issues/6))
 
-## Deploy
-#### `1` 🚀 Platforms (Recommended)
+👉 [貢獻代碼](https://github.com/zmh-program/next-whois-ui/pulls)
+
+## 部署
+
+#### `1` 🚀 雲平颱部署（推薦）
+
 [Vercel](https://vercel.com/import/project?template=https://github.com/zmh-program/next-whois-ui) / [Netlify](https://app.netlify.com/start/deploy?repository=https://github.com/zmh-program/next-whois-ui) / [Zeabur](https://zeabur.com/templates/UHCCCT)
-#### `2` 🐳 Docker
+
+#### `2` 🐳 Docker 部署
+
 ```bash
 docker run -d -p 3000:3000 programzmh/next-whois-ui
 ```
 
-#### `3` 🔨 Source Code
+#### `3` 🔨 源碼部署
+
 ```bash
 git clone https://github.com/zmh-program/next-whois-ui
 cd next-whois-ui
@@ -45,30 +52,34 @@ pnpm install
 pnpm dev
 ```
 
-## 📏 Envs
+## 📏 環境變量
 
 ### SEO
-- `NEXT_PUBLIC_SITE_TITLE`: Site Title
-- `NEXT_PUBLIC_SITE_DESCRIPTION`: Site Description
-- `NEXT_PUBLIC_SITE_KEYWORDS`: Site Keywords
+
+- `NEXT_PUBLIC_SITE_TITLE`: 站點標題
+- `NEXT_PUBLIC_SITE_DESCRIPTION`: 站點描述
+- `NEXT_PUBLIC_SITE_KEYWORDS`: 站點關鍵詞
 
 ### WHOIS
-- `NEXT_PUBLIC_HISTORY_LIMIT`: History Limit (Default: 6)
-- `NEXT_PUBLIC_MAX_WHOIS_FOLLOW`: Max Domain Whois Follow (Default: 0)
-- `NEXT_PUBLIC_MAX_IP_WHOIS_FOLLOW`: Max IP Whois Follow (Default: 5)
 
-### CACHE
-- `REDIS_HOST`: Redis Host (CACHE DISABLED WHEN EMPTY)
-- `REDIS_PORT`: Redis Port (Default: 6379)
-- `REDIS_PASSWORD`: Redis Password (OPTIONAL)
-- `REDIS_DB`: Redis DB (Default: 0)
-- `REDIS_CACHE_TTL`: Redis Cache TTL Secs (Default: 3600)
+- `NEXT_PUBLIC_HISTORY_LIMIT`: 曆史記錄限製（默認值：6）
+- `NEXT_PUBLIC_MAX_WHOIS_FOLLOW`: 最大域名 Whois 跟隨數（默認值：0）
+- `NEXT_PUBLIC_MAX_IP_WHOIS_FOLLOW`: 最大 IP Whois 跟隨數（默認值：5）
 
-## 📝 API Reference
+### 緩存
+
+- `REDIS_HOST`: Redis 主機（如果爲空則禁用緩存）
+- `REDIS_PORT`: Redis 端口（默認值：6379）
+- `REDIS_PASSWORD`: Redis 密碼（可選）
+- `REDIS_DB`: Redis 數據庫（默認值：0）
+- `REDIS_CACHE_TTL`: Redis 緩存 TTL 秒數（默認值：3600）
+
+## 📝 API 文檔
+
 `GET` `/api/lookup?query=google.com`
 
 <details>
-<summary><strong>Response</strong> OK (200)</summary>
+<summary><strong>響應</strong> OK (200)</summary>
 
 ```json
 {
@@ -125,10 +136,11 @@ pnpm dev
   }
 }
 ```
+
 </details>
 
 <details>
-<summary><strong>Error Response</strong> Internal Server Error (500)</summary>
+<summary><strong>錯誤響應</strong> Internal Server Error (500)</summary>
 
 ```json
 {
@@ -137,10 +149,11 @@ pnpm dev
   "error": "No match for domain google.notfound (e.g. domain is not registered)"
 }
 ```
+
 </details>
 
 <details>
-<summary><strong>Error Response</strong> Bad Request (400)</summary>
+<summary><strong>錯誤響應</strong> Bad Request (400)</summary>
 
 ```json
 {
@@ -149,14 +162,17 @@ pnpm dev
   "error": "Query is required"
 }
 ```
+
 </details>
 
-## 🧠 Tech Stack
+## 🧠 技術棧
+
 - Next.js
 - Shadcn UI & Tailwind CSS
 - Whois Core Lib (@[whois-raw](https://www.npmjs.com/package/whois-raw))
 
-## 💪 TLDs Support
-👉 [TLDs Whois Parser Lib Source Code](./src/lib/whois/lib.ts)
+## 💪 TLDs 支持
 
-❤ TIP: The Whois Parser for some TLDs may not be currently compatible, thanks for contributing your [Pull Request](https://github.com/zmh-program/next-whois-ui/pulls) to make this project support more TLDs!
+👉 [TLDs Whois 解析器庫源碼](./src/lib/whois/lib.ts)
+
+❤ 提示: 部分 TLDs 的 Whois 解析器可能暫不兼容，感謝您提交 [貢獻](https://github.com/zmh-program/next-whois-ui/pulls) 以便支持更多 TLDs！

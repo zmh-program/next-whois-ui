@@ -10,6 +10,7 @@ import { ThemeToggle } from "@/components/theme-switch";
 import { strEnv } from "@/lib/env";
 import { inter } from "@/lib/fonts";
 import PWAInstaller, { usePWAInstaller } from "@/components/PWAInstaller";
+import { appWithTranslation } from "next-i18next";
 
 const siteTitle = strEnv("NEXT_PUBLIC_SITE_TITLE", "Next Whois UI");
 const siteDescription = strEnv(
@@ -21,7 +22,7 @@ const siteKeywords = strEnv(
   "Whois, Lookup, Tool, Next Whois UI",
 );
 
-export default function App({ Component, pageProps }: AppProps) {
+function App({ Component, pageProps }: AppProps) {
   const { install } = usePWAInstaller();
 
   return (
@@ -84,3 +85,5 @@ export default function App({ Component, pageProps }: AppProps) {
     </>
   );
 }
+
+export default appWithTranslation(App);

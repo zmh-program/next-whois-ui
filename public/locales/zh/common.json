@@ -1,0 +1,16 @@
+{
+  "An error occurred": "发生错误",
+  "Lookup Failed": "查询失败",
+  "Toggle theme": "切换主题",
+  "Light": "浅色",
+  "Dark": "深色",
+  "System": "系统",
+  "Whois Lookup": "Whois 查询",
+  "Domain": "域名",
+  "IPv4": "IPv4",
+  "IPv6": "IPv6",
+  "ASN": "ASN",
+  "CIDR": "CIDR",
+  "domain name (e.g. google.com, 8.8.8.8)": "域名 (例如 google.com, 8.8.8.8)",
+  "Enter": "输入"
+}

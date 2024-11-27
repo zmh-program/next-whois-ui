@@ -1,9 +1,11 @@
 /** @type {import('next').NextConfig} */
 
 import setupPWA from 'next-pwa';
+import { i18n } from './next-i18next.config.mjs';
 
 const nextConfig = {
   reactStrictMode: true,
+  i18n,
 };
 
 const withPWA = setupPWA({

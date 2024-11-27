@@ -1,14 +1,16 @@
 import { useClipboard } from "@/lib/utils";
 import { CircleX, CopyIcon } from "lucide-react";
 import React from "react";
+import { useTranslation } from "react-i18next";
 
 export type ErrorAreaProps = {
   error?: string;
 };
 
 export default function ErrorArea({ error }: ErrorAreaProps) {
+  const { t } = useTranslation();
   const copy = useClipboard();
-  const errorText = error || "An error occurred";
+  const errorText = error || t("An error occurred");
 
   return (
     <div
@@ -16,7 +18,7 @@ export default function ErrorArea({ error }: ErrorAreaProps) {
     >
       <div className={`text-md inline-flex flex-row items-center`}>
         <CircleX className={`w-3.5 h-3.5 mr-1`} />
-        Lookup Failed
+        {t("Lookup Failed")}
       </div>
       <div className={`text-sm mt-2 text-center`}>
         <div

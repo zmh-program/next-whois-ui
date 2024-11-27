@@ -1,5 +1,6 @@
 import React from "react";
 import { cn } from "@/lib/utils";
+import { useTranslation } from "react-i18next";
 
 export interface InfoTextProps
   extends React.HTMLAttributes<HTMLDivElement>,
@@ -12,6 +13,8 @@ const InfoText: React.FC<InfoTextProps> = ({
   className,
   ...props
 }) => {
+  const { t } = useTranslation();
+
   return (
     <div
       className={cn(
@@ -20,7 +23,7 @@ const InfoText: React.FC<InfoTextProps> = ({
       )}
       {...props}
     >
-      {content}
+      {t(content)}
     </div>
   );
 };

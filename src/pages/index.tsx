@@ -17,8 +17,10 @@ import { cn, isEnter, toSearchURI } from "@/lib/utils";
 import { addHistory, listHistory, removeHistory } from "@/lib/history";
 import Icon from "@/components/icon";
 import Clickable from "@/components/motion/clickable";
+import { useTranslation } from "react-i18next";
 
 export default function Home() {
+  const { t, i18n } = useTranslation();
   const [domain, setDomain] = React.useState<string>("");
   const [loading, setLoading] = React.useState<boolean>(false);
   const [history, setHistory] = React.useState<string[]>([]);
@@ -30,6 +32,10 @@ export default function Home() {
     setLoading(true);
   };
 
+  const changeLanguage = (lng: string) => {
+    i18n.changeLanguage(lng);
+  };
+
   return (
     <main className={"w-full h-full grid place-items-center p-4 md:p-6"}>
       <div className={"flex flex-col items-center w-full h-fit max-w-[568px]"}>
@@ -39,7 +45,7 @@ export default function Home() {
           }
         >
           <Search className={`w-4 h-4 md:w-6 md:h-6 mr-1 md:mr-1.5 shrink-0`} />
-          Whois Lookup
+          {t('Whois Lookup')}
         </h1>
         <div
           className={"flex flex-row items-center flex-wrap justify-center mt-1"}
@@ -50,7 +56,7 @@ export default function Home() {
             }
           >
             <CheckIcon className={`w-4 h-4 mr-1 shrink-0`} />
-            <p>Domain</p>
+            <p>{t('Domain')}</p>
           </div>
           <div
             className={
@@ -58,7 +64,7 @@ export default function Home() {
             }
           >
             <CheckIcon className={`w-4 h-4 mr-1 shrink-0`} />
-            <p>IPv4</p>
+            <p>{t('IPv4')}</p>
           </div>
           <div
             className={
@@ -66,7 +72,7 @@ export default function Home() {
             }
           >
             <CheckIcon className={`w-4 h-4 mr-1 shrink-0`} />
-            <p>IPv6</p>
+            <p>{t('IPv6')}</p>
           </div>
           <div
             className={
@@ -74,7 +80,7 @@ export default function Home() {
             }
           >
             <CheckIcon className={`w-4 h-4 mr-1 shrink-0`} />
-            <p>ASN</p>
+            <p>{t('ASN')}</p>
           </div>
           <div
             className={
@@ -82,13 +88,13 @@ export default function Home() {
             }
           >
             <CheckIcon className={`w-4 h-4 mr-1 shrink-0`} />
-            <p>CIDR</p>
+            <p>{t('CIDR')}</p>
           </div>
         </div>
         <div className={"relative flex flex-row items-center w-full mt-2"}>
           <Input
             className={`w-full text-center transition-all duration-300 hover:shadow`}
-            placeholder={`domain name (e.g. google.com, 8.8.8.8)`}
+            placeholder={t('domain name (e.g. google.com, 8.8.8.8)')}
             value={domain}
             onChange={(e) => setDomain(e.target.value)}
             onKeyDown={(e) => {
@@ -127,7 +133,7 @@ export default function Home() {
         >
           <div className={`flex-grow`} />
           <CornerDownRight className={`w-3 h-3 mr-1`} />
-          <p className={`px-1 py-0.5 border rounded-md`}>Enter</p>
+          <p className={`px-1 py-0.5 border rounded-md`}>{t('Enter')}</p>
         </div>
         {history.length > 0 && (
           <>
@@ -191,6 +197,24 @@ export default function Home() {
             </div>
           </>
         )}
+        <div className={"flex flex-row items-center w-full mt-2"}>
+          <Button
+            variant={`outline`}
+            size={`icon-sm`}
+            onClick={() => changeLanguage('en')}
+            tapClassName={`ml-auto`}
+          >
+            English
+          </Button>
+          <Button
+            variant={`outline`}
+            size={`icon-sm`}
+            onClick={() => changeLanguage('zh')}
+            tapClassName={`ml-auto`}
+          >
+            中文
+          </Button>
+        </div>
       </div>
     </main>
   );

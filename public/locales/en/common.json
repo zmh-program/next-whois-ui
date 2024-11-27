@@ -1,0 +1,16 @@
+{
+  "An error occurred": "An error occurred",
+  "Lookup Failed": "Lookup Failed",
+  "Toggle theme": "Toggle theme",
+  "Light": "Light",
+  "Dark": "Dark",
+  "System": "System",
+  "Whois Lookup": "Whois Lookup",
+  "Domain": "Domain",
+  "IPv4": "IPv4",
+  "IPv6": "IPv6",
+  "ASN": "ASN",
+  "CIDR": "CIDR",
+  "domain name (e.g. google.com, 8.8.8.8)": "domain name (e.g. google.com, 8.8.8.8)",
+  "Enter": "Enter"
+}

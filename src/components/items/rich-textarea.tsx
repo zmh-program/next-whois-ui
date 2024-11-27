@@ -3,6 +3,7 @@ import { CopyIcon, DownloadIcon } from "lucide-react";
 import { TextArea } from "@/components/ui/textarea";
 import React from "react";
 import { cn, useClipboard, useSaver } from "@/lib/utils";
+import { useTranslation } from "react-i18next";
 
 export type RichTextareaProps = {
   className?: string;
@@ -22,6 +23,7 @@ export default function RichTextarea({
   disableCopyAction,
   disableSaveAction,
 }: RichTextareaProps) {
+  const { t } = useTranslation();
   const copy = useClipboard();
   const save = useSaver();
 
@@ -31,7 +33,7 @@ export default function RichTextarea({
   return (
     <div className={cn(`flex flex-col space-y-1.5`, className)}>
       <div className={`flex flex-row items-center`}>
-        <p className={`text-sm text-secondary font-medium`}>{displayName}</p>
+        <p className={`text-sm text-secondary font-medium`}>{t(displayName)}</p>
         <div className={`flex-grow`} />
         <Button
           variant={`outline`}

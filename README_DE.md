@@ -1,7 +1,8 @@
 <div align="center">
 
 # 🧪 Next Whois UI
-😎 Lightweight & Beautiful Whois Query Tool
+
+😎 Modernes Whois-Abfrage-Tool
 
 [English](README.md) · [简体中文](README_CN.md) · [繁體中文](README_TW.md) · [Русский](README_RU.md) · [日本語](README_JP.md) · [Deutsch](README_DE.md)
 
@@ -11,31 +12,37 @@
 
 </div>
 
-## 😎 Features
-No need to say more, just try it out! 🥳
+## 😎 Funktionen
 
-1. ✨ **Pretty UI**: Modern design with [Shadcn UI](https://ui.shadcn.com), make you feel comfortable.
-2. 📱 **Responsive**: Works well on Mobile✅ / Tablet✅ / Desktop✅, PWA App Support.
-3. 🌈 **Multi Theme**: Multi theme support (*Light & Dark*), system theme detection, switch theme as you like.
-4. 🚀 **Flexible Query**: Powered by Next.js, support serverless deployment and fast query.
-5. 📚 **Record History**: History records are stored in local storage, easy to view and query history.
-6. 📡 **Open API**: Simple API for whois query, easy to integrate with other services.
-7. 🌍 **IPv4 & IPv6 Whois**: Support IPv4, IPv6, Domain, ASN, CIDR whois query.
-8. 📦 **Result Capture**: Capture whois result, easy to share and save.
-9. 📡 **Whois Cache**: Support whois cache based on Redis, improve query speed.
-10. 🌍 [WIP] **Internationalization**: Support multiple languages. ([#6](https://github.com/zmh-program/next-whois-ui/issues/6))
+Keine Notwendigkeit, mehr zu sagen, probieren Sie es einfach aus! 🥳
 
-👉 [Create Pull Request](https://github.com/zmh-program/next-whois-ui/pulls)
+1. ✨ **Schönes UI**: Modernes Design mit [Shadcn UI](https://ui.shadcn.com), das Ihnen ein angenehmes Gefühl vermittelt.
+2. 📱 **Responsive**: Funktioniert gut auf Mobilgeräten✅ / Tablets✅ / Desktops✅, PWA-App-Unterstützung.
+3. 🌈 **Multi-Theme**: Unterstützung für mehrere Themen (*Hell & Dunkel*), Erkennung des Systemthemas, Wechseln des Themas nach Belieben.
+4. 🚀 **Flexible Abfrage**: Angetrieben von Next.js, Unterstützung für serverlose Bereitstellung und schnelle Abfragen.
+5. 📚 **Verlauf speichern**: Verlaufsaufzeichnungen werden im lokalen Speicher gespeichert, einfach zu durchsuchen und anzuzeigen.
+6. 📡 **Offene API**: Einfache API für Whois-Abfragen, leicht in andere Dienste zu integrieren.
+7. 🌍 **IPv4 & IPv6 Whois**: Unterstützung für Whois-Abfragen für IPv4, IPv6, Domain, ASN, CIDR.
+8. 📦 **Ergebnis erfassen**: Erfassen von Whois-Ergebnissen, einfach zu teilen und zu speichern.
+9. 📡 **Whois-Cache**: Unterstützung für Whois-Cache basierend auf Redis, Verbesserung der Abfragegeschwindigkeit.
+10. 🌍 [In Arbeit] **Internationalisierung**: Unterstützung für mehrere Sprachen. ([#6](https://github.com/zmh-program/next-whois-ui/issues/6))
 
-## Deploy
-#### `1` 🚀 Platforms (Recommended)
+👉 [Pull Request erstellen](https://github.com/zmh-program/next-whois-ui/pulls)
+
+## Bereitstellung
+
+#### `1` 🚀 Plattformen (Empfohlen)
+
 [Vercel](https://vercel.com/import/project?template=https://github.com/zmh-program/next-whois-ui) / [Netlify](https://app.netlify.com/start/deploy?repository=https://github.com/zmh-program/next-whois-ui) / [Zeabur](https://zeabur.com/templates/UHCCCT)
+
 #### `2` 🐳 Docker
+
 ```bash
 docker run -d -p 3000:3000 programzmh/next-whois-ui
 ```
 
-#### `3` 🔨 Source Code
+#### `3` 🔨 Quellcode
+
 ```bash
 git clone https://github.com/zmh-program/next-whois-ui
 cd next-whois-ui
@@ -45,30 +52,34 @@ pnpm install
 pnpm dev
 ```
 
-## 📏 Envs
+## 📏 Umgebungsvariablen
 
 ### SEO
-- `NEXT_PUBLIC_SITE_TITLE`: Site Title
-- `NEXT_PUBLIC_SITE_DESCRIPTION`: Site Description
-- `NEXT_PUBLIC_SITE_KEYWORDS`: Site Keywords
+
+- `NEXT_PUBLIC_SITE_TITLE`: Seitentitel
+- `NEXT_PUBLIC_SITE_DESCRIPTION`: Seitenbeschreibung
+- `NEXT_PUBLIC_SITE_KEYWORDS`: Seiten-Schlüsselwörter
 
 ### WHOIS
-- `NEXT_PUBLIC_HISTORY_LIMIT`: History Limit (Default: 6)
-- `NEXT_PUBLIC_MAX_WHOIS_FOLLOW`: Max Domain Whois Follow (Default: 0)
-- `NEXT_PUBLIC_MAX_IP_WHOIS_FOLLOW`: Max IP Whois Follow (Default: 5)
+
+- `NEXT_PUBLIC_HISTORY_LIMIT`: Verlaufslimit (Standard: 6)
+- `NEXT_PUBLIC_MAX_WHOIS_FOLLOW`: Maximale Domain-Whois-Verfolgung (Standard: 0)
+- `NEXT_PUBLIC_MAX_IP_WHOIS_FOLLOW`: Maximale IP-Whois-Verfolgung (Standard: 5)
 
 ### CACHE
-- `REDIS_HOST`: Redis Host (CACHE DISABLED WHEN EMPTY)
-- `REDIS_PORT`: Redis Port (Default: 6379)
-- `REDIS_PASSWORD`: Redis Password (OPTIONAL)
-- `REDIS_DB`: Redis DB (Default: 0)
-- `REDIS_CACHE_TTL`: Redis Cache TTL Secs (Default: 3600)
 
-## 📝 API Reference
+- `REDIS_HOST`: Redis-Host (CACHE DEAKTIVIERT, WENN LEER)
+- `REDIS_PORT`: Redis-Port (Standard: 6379)
+- `REDIS_PASSWORD`: Redis-Passwort (OPTIONAL)
+- `REDIS_DB`: Redis-DB (Standard: 0)
+- `REDIS_CACHE_TTL`: Redis-Cache-TTL in Sekunden (Standard: 3600)
+
+## 📝 API-Referenz
+
 `GET` `/api/lookup?query=google.com`
 
 <details>
-<summary><strong>Response</strong> OK (200)</summary>
+<summary><strong>Antwort</strong> OK (200)</summary>
 
 ```json
 {
@@ -125,10 +136,11 @@ pnpm dev
   }
 }
 ```
+
 </details>
 
 <details>
-<summary><strong>Error Response</strong> Internal Server Error (500)</summary>
+<summary><strong>Fehlerantwort</strong> Internal Server Error (500)</summary>
 
 ```json
 {
@@ -137,10 +149,11 @@ pnpm dev
   "error": "No match for domain google.notfound (e.g. domain is not registered)"
 }
 ```
+
 </details>
 
 <details>
-<summary><strong>Error Response</strong> Bad Request (400)</summary>
+<summary><strong>Fehlerantwort</strong> Bad Request (400)</summary>
 
 ```json
 {
@@ -149,14 +162,17 @@ pnpm dev
   "error": "Query is required"
 }
 ```
+
 </details>
 
-## 🧠 Tech Stack
+## 🧠 Tech-Stack
+
 - Next.js
 - Shadcn UI & Tailwind CSS
 - Whois Core Lib (@[whois-raw](https://www.npmjs.com/package/whois-raw))
 
-## 💪 TLDs Support
-👉 [TLDs Whois Parser Lib Source Code](./src/lib/whois/lib.ts)
+## 💪 TLDs-Unterstützung
 
-❤ TIP: The Whois Parser for some TLDs may not be currently compatible, thanks for contributing your [Pull Request](https://github.com/zmh-program/next-whois-ui/pulls) to make this project support more TLDs!
+👉 [TLDs Whois Parser Lib Quellcode](./src/lib/whois/lib.ts)
+
+❤ TIPP: Der Whois-Parser für einige TLDs ist möglicherweise derzeit nicht kompatibel. Vielen Dank für Ihren Beitrag [Pull Request](https://github.com/zmh-program/next-whois-ui/pulls), um dieses Projekt zu unterstützen, mehr TLDs zu unterstützen!

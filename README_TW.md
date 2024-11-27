@@ -4,7 +4,7 @@
 
 😎 現代代 Whois 查詢工具
 
-[English](README.md) · [簡體中文](README_CN.md) · [繁體中文](README_TW.md)
+[English](README.md) · [簡體中文](README_CN.md) · [繁體中文](README_TW.md) · [Русский](README_RU.md) · [日本語](README_JP.md) · [Deutsch](README_DE.md)
 
 [![Deploy to Vercel](https://vercel.com/button)](https://vercel.com/import/project?template=https://github.com/zmh-program/next-whois-ui)
 

@@ -46,7 +46,7 @@ export default function Home() {
         >
           <div
             className={
-              "flex mx-1 my-0.5 flex-row items-center text-md text-secondary transition hover:text-primary cursor-pointer"
+              "flex mx-1 my-0.5 flex-row items-center text-md text-secondary transition hover:text-primary cursor-default"
             }
           >
             <CheckIcon className={`w-4 h-4 mr-1 shrink-0`} />
@@ -54,7 +54,7 @@ export default function Home() {
           </div>
           <div
             className={
-              "flex mx-1 my-0.5 flex-row items-center text-md text-secondary transition hover:text-primary cursor-pointer"
+              "flex mx-1 my-0.5 flex-row items-center text-md text-secondary transition hover:text-primary cursor-default"
             }
           >
             <CheckIcon className={`w-4 h-4 mr-1 shrink-0`} />
@@ -62,7 +62,7 @@ export default function Home() {
           </div>
           <div
             className={
-              "flex mx-1 my-0.5 flex-row items-center text-md text-secondary transition hover:text-primary cursor-pointer"
+              "flex mx-1 my-0.5 flex-row items-center text-md text-secondary transition hover:text-primary cursor-default"
             }
           >
             <CheckIcon className={`w-4 h-4 mr-1 shrink-0`} />
@@ -70,7 +70,7 @@ export default function Home() {
           </div>
           <div
             className={
-              "flex mx-1 my-0.5 flex-row items-center text-md text-secondary transition hover:text-primary cursor-pointer"
+              "flex mx-1 my-0.5 flex-row items-center text-md text-secondary transition hover:text-primary cursor-default"
             }
           >
             <CheckIcon className={`w-4 h-4 mr-1 shrink-0`} />
@@ -78,7 +78,7 @@ export default function Home() {
           </div>
           <div
             className={
-              "flex mx-1 my-0.5 flex-row items-center text-md text-secondary transition hover:text-primary cursor-pointer"
+              "flex mx-1 my-0.5 flex-row items-center text-md text-secondary transition hover:text-primary cursor-default"
             }
           >
             <CheckIcon className={`w-4 h-4 mr-1 shrink-0`} />
@@ -87,7 +87,7 @@ export default function Home() {
         </div>
         <div className={"relative flex flex-row items-center w-full mt-2"}>
           <Input
-            className={`w-full text-center transition-all duration-300 hover:shadow`}
+            className={`w-full transition-all duration-300 hover:shadow`}
             placeholder={`domain name (e.g. google.com, 8.8.8.8)`}
             value={domain}
             onChange={(e) => setDomain(e.target.value)}

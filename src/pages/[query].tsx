@@ -13,22 +13,22 @@ import { Input } from "@/components/ui/input";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import {
-  Camera,
-  CopyIcon,
-  CornerDownRight,
-  ExternalLink,
-  Facebook,
-  Link2,
-  Loader2,
-  Search,
-  Send,
-  Share2,
-  ShieldIcon,
-  ShieldOffIcon,
-  ShieldQuestionIcon,
-  Twitter,
-  Unlink2,
-} from "lucide-react";
+  RiCameraLine,
+  RiFileCopyLine,
+  RiCornerDownRightLine,
+  RiExternalLinkLine,
+  RiFacebookLine,
+  RiLinkM,
+  RiLoader2Line,
+  RiSearchLine,
+  RiSendPlaneLine,
+  RiShareLine,
+  RiShieldLine,
+  RiShieldOffLine,
+  RiShieldKeyholeLine,
+  RiTwitterLine,
+  RiLinkUnlinkLine,
+} from "@remixicon/react";
 import {
   Drawer,
   DrawerClose,
@@ -78,17 +78,17 @@ type ResultTableProps = {
 
 function getDnssecIcon(dnssec?: string) {
   if (!dnssec) {
-    return <ShieldQuestionIcon />;
+    return <RiShieldKeyholeLine />;
   }
   const key = dnssec.toLowerCase();
 
   switch (key) {
     case "unsigned":
-      return <ShieldOffIcon />;
+      return <RiShieldOffLine />;
     case "signed":
-      return <ShieldIcon />;
+      return <RiShieldLine />;
     default:
-      return <ShieldQuestionIcon />;
+      return <RiShieldKeyholeLine />;
   }
 }
 
@@ -173,7 +173,7 @@ function ResultTable({ result, target }: ResultTableProps) {
           >
             {status.url !== "expand" && (
               <Icon
-                icon={status.url ? <Link2 /> : <Unlink2 />}
+                icon={status.url ? <RiLinkM /> : <RiLinkUnlinkLine />}
                 className={`w-3 h-3 mr-1 shrink-0 text-muted-foreground transition group-hover:text-primary`}
               />
             )}
@@ -215,7 +215,7 @@ function ResultTable({ result, target }: ResultTableProps) {
               target={`_blank`}
             >
               <Button variant={`ghost`} size={`icon-xs`}>
-                <ExternalLink className={`w-3 h-3`} />
+                <RiExternalLinkLine className={`w-3 h-3`} />
               </Button>
             </Link>
           </Row>
@@ -338,7 +338,7 @@ function ResultTable({ result, target }: ResultTableProps) {
                     className={`text-secondary hover:text-primary transition duration-500 text-xs border cursor-pointer rounded-md px-1 py-0.5 mt-0.5 w-fit inline-flex flex-row items-center`}
                     onClick={() => copy(ns)}
                   >
-                    <CopyIcon className={`w-2.5 h-2.5 mr-1`} />
+                    <RiFileCopyLine className={`w-2.5 h-2.5 mr-1`} />
                     {ns}
                   </div>
                 ))}
@@ -390,7 +390,7 @@ const ResultComp = React.forwardRef<HTMLDivElement, Props>(
                   className={`transition duration-500 hover:border-muted-foreground shadow-sm`}
                   tapEnabled
                 >
-                  <Camera className={`w-4 h-4 stroke-[1.5]`} />
+                  <RiCameraLine className={`w-4 h-4 stroke-[1.5]`} />
                 </Button>
               </DrawerTrigger>
               <DrawerContent>
@@ -398,7 +398,7 @@ const ResultComp = React.forwardRef<HTMLDivElement, Props>(
                   <DrawerTitle
                     className={`inline-flex items-center justify-center`}
                   >
-                    <Camera className={`w-5 h-5 stroke-[1.5] mr-1.5`} />
+                    <RiCameraLine className={`w-5 h-5 stroke-[1.5] mr-1.5`} />
                     Capture
                   </DrawerTitle>
                   <DrawerClose />
@@ -418,7 +418,7 @@ const ResultComp = React.forwardRef<HTMLDivElement, Props>(
                     className={`flex flex-row items-center w-full max-w-[568px] mx-auto`}
                     tapEnabled
                   >
-                    <Camera className={`w-4 h-4 mr-2`} />
+                    <RiCameraLine className={`w-4 h-4 mr-2`} />
                     Capture
                   </Button>
                 </DrawerFooter>
@@ -432,7 +432,7 @@ const ResultComp = React.forwardRef<HTMLDivElement, Props>(
                   className={`transition duration-500 hover:border-muted-foreground shadow-sm`}
                   tapEnabled
                 >
-                  <Share2 className={`w-4 h-4 stroke-[1.5]`} />
+                  <RiShareLine className={`w-4 h-4 stroke-[1.5]`} />
                 </Button>
               </DrawerTrigger>
               <DrawerContent className={`w-full text-center`}>
@@ -440,7 +440,7 @@ const ResultComp = React.forwardRef<HTMLDivElement, Props>(
                   <DrawerTitle
                     className={`inline-flex items-center justify-center`}
                   >
-                    <Share2 className={`w-4 h-4 stroke-[1.5] mr-1.5`} />
+                    <RiShareLine className={`w-4 h-4 stroke-[1.5] mr-1.5`} />
                     Share
                   </DrawerTitle>
                   <DrawerClose />
@@ -570,7 +570,7 @@ const ResultComp = React.forwardRef<HTMLDivElement, Props>(
                       className={`rounded-l-none`}
                       tapEnabled
                     >
-                      <CopyIcon className={`w-4 h-4`} />
+                      <RiFileCopyLine className={`w-4 h-4`} />
                     </Button>
                   </div>
                 </DrawerFooter>
@@ -669,7 +669,7 @@ export default function Lookup({ data, target }: Props) {
               "text-lg md:text-2xl lg:text-3xl font-bold flex flex-row items-center select-none"
             }
           >
-            <Search
+            <RiSearchLine
               className={`w-4 h-4 md:w-6 md:h-6 mr-1 md:mr-1.5 shrink-0`}
             />
             Whois Lookup
@@ -696,9 +696,9 @@ export default function Lookup({ data, target }: Props) {
               onClick={() => goStage(inputDomain)}
             >
               {loading ? (
-                <Loader2 className={`w-4 h-4 animate-spin`} />
+                <RiLoader2Line className={`w-4 h-4 animate-spin`} />
               ) : (
-                <Send className={`w-4 h-4`} />
+                <RiSendPlaneLine className={`w-4 h-4`} />
               )}
             </Button>
           </div>
@@ -709,7 +709,7 @@ export default function Lookup({ data, target }: Props) {
             )}
           >
             <div className={`flex-grow`} />
-            <CornerDownRight className={`w-3 h-3 mr-1`} />
+            <RiCornerDownRightLine className={`w-3 h-3 mr-1`} />
             <p className={`px-1 py-0.5 border rounded-md`}>Enter</p>
           </div>
           <ResultComp data={data} target={target} />

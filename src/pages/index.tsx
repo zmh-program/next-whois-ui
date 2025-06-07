@@ -1,16 +1,16 @@
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import {
-  CheckIcon,
-  ChevronRight,
-  CornerDownRight,
-  Link2,
-  Loader2,
-  Search,
-  Send,
-  Trash2,
-  Undo2,
-} from "lucide-react";
+  RiCheckLine,
+  RiArrowRightSLine,
+  RiCornerDownRightLine,
+  RiLinkM,
+  RiLoader2Line,
+  RiSearchLine,
+  RiSendPlaneLine,
+  RiDeleteBinLine,
+  RiArrowGoBackLine,
+} from "@remixicon/react";
 import React, { useEffect } from "react";
 import Link from "next/link";
 import { cn, isEnter, toSearchURI } from "@/lib/utils";
@@ -38,7 +38,9 @@ export default function Home() {
             "text-lg md:text-2xl lg:text-3xl font-bold flex flex-row items-center select-none"
           }
         >
-          <Search className={`w-4 h-4 md:w-6 md:h-6 mr-1 md:mr-1.5 shrink-0`} />
+          <RiSearchLine
+            className={`w-4 h-4 md:w-6 md:h-6 mr-1 md:mr-1.5 shrink-0`}
+          />
           Whois Lookup
         </h1>
         <div
@@ -49,7 +51,7 @@ export default function Home() {
               "flex mx-1 my-0.5 flex-row items-center text-md text-secondary transition hover:text-primary cursor-pointer"
             }
           >
-            <CheckIcon className={`w-4 h-4 mr-1 shrink-0`} />
+            <RiCheckLine className={`w-4 h-4 mr-1 shrink-0`} />
             <p>Domain</p>
           </div>
           <div
@@ -57,7 +59,7 @@ export default function Home() {
               "flex mx-1 my-0.5 flex-row items-center text-md text-secondary transition hover:text-primary cursor-pointer"
             }
           >
-            <CheckIcon className={`w-4 h-4 mr-1 shrink-0`} />
+            <RiCheckLine className={`w-4 h-4 mr-1 shrink-0`} />
             <p>IPv4</p>
           </div>
           <div
@@ -65,7 +67,7 @@ export default function Home() {
               "flex mx-1 my-0.5 flex-row items-center text-md text-secondary transition hover:text-primary cursor-pointer"
             }
           >
-            <CheckIcon className={`w-4 h-4 mr-1 shrink-0`} />
+            <RiCheckLine className={`w-4 h-4 mr-1 shrink-0`} />
             <p>IPv6</p>
           </div>
           <div
@@ -73,7 +75,7 @@ export default function Home() {
               "flex mx-1 my-0.5 flex-row items-center text-md text-secondary transition hover:text-primary cursor-pointer"
             }
           >
-            <CheckIcon className={`w-4 h-4 mr-1 shrink-0`} />
+            <RiCheckLine className={`w-4 h-4 mr-1 shrink-0`} />
             <p>ASN</p>
           </div>
           <div
@@ -81,7 +83,7 @@ export default function Home() {
               "flex mx-1 my-0.5 flex-row items-center text-md text-secondary transition hover:text-primary cursor-pointer"
             }
           >
-            <CheckIcon className={`w-4 h-4 mr-1 shrink-0`} />
+            <RiCheckLine className={`w-4 h-4 mr-1 shrink-0`} />
             <p>CIDR</p>
           </div>
         </div>
@@ -112,9 +114,9 @@ export default function Home() {
               )}
             >
               {loading ? (
-                <Loader2 className={`w-4 h-4 animate-spin`} />
+                <RiLoader2Line className={`w-4 h-4 animate-spin`} />
               ) : (
-                <Send className={`w-4 h-4`} />
+                <RiSendPlaneLine className={`w-4 h-4`} />
               )}
             </Button>
           </Link>
@@ -126,7 +128,7 @@ export default function Home() {
           )}
         >
           <div className={`flex-grow`} />
-          <CornerDownRight className={`w-3 h-3 mr-1`} />
+          <RiCornerDownRightLine className={`w-3 h-3 mr-1`} />
           <p className={`px-1 py-0.5 border rounded-md`}>Enter</p>
         </div>
         {history.length > 0 && (
@@ -158,7 +160,7 @@ export default function Home() {
                     }}
                   >
                     <Icon
-                      icon={!trashMode ? <Link2 /> : <Trash2 />}
+                      icon={!trashMode ? <RiLinkM /> : <RiDeleteBinLine />}
                       className={cn(
                         "w-4 h-4 mr-1 shrink-0",
                         trashMode && "text-red-600/80",
@@ -169,7 +171,7 @@ export default function Home() {
                     >
                       {item}
                     </p>
-                    <ChevronRight
+                    <RiArrowRightSLine
                       className={`transition-all shrink-0 w-4 h-4 ml-auto mr-0.5`}
                     />
                   </Link>
@@ -184,7 +186,7 @@ export default function Home() {
                 tapClassName={`ml-auto`}
               >
                 <Icon
-                  icon={trashMode ? <Undo2 /> : <Trash2 />}
+                  icon={trashMode ? <RiArrowGoBackLine /> : <RiDeleteBinLine />}
                   className={`w-3.5 h-3.5`}
                 />
               </Button>

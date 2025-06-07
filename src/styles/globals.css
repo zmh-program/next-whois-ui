@@ -139,6 +139,10 @@ textarea::-webkit-scrollbar {
   flex-grow: 1;
 }
 
-.no-capture {
-
+button {
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
 }

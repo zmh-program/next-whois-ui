@@ -14,7 +14,7 @@ import {
 import React, { useEffect } from "react";
 import Link from "next/link";
 import { cn, isEnter, toSearchURI } from "@/lib/utils";
-import { addHistory, listHistory, removeHistory } from "@/lib/history";
+import { listHistory, removeHistory } from "@/lib/history";
 import Icon from "@/components/icon";
 import Clickable from "@/components/motion/clickable";
 

@@ -3,7 +3,6 @@ import {
   cleanDomainQuery,
   cn,
   getWindowHref,
-  isEnter,
   toReadableISODate,
   toSearchURI,
   useClipboard,
@@ -15,12 +14,9 @@ import { Button } from "@/components/ui/button";
 import {
   RiCameraLine,
   RiFileCopyLine,
-  RiCornerDownRightLine,
   RiExternalLinkLine,
   RiLinkM,
-  RiLoader2Line,
   RiSearchLine,
-  RiSendPlaneLine,
   RiShareLine,
   RiShieldLine,
   RiQuestionFill,
@@ -31,6 +27,8 @@ import {
   RiRedditLine,
   RiWhatsappLine,
   RiTelegramLine,
+  RiArrowLeftLine,
+  RiArrowLeftSFill,
 } from "@remixicon/react";
 import {
   Drawer,
@@ -43,7 +41,7 @@ import {
   DrawerTrigger,
 } from "@/components/ui/drawer";
 import React, { useEffect, useMemo } from "react";
-import { addHistory } from "@/lib/history";
+import { addHistory, detectQueryType } from "@/lib/history";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -54,6 +52,7 @@ import ErrorArea from "@/components/items/error-area";
 import RichTextarea from "@/components/items/rich-textarea";
 import InfoText from "@/components/items/info-text";
 import Clickable from "@/components/motion/clickable";
+import { SearchBox } from "@/components/search/SearchBox";
 
 type Props = {
   data: WhoisResult;
@@ -163,7 +162,7 @@ function ResultTable({ result, target }: ResultTableProps) {
             href={status.url}
             key={index}
             target={`_blank`}
-            className={`inline-flex group flex-row whitespace-nowrap flex-nowrap items-center m-0.5 cursor-pointer px-1 py-0.5 border rounded text-xs`}
+            className={`inline-flex group flex-row whitespace-nowrap flex-nowrap items-center m-0.5 cursor-pointer px-1.5 py-0.5 border rounded text-xs`}
             onClick={(e) => {
               if (status.url === "expand") {
                 e.preventDefault();
@@ -546,35 +545,36 @@ const ResultComp = React.forwardRef<HTMLDivElement, Props>(
         >
           <CardHeader>
             <CardTitle
-              className={`flex flex-row items-center text-lg md:text-xl`}
+              className={`flex flex-row items-center text-sm md:text-base`}
             >
-              Result
-              <div className={`flex-grow`} />
-              <Clickable className={`w-fit h-fit inline-flex ml-2 mr-1`}>
-                <Badge
+              <div
+                onClick={() => copy(target)}
+                className={cn(
+                  `inline-flex w-fit max-w-32 sm:max-w-64 flex-row items-center space-x-1 cursor-pointer select-none`,
+                )}
+              >
+                <div
                   className={cn(
-                    `inline-flex max-w-36 md:max-w-64 flex-row items-center space-x-1 cursor-pointer select-none`,
-                    isCapture && "max-w-72",
+                    "w-2 h-2 shrink-0 rounded-full mr-1",
+                    status ? "bg-green-500" : "bg-red-500",
                   )}
-                  onClick={() => copy(target)}
+                />
+
+                <p
+                  className={cn(
+                    `grow`,
+                    !isCapture && `text-ellipsis overflow-hidden`,
+                    isCapture && `text-ellipsis overflow-hidden`,
+                  )}
                 >
-                  <div
-                    className={cn(
-                      "w-2 h-2 shrink-0 rounded-full",
-                      status ? "bg-green-500" : "bg-red-500",
-                    )}
-                  />
-                  <p
-                    className={cn(
-                      `grow`,
-                      !isCapture && `text-ellipsis overflow-hidden`,
-                    )}
-                  >
-                    {target}
-                  </p>
-                </Badge>
-              </Clickable>
-              <Badge variant={`outline`}>{time.toFixed(2)}s</Badge>
+                  {target}
+                </p>
+              </div>
+              <div className={`flex-grow`} />
+              <Badge className="mr-1">{detectQueryType(target)}</Badge>
+              <Badge variant={`outline`} className="border-dashed">
+                {time.toFixed(2)}s
+              </Badge>
             </CardTitle>
             <CardContent className={`w-full p-0`}>
               {!status ? (
@@ -602,77 +602,46 @@ const ResultComp = React.forwardRef<HTMLDivElement, Props>(
 );
 
 export default function Lookup({ data, target }: Props) {
-  const [inputDomain, setInputDomain] = React.useState<string>(target);
   const [loading, setLoading] = React.useState<boolean>(false);
 
-  const goStage = (target: string) => {
+  const handleSearch = (query: string) => {
     setLoading(true);
-    window.location.href = toSearchURI(inputDomain);
+    window.location.href = toSearchURI(query);
   };
 
   useEffect(() => {
-    addHistory(target);
+    if (data.status) {
+      addHistory(target);
+    }
   }, []);
 
   return (
     <ScrollArea className={`w-full h-full`}>
       <main
         className={
-          "relative w-full min-h-full grid place-items-center px-4  pb-6"
+          "relative w-full min-h-full grid place-items-center px-4 pb-6"
         }
       >
         <div
           className={
-            "flex flex-col items-center w-full h-fit max-w-[568px] m-2"
+            "flex flex-col items-center w-full h-fit max-w-[568px] m-2 mt-4"
           }
         >
-          <h1
-            className={
-              "text-lg md:text-2xl lg:text-3xl font-bold flex flex-row items-center select-none"
-            }
-          >
-            <RiSearchLine
-              className={`w-4 h-4 md:w-6 md:h-6 mr-1 md:mr-1.5 shrink-0`}
-            />
-            Whois Lookup
-          </h1>
-          <p className={"text-md text-center text-secondary"}>
-            Please enter a domain name to lookup
-          </p>
-          <div className={"relative flex flex-row items-center w-full mt-2"}>
-            <Input
-              className={`w-full text-center transition-all duration-300 hover:shadow`}
-              placeholder={`domain name (e.g. google.com, 8.8.8.8)`}
-              value={inputDomain}
-              onChange={(e) => setInputDomain(e.target.value)}
-              onKeyDown={(e) => {
-                if (isEnter(e)) {
-                  goStage(inputDomain);
-                }
-              }}
-            />
-            <Button
-              size={`icon`}
-              variant={`outline`}
-              className={`absolute right-0 rounded-l-none`}
-              onClick={() => goStage(inputDomain)}
-            >
-              {loading ? (
-                <RiLoader2Line className={`w-4 h-4 animate-spin`} />
-              ) : (
-                <RiSendPlaneLine className={`w-4 h-4`} />
-              )}
-            </Button>
+          <div className="w-full flex items-center justify-start">
+            <Link href="/">
+              <button className="flex items-center text-secondary hover:text-primary transition-colors text-xs duration-300">
+                <RiArrowLeftSFill className="w-4 h-4 mr-1" />
+                Back
+              </button>
+            </Link>
           </div>
-          <div
-            className={cn(
-              `flex items-center flex-row w-full text-xs mt-1.5 select-none text-secondary transition`,
-              loading && "text-primary",
-            )}
-          >
-            <div className={`flex-grow`} />
-            <RiCornerDownRightLine className={`w-3 h-3 mr-1`} />
-            <p className={`px-1 py-0.5 border rounded-md`}>Enter</p>
+
+          <div className={"w-full mt-1.5"}>
+            <SearchBox
+              initialValue={target}
+              onSearch={handleSearch}
+              loading={loading}
+            />
           </div>
           <ResultComp data={data} target={target} />
         </div>

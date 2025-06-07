@@ -8,13 +8,14 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "ui": "pnpm dlx shadcn-ui@latest add",
+    "ui": "pnpm dlx shadcn@latest add",
     "prettier": "prettier --write src/**/*.{ts,tsx,js,jsx,json,md}"
   },
   "dependencies": {
     "@khmyznikov/pwa-install": "^0.4.4",
     "@radix-ui/react-dialog": "^1.1.1",
     "@radix-ui/react-dropdown-menu": "^2.1.1",
+    "@radix-ui/react-popover": "^1.1.14",
     "@radix-ui/react-scroll-area": "^1.1.0",
     "@radix-ui/react-separator": "^1.1.0",
     "@radix-ui/react-slot": "^1.1.0",
@@ -23,6 +24,7 @@
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",
     "cmdk": "^1.1.1",
+    "date-fns": "^4.1.0",
     "framer-motion": "^11.3.21",
     "html-to-image": "^1.11.11",
     "i18next": "^23.12.2",

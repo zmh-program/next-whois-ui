@@ -1,6 +1,25 @@
 import { HISTORY_LIMIT } from "@/lib/env";
 
-export function listHistory(): string[] {
+export type HistoryItem = {
+  query: string;
+  timestamp: number;
+  queryType: "domain" | "ipv4" | "ipv6" | "asn" | "cidr";
+};
+
+export function detectQueryType(query: string): HistoryItem["queryType"] {
+  // IPv4 pattern
+  if (/^(\d{1,3}\.){3}\d{1,3}$/.test(query)) return "ipv4";
+  // IPv6 pattern
+  if (/^([0-9a-fA-F]{1,4}:){7}[0-9a-fA-F]{1,4}$/.test(query)) return "ipv6";
+  // ASN pattern
+  if (/^(AS|as)\d+$/.test(query)) return "asn";
+  // CIDR pattern
+  if (/^(\d{1,3}\.){3}\d{1,3}\/\d{1,2}$/.test(query)) return "cidr";
+  // Default to domain
+  return "domain";
+}
+
+export function listHistory(): HistoryItem[] {
   const history = localStorage.getItem("history");
   if (!history || history === "[]") return [];
 
@@ -8,9 +27,18 @@ export function listHistory(): string[] {
   if (!Array.isArray(parsed)) return [];
 
   return parsed
-    .filter((item: any) => typeof item === "string")
-    .map((item: string) => item.trim())
-    .filter((item: string) => item.length > 0);
+    .filter(
+      (item: any) =>
+        typeof item === "object" &&
+        typeof item.query === "string" &&
+        typeof item.timestamp === "number" &&
+        typeof item.queryType === "string",
+    )
+    .map((item: HistoryItem) => ({
+      ...item,
+      query: item.query.trim(),
+    }))
+    .filter((item: HistoryItem) => item.query.length > 0);
 }
 
 export function addHistory(query: string) {
@@ -18,13 +46,17 @@ export function addHistory(query: string) {
 
   let history = listHistory();
   const domain = query.trim();
+  const newItem: HistoryItem = {
+    query: domain,
+    timestamp: Date.now(),
+    queryType: detectQueryType(domain),
+  };
 
-  if (history.includes(domain)) {
-    // if the domain is already in the history, remove it first
-    history = history.filter((item) => item !== domain);
-  }
+  // Remove existing entry with same query
+  history = history.filter((item) => item.query !== domain);
 
-  history = [domain, ...history].slice(0, HISTORY_LIMIT);
+  // Add new item at the beginning
+  history = [newItem, ...history].slice(0, HISTORY_LIMIT);
   localStorage.setItem("history", JSON.stringify(history));
 }
 
@@ -34,8 +66,22 @@ export function removeHistory(query: string) {
   let history = listHistory();
   const domain = query.trim();
 
-  if (!history.includes(domain)) return;
-
-  history = history.filter((item) => item !== domain);
+  history = history.filter((item) => item.query !== domain);
   localStorage.setItem("history", JSON.stringify(history));
+}
+
+export function searchHistory(searchTerm: string): HistoryItem[] {
+  const history = listHistory();
+  if (!searchTerm) return history;
+
+  const term = searchTerm.toLowerCase();
+  return history.filter(
+    (item) =>
+      item.query.toLowerCase().includes(term) ||
+      item.queryType.toLowerCase().includes(term),
+  );
+}
+
+export function clearHistory() {
+  localStorage.setItem("history", "[]");
 }

@@ -1,33 +1,89 @@
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import {
-  CheckIcon,
-  ChevronRight,
-  CornerDownRight,
-  Link2,
-  Loader2,
-  Search,
-  Send,
-  Trash2,
-  Undo2,
-} from "lucide-react";
+  RiCheckLine,
+  RiArrowRightSLine,
+  RiLinkM,
+  RiLoader2Line,
+  RiSearchLine,
+  RiSendPlaneLine,
+  RiDeleteBinLine,
+  RiArrowGoBackLine,
+  RiFilterLine,
+  RiTimeLine,
+  RiSortAsc,
+  RiSortDesc,
+  RiHistoryLine,
+  RiInformationLine,
+} from "@remixicon/react";
 import React, { useEffect } from "react";
 import Link from "next/link";
 import { cn, isEnter, toSearchURI } from "@/lib/utils";
-import { addHistory, listHistory, removeHistory } from "@/lib/history";
+import {
+  HistoryItem,
+  listHistory,
+  removeHistory,
+  searchHistory,
+} from "@/lib/history";
 import Icon from "@/components/icon";
 import Clickable from "@/components/motion/clickable";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuTrigger,
+  DropdownMenuSeparator,
+  DropdownMenuLabel,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
+} from "@/components/ui/dropdown-menu";
+import { format } from "date-fns";
+import { Badge } from "@/components/ui/badge";
+import { Card, CardContent } from "@/components/ui/card";
+import { SearchBox } from "@/components/search/SearchBox";
 
 export default function Home() {
   const [domain, setDomain] = React.useState<string>("");
   const [loading, setLoading] = React.useState<boolean>(false);
-  const [history, setHistory] = React.useState<string[]>([]);
+  const [history, setHistory] = React.useState<HistoryItem[]>([]);
   const [trashMode, setTrashMode] = React.useState<boolean>(false);
+  const [searchTerm, setSearchTerm] = React.useState<string>("");
+  const [sortOrder, setSortOrder] = React.useState<"asc" | "desc">("desc");
+  const [selectedType, setSelectedType] = React.useState<string>("all");
 
-  useEffect(() => setHistory(listHistory()), []);
+  useEffect(() => {
+    const items = searchTerm ? searchHistory(searchTerm) : listHistory();
+    const filtered =
+      selectedType === "all"
+        ? items
+        : items.filter((item) => item.queryType === selectedType);
+    const sorted = [...filtered].sort((a, b) => {
+      return sortOrder === "desc"
+        ? b.timestamp - a.timestamp
+        : a.timestamp - b.timestamp;
+    });
+    setHistory(sorted);
+  }, [searchTerm, sortOrder, selectedType]);
 
-  const goStage = (target: string) => {
+  const handleSearch = (query: string) => {
     setLoading(true);
+    window.location.href = toSearchURI(query);
+  };
+
+  const getTypeColor = (type: string) => {
+    switch (type) {
+      case "domain":
+        return "text-blue-500";
+      case "ipv4":
+        return "text-green-500";
+      case "ipv6":
+        return "text-purple-500";
+      case "asn":
+        return "text-orange-500";
+      case "cidr":
+        return "text-pink-500";
+      default:
+        return "text-gray-500";
+    }
   };
 
   return (
@@ -35,161 +91,210 @@ export default function Home() {
       <div className={"flex flex-col items-center w-full h-fit max-w-[568px]"}>
         <h1
           className={
-            "text-lg md:text-2xl lg:text-3xl font-bold flex flex-row items-center select-none"
+            "text-lg md:text-xl lg:text-2xl font-thin flex flex-row items-center select-none"
           }
         >
-          <Search className={`w-4 h-4 md:w-6 md:h-6 mr-1 md:mr-1.5 shrink-0`} />
-          Whois Lookup
+          Next Whois Lookup
         </h1>
-        <div
-          className={"flex flex-row items-center flex-wrap justify-center mt-1"}
-        >
-          <div
-            className={
-              "flex mx-1 my-0.5 flex-row items-center text-md text-secondary transition hover:text-primary cursor-pointer"
-            }
-          >
-            <CheckIcon className={`w-4 h-4 mr-1 shrink-0`} />
-            <p>Domain</p>
-          </div>
-          <div
-            className={
-              "flex mx-1 my-0.5 flex-row items-center text-md text-secondary transition hover:text-primary cursor-pointer"
-            }
-          >
-            <CheckIcon className={`w-4 h-4 mr-1 shrink-0`} />
-            <p>IPv4</p>
-          </div>
-          <div
-            className={
-              "flex mx-1 my-0.5 flex-row items-center text-md text-secondary transition hover:text-primary cursor-pointer"
-            }
-          >
-            <CheckIcon className={`w-4 h-4 mr-1 shrink-0`} />
-            <p>IPv6</p>
-          </div>
-          <div
-            className={
-              "flex mx-1 my-0.5 flex-row items-center text-md text-secondary transition hover:text-primary cursor-pointer"
-            }
-          >
-            <CheckIcon className={`w-4 h-4 mr-1 shrink-0`} />
-            <p>ASN</p>
-          </div>
-          <div
-            className={
-              "flex mx-1 my-0.5 flex-row items-center text-md text-secondary transition hover:text-primary cursor-pointer"
-            }
-          >
-            <CheckIcon className={`w-4 h-4 mr-1 shrink-0`} />
-            <p>CIDR</p>
-          </div>
+        <div className={"w-full mt-2"}>
+          <SearchBox onSearch={handleSearch} loading={loading} />
         </div>
-        <div className={"relative flex flex-row items-center w-full mt-2"}>
-          <Input
-            className={`w-full text-center transition-all duration-300 hover:shadow`}
-            placeholder={`domain name (e.g. google.com, 8.8.8.8)`}
-            value={domain}
-            onChange={(e) => setDomain(e.target.value)}
-            onKeyDown={(e) => {
-              if (isEnter(e) && domain.length > 0) {
-                goStage(domain);
-                window.location.href = toSearchURI(domain);
-              }
-            }}
-          />
-          <Link
-            href={toSearchURI(domain)}
-            className={`absolute right-0`}
-            onClick={() => domain.length > 0 && goStage(domain)}
-          >
+
+        <div className="w-full flex flex-row items-center justify-between mt-8 mb-2">
+          <div className="flex flex-row items-center gap-3">
+            <div className="relative">
+              <Input
+                className="w-48 h-8 text-xs pl-8 border-dashed focus:border-solid"
+                placeholder="Search history..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+              />
+              <RiSearchLine className="absolute left-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-muted-foreground" />
+            </div>
+          </div>
+          <div className="flex flex-row gap-2">
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button
+                  variant="outline"
+                  size="icon-sm"
+                  className="relative border-dashed hover:border-solid"
+                >
+                  <RiFilterLine className="h-3.5 w-3.5" />
+                  {selectedType !== "all" && (
+                    <div className="absolute -top-1 -right-1 w-2 h-2 bg-primary rounded-full animate-pulse" />
+                  )}
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-48">
+                <DropdownMenuLabel className="text-xs font-normal text-muted-foreground">
+                  FILTER BY TYPE
+                </DropdownMenuLabel>
+                <DropdownMenuSeparator className="my-1.5" />
+                <DropdownMenuRadioGroup
+                  value={selectedType}
+                  onValueChange={setSelectedType}
+                >
+                  <DropdownMenuRadioItem value="all" className="text-xs">
+                    All Types
+                  </DropdownMenuRadioItem>
+                  <DropdownMenuRadioItem value="domain" className="text-xs">
+                    Domain Only
+                  </DropdownMenuRadioItem>
+                  <DropdownMenuRadioItem value="ipv4" className="text-xs">
+                    IPv4 Only
+                  </DropdownMenuRadioItem>
+                  <DropdownMenuRadioItem value="ipv6" className="text-xs">
+                    IPv6 Only
+                  </DropdownMenuRadioItem>
+                  <DropdownMenuRadioItem value="asn" className="text-xs">
+                    ASN Only
+                  </DropdownMenuRadioItem>
+                  <DropdownMenuRadioItem value="cidr" className="text-xs">
+                    CIDR Only
+                  </DropdownMenuRadioItem>
+                </DropdownMenuRadioGroup>
+              </DropdownMenuContent>
+            </DropdownMenu>
             <Button
-              size={`icon`}
-              variant={`outline`}
-              className={cn(
-                `rounded-l-none transition duration-300`,
-                domain.length === 0 && "text-muted-foreground",
-              )}
+              variant="outline"
+              size="icon-sm"
+              onClick={() => setSortOrder(sortOrder === "asc" ? "desc" : "asc")}
+              className="relative group border-dashed hover:border-solid"
             >
-              {loading ? (
-                <Loader2 className={`w-4 h-4 animate-spin`} />
+              {sortOrder === "asc" ? (
+                <RiSortAsc className="h-3.5 w-3.5" />
               ) : (
-                <Send className={`w-4 h-4`} />
+                <RiSortDesc className="h-3.5 w-3.5" />
               )}
             </Button>
-          </Link>
-        </div>
-        <div
-          className={cn(
-            `flex items-center flex-row w-full text-xs mt-1.5 select-none text-secondary transition`,
-            loading && "text-primary",
-          )}
-        >
-          <div className={`flex-grow`} />
-          <CornerDownRight className={`w-3 h-3 mr-1`} />
-          <p className={`px-1 py-0.5 border rounded-md`}>Enter</p>
-        </div>
-        {history.length > 0 && (
-          <>
-            <div
-              className={`mt-6 md:mt-8 grid grid-cols-1 md:grid-cols-2 gap-2 w-full h-fit`}
+            <Button
+              variant="outline"
+              size="icon-sm"
+              onClick={() => setTrashMode(!trashMode)}
+              className={cn(
+                "relative group border-dashed hover:border-solid",
+                trashMode &&
+                  "bg-destructive/5 hover:bg-destructive/10 text-destructive border-destructive",
+              )}
             >
-              {history.map((item, index) => (
-                <Clickable tapScale={0.985} key={index}>
-                  <Link
-                    className={cn(
-                      `text-sm w-full h-full`,
-                      `flex flex-row items-center`,
-                      `border rounded-md pl-3.5 pr-2.5 py-2 text-secondary`,
-                      `group transition duration-300 bg-muted/20 hover:bg-muted/40`,
-                      `hover:text-primary hover:border-hover`,
-                    )}
-                    href={toSearchURI(item)}
-                    onClick={(e) => {
-                      if (trashMode) {
-                        e.preventDefault();
-
-                        removeHistory(item);
-                        setHistory(listHistory());
-                        return;
-                      } else {
-                        goStage(item);
-                      }
-                    }}
-                  >
-                    <Icon
-                      icon={!trashMode ? <Link2 /> : <Trash2 />}
-                      className={cn(
-                        "w-4 h-4 mr-1 shrink-0",
-                        trashMode && "text-red-600/80",
-                      )}
-                    />
-                    <p
-                      className={`grow text-ellipsis overflow-hidden text-primary`}
+              <Icon
+                icon={trashMode ? <RiArrowGoBackLine /> : <RiDeleteBinLine />}
+                className="w-3.5 h-3.5"
+              />
+            </Button>
+          </div>
+        </div>
+        {history.length > 0 ? (
+          <div className="w-full grid grid-cols-1 gap-2.5">
+            {history.map((item, index) => (
+              <Clickable tapScale={0.985} key={index}>
+                <Card
+                  className={cn(
+                    "group transition-all duration-300 hover:shadow-lg border-dashed",
+                    "bg-background/50 hover:bg-background",
+                    trashMode && "hover:border-destructive hover:border-solid",
+                  )}
+                >
+                  <CardContent className="p-3">
+                    <Link
+                      className="flex flex-row items-center"
+                      href={toSearchURI(item.query)}
+                      onClick={(e) => {
+                        if (trashMode) {
+                          e.preventDefault();
+                          removeHistory(item.query);
+                          setHistory(listHistory());
+                          return;
+                        } else {
+                          handleSearch(item.query);
+                        }
+                      }}
                     >
-                      {item}
-                    </p>
-                    <ChevronRight
-                      className={`transition-all shrink-0 w-4 h-4 ml-auto mr-0.5`}
-                    />
-                  </Link>
-                </Clickable>
-              ))}
+                      <div
+                        className={cn(
+                          "w-8 h-8 rounded-full grid place-items-center border-2 border-dashed shrink-0",
+                          trashMode
+                            ? "border-destructive/50"
+                            : `${getTypeColor(item.queryType)}/50`,
+                        )}
+                      >
+                        <Icon
+                          icon={!trashMode ? <RiLinkM /> : <RiDeleteBinLine />}
+                          className={cn(
+                            "w-3.5 h-3.5",
+                            trashMode
+                              ? "text-destructive"
+                              : getTypeColor(item.queryType),
+                          )}
+                        />
+                      </div>
+                      <div className="ml-3 flex-grow">
+                        <div className="flex items-center">
+                          <p className="text-sm font-medium tracking-wide">
+                            {item.query}
+                          </p>
+                          <Badge
+                            variant="outline"
+                            className={cn(
+                              "ml-2 text-[10px] px-1.5 py-0 font-normal border-dashed",
+                              getTypeColor(item.queryType),
+                            )}
+                          >
+                            {item.queryType.toUpperCase()}
+                          </Badge>
+                        </div>
+                        <div className="flex items-center mt-1.5 space-x-3 text-xs text-muted-foreground">
+                          <div className="flex items-center">
+                            <RiTimeLine className="w-3 h-3 mr-1" />
+                            <span>
+                              {format(item.timestamp, "MMM dd, yyyy")}
+                            </span>
+                          </div>
+                          <div className="w-1 h-1 rounded-full bg-muted" />
+                          <span>{format(item.timestamp, "HH:mm")}</span>
+                        </div>
+                      </div>
+                      <div
+                        className={cn(
+                          "w-6 h-6 rounded-full grid place-items-center ml-2 transition-all duration-300",
+                          "opacity-0 group-hover:opacity-100 scale-90 group-hover:scale-100",
+                          "border border-dashed",
+                          trashMode
+                            ? "border-destructive/50"
+                            : "border-primary/50",
+                        )}
+                      >
+                        <RiArrowRightSLine
+                          className={cn(
+                            "w-3.5 h-3.5",
+                            trashMode ? "text-destructive" : "text-primary",
+                          )}
+                        />
+                      </div>
+                    </Link>
+                  </CardContent>
+                </Card>
+              </Clickable>
+            ))}
+          </div>
+        ) : (
+          <div className="w-full mt-12 flex flex-col items-center text-center">
+            <div className="w-16 h-16 rounded-full bg-muted/20 grid place-items-center mb-4 border-2 border-dashed">
+              <RiHistoryLine className="w-8 h-8 text-muted-foreground" />
             </div>
-            <div className={`flex flex-row items-center w-full mt-2`}>
-              <Button
-                variant={`outline`}
-                size={`icon-sm`}
-                onClick={() => setTrashMode(!trashMode)}
-                tapClassName={`ml-auto`}
-              >
-                <Icon
-                  icon={trashMode ? <Undo2 /> : <Trash2 />}
-                  className={`w-3.5 h-3.5`}
-                />
-              </Button>
+            <h3 className="text-lg font-medium tracking-wide mb-2">
+              No History Yet
+            </h3>
+            <p className="text-sm text-muted-foreground max-w-[300px] leading-relaxed">
+              Your search history will appear here. Start by searching for a
+              domain, IP, or ASN above.
+            </p>
+            <div className="mt-6 flex items-center gap-2 text-xs text-muted-foreground border border-dashed rounded-full px-3 py-1.5">
+              <RiInformationLine className="w-3.5 h-3.5" />
+              <span>History is stored locally in your browser</span>
             </div>
-          </>
+          </div>
         )}
       </div>
     </main>

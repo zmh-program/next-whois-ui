@@ -68,7 +68,7 @@ interface SearchBoxProps {
 }
 
 interface SuggestionGroup {
-  title: string;
+  type: "history" | "quick";
   items: string[];
 }
 
@@ -217,7 +217,7 @@ export function SearchBox({
 
     if (historySuggestions.length > 0) {
       suggestionGroups.push({
-        title: t("recent_searches"),
+        type: "history",
         items: historySuggestions.slice(0, 5),
       });
     }
@@ -259,7 +259,7 @@ export function SearchBox({
     }
 
     suggestionGroups.push({
-      title: t("quick_suggestions"),
+      type: "quick",
       items: typeSuggestions.length > 0 ? typeSuggestions.slice(0, 8) : [value],
     });
 
@@ -387,10 +387,10 @@ export function SearchBox({
             className="absolute z-50 w-full mt-1 bg-background/95 backdrop-blur-sm rounded-lg border shadow-lg overflow-hidden divide-y divide-border/50"
           >
             {suggestions.map((group, groupIndex) => (
-              <div key={group.title} className="relative">
+              <div key={group.type} className="relative">
                 <div>
                   {group.items.map((suggestion, index) => {
-                    const isHistory = group.title === "Recent Searches";
+                    const isHistory = group.type === "history";
                     const type = predictQueryType(suggestion);
 
                     return (

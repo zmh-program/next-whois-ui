@@ -1,12 +1,9 @@
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import {
-  RiCheckLine,
   RiArrowRightSLine,
   RiLinkM,
-  RiLoader2Line,
   RiSearchLine,
-  RiSendPlaneLine,
   RiDeleteBinLine,
   RiArrowGoBackLine,
   RiFilterLine,
@@ -18,7 +15,7 @@ import {
 } from "@remixicon/react";
 import React, { useEffect } from "react";
 import Link from "next/link";
-import { cn, isEnter, toSearchURI } from "@/lib/utils";
+import { cn, toSearchURI } from "@/lib/utils";
 import {
   HistoryItem,
   listHistory,
@@ -39,10 +36,9 @@ import {
 import { format } from "date-fns";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
-import { SearchBox } from "@/components/search/SearchBox";
+import { SearchBox } from "@/components/search_box";
 
 export default function Home() {
-  const [domain, setDomain] = React.useState<string>("");
   const [loading, setLoading] = React.useState<boolean>(false);
   const [history, setHistory] = React.useState<HistoryItem[]>([]);
   const [trashMode, setTrashMode] = React.useState<boolean>(false);
@@ -191,8 +187,8 @@ export default function Home() {
               <Clickable tapScale={0.985} key={index}>
                 <Card
                   className={cn(
-                    "group transition-all duration-300 hover:shadow-lg border-dashed",
-                    "bg-background/50 hover:bg-background",
+                    "group transition-all duration-300 hover:shadow-sm border-dashed",
+                    "bg-secondary/25 hover:bg-secondary/50",
                     trashMode && "hover:border-destructive hover:border-solid",
                   )}
                 >

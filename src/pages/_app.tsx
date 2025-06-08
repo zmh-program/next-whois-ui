@@ -6,7 +6,7 @@ import { Toaster } from "sonner";
 import { ThemeProvider } from "@/components/theme-provider";
 import { strEnv } from "@/lib/env";
 import { inter } from "@/lib/fonts";
-import PWAInstaller from "@/components/PWAInstaller";
+import PWAInstaller from "@/components/pwa_installer";
 import { Navbar } from "@/components/navbar";
 
 const siteTitle = strEnv("NEXT_PUBLIC_SITE_TITLE", "Next Whois UI");

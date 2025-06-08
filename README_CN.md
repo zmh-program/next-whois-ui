@@ -62,7 +62,7 @@ pnpm dev
 
 ### WHOIS
 
-- `NEXT_PUBLIC_HISTORY_LIMIT`: 历史记录限制（默认值：6）
+- `NEXT_PUBLIC_HISTORY_LIMIT`: 历史记录限制（默认值：-1）
 - `NEXT_PUBLIC_MAX_WHOIS_FOLLOW`: 最大域名 Whois 跟随数（默认值：0）
 - `NEXT_PUBLIC_MAX_IP_WHOIS_FOLLOW`: 最大 IP Whois 跟随数（默认值：5）
 

@@ -62,7 +62,7 @@ pnpm dev
 
 ### WHOIS
 
-- `NEXT_PUBLIC_HISTORY_LIMIT`: Verlaufslimit (Standard: 6)
+- `NEXT_PUBLIC_HISTORY_LIMIT`: Verlaufslimit (Standard: -1)
 - `NEXT_PUBLIC_MAX_WHOIS_FOLLOW`: Maximale Domain-Whois-Verfolgung (Standard: 0)
 - `NEXT_PUBLIC_MAX_IP_WHOIS_FOLLOW`: Maximale IP-Whois-Verfolgung (Standard: 5)
 

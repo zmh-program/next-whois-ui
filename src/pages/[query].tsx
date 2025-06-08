@@ -52,7 +52,7 @@ import ErrorArea from "@/components/items/error-area";
 import RichTextarea from "@/components/items/rich-textarea";
 import InfoText from "@/components/items/info-text";
 import Clickable from "@/components/motion/clickable";
-import { SearchBox } from "@/components/search/SearchBox";
+import { SearchBox } from "@/components/search_box";
 
 type Props = {
   data: WhoisResult;

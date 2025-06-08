@@ -52,11 +52,13 @@ export function addHistory(query: string) {
     queryType: detectQueryType(domain),
   };
 
-  // Remove existing entry with same query
   history = history.filter((item) => item.query !== domain);
 
-  // Add new item at the beginning
-  history = [newItem, ...history].slice(0, HISTORY_LIMIT);
+  if (HISTORY_LIMIT < 0) {
+    history = [newItem, ...history];
+  } else {
+    history = [newItem, ...history].slice(0, HISTORY_LIMIT);
+  }
   localStorage.setItem("history", JSON.stringify(history));
 }
 

@@ -62,7 +62,7 @@ pnpm dev
 
 ### WHOIS
 
-- `NEXT_PUBLIC_HISTORY_LIMIT`: 履歴制限（デフォルト値：6）
+- `NEXT_PUBLIC_HISTORY_LIMIT`: 履歴制限（デフォルト値：-1）
 - `NEXT_PUBLIC_MAX_WHOIS_FOLLOW`: 最大ドメインWhoisフォロー数（デフォルト値：0）
 - `NEXT_PUBLIC_MAX_IP_WHOIS_FOLLOW`: 最大IP Whoisフォロー数（デフォルト値：5）
 

@@ -62,7 +62,7 @@ pnpm dev
 
 ### WHOIS
 
-- `NEXT_PUBLIC_HISTORY_LIMIT`: Лимит истории (По умолчанию: 6)
+- `NEXT_PUBLIC_HISTORY_LIMIT`: Лимит истории (По умолчанию: -1)
 - `NEXT_PUBLIC_MAX_WHOIS_FOLLOW`: Максимальное количество следователей whois для доменов (По умолчанию: 0)
 - `NEXT_PUBLIC_MAX_IP_WHOIS_FOLLOW`: Максимальное количество следователей whois для IP (По умолчанию: 5)
 

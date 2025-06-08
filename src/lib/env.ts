@@ -1,6 +1,6 @@
-export const VERSION = "1.0";
+export const VERSION = "1.1";
 
-export const HISTORY_LIMIT: number = intEnv("NEXT_PUBLIC_HISTORY_LIMIT", 6);
+export const HISTORY_LIMIT: number = intEnv("NEXT_PUBLIC_HISTORY_LIMIT", -1);
 // The maximum number of history items to keep in the local storage
 
 export const MAX_WHOIS_FOLLOW = intEnv("NEXT_PUBLIC_MAX_WHOIS_FOLLOW", 0);

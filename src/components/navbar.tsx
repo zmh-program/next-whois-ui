@@ -9,6 +9,7 @@ import { VERSION } from "@/lib/env";
 import Link from "next/link";
 import { RiGithubFill } from "@remixicon/react";
 import { useScrollDirection } from "@/hooks/useScrollDirection";
+import { usePWAInstaller } from "./pwa_installer";
 
 export function ThemeToggle() {
   const { theme, setTheme } = useTheme();
@@ -62,6 +63,7 @@ export function ThemeToggle() {
 
 export function Navbar() {
   const isVisible = useScrollDirection();
+  const { install } = usePWAInstaller();
 
   return (
     <div className="fixed top-0 left-0 right-0 z-50 flex justify-center">
@@ -78,6 +80,7 @@ export function Navbar() {
         <Link
           href="/"
           className="text-xs ml-2 font-medium tracking-wide hover:text-primary/80 transition-colors flex items-center"
+          onClick={() => install(true)}
         >
           NEXT WHOIS
           <p className="text-xs text-muted-foreground ml-1.5">{VERSION}</p>

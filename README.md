@@ -53,7 +53,7 @@ pnpm dev
 - `NEXT_PUBLIC_SITE_KEYWORDS`: Site Keywords
 
 ### WHOIS
-- `NEXT_PUBLIC_HISTORY_LIMIT`: History Limit (Default: 6)
+- `NEXT_PUBLIC_HISTORY_LIMIT`: History Limit (Default: -1)
 - `NEXT_PUBLIC_MAX_WHOIS_FOLLOW`: Max Domain Whois Follow (Default: 0)
 - `NEXT_PUBLIC_MAX_IP_WHOIS_FOLLOW`: Max IP Whois Follow (Default: 5)
 

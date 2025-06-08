@@ -1,0 +1,14 @@
+{
+  "title": "Next Whois Lookup",
+  "search_history": "Search history...",
+  "filter_by_type": "FILTER BY TYPE",
+  "all_types": "All Types",
+  "domain_only": "Domain Only",
+  "ipv4_only": "IPv4 Only",
+  "ipv6_only": "IPv6 Only",
+  "asn_only": "ASN Only",
+  "cidr_only": "CIDR Only",
+  "no_history_title": "No History Yet",
+  "no_history_description": "Your search history will appear here. Start by searching for a domain, IP, or ASN above.",
+  "local_storage_info": "History is stored locally in your browser"
+} 

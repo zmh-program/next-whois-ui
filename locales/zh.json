@@ -1,0 +1,14 @@
+{
+  "title": "Next Whois 查询",
+  "search_history": "搜索历史...",
+  "filter_by_type": "按类型筛选",
+  "all_types": "所有类型",
+  "domain_only": "仅域名",
+  "ipv4_only": "仅 IPv4",
+  "ipv6_only": "仅 IPv6",
+  "asn_only": "仅 ASN",
+  "cidr_only": "仅 CIDR",
+  "no_history_title": "暂无历史记录",
+  "no_history_description": "您的搜索历史将显示在这里。请在上方搜索域名、IP 或 ASN。",
+  "local_storage_info": "历史记录存储在您的浏览器中"
+} 

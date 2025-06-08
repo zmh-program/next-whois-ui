@@ -314,7 +314,7 @@ export function SearchBox({
 
       setSelectedIndex(currentIndex);
       setSelectedGroup(currentGroup);
-    } else if (e.key === "Enter") {
+    } else if (isEnter(e)) {
       setIsEnterPressed(true);
       setTimeout(() => setIsEnterPressed(false), 200);
       if (
@@ -419,11 +419,11 @@ export function SearchBox({
                         <Badge
                           variant="outline"
                           className={cn(
-                            "ml-2 text-[10px] px-1.5 py-0 font-normal border-dashed",
+                            "ml-2 text-[10px] px-1.5 py-0 font-normal border-dashed rounded-sm",
                             isHistory
                               ? "opacity-60 bg-muted/20"
                               : "opacity-40 group-hover:opacity-60",
-                            "transition-opacity duration-150",
+                            "transition-opacity duration-150 bg-primary/20",
                           )}
                         >
                           {type.toUpperCase()}

@@ -10,6 +10,7 @@ import Link from "next/link";
 import { RiGithubFill } from "@remixicon/react";
 import { useScrollDirection } from "@/hooks/useScrollDirection";
 import { usePWAInstaller } from "./pwa_installer";
+import { LanguageSwitcher } from "./language-switcher";
 
 export function ThemeToggle() {
   const { theme, setTheme } = useTheme();
@@ -90,12 +91,13 @@ export function Navbar() {
 
         <div className="flex items-center gap-3">
           <ThemeToggle />
+          <LanguageSwitcher />
           <Link
             href="https://github.com/zmh-program/next-whois-ui"
             target="_blank"
-            className="inline-flex items-center justify-center rounded-full w-8 h-8 hover:scale-110 transition-all duration-300"
+            className="inline-flex items-center justify-center rounded-full p-2 hover:scale-110 transition-all duration-300"
           >
-            <RiGithubFill className="h-4 w-4" />
+            <RiGithubFill className="h-[1rem] w-[1rem]" />
             <span className="sr-only">GitHub</span>
           </Link>
         </div>

@@ -104,12 +104,12 @@ export function toSearchURI(query: string) {
           ?.split("=")[1] ||
         navigator.language.split("-")[0] ||
         "en";
-      if (!["en", "zh", "zh-tw", "de", "ru", "ja"].includes(locale))
+      if (!["en", "zh", "zh-tw", "de", "ru", "ja", "fr", "ko"].includes(locale))
         locale = "en";
     }
   }
 
-  if (!["en", "zh", "zh-tw", "de", "ru", "ja"].includes(locale)) {
+  if (!["en", "zh", "zh-tw", "de", "ru", "ja", "fr", "ko"].includes(locale)) {
     locale = "en";
   }
 

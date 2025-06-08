@@ -15,6 +15,8 @@ const languageNames = {
   de: "Deutsch",
   ru: "Русский",
   ja: "日本語",
+  fr: "Français",
+  ko: "한국어",
 } as const;
 
 export function LanguageSwitcher() {

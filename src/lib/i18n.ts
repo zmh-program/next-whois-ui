@@ -5,8 +5,10 @@ import zhTW from "../../locales/zh-tw.json";
 import de from "../../locales/de.json";
 import ru from "../../locales/ru.json";
 import ja from "../../locales/ja.json";
+import fr from "../../locales/fr.json";
+import ko from "../../locales/ko.json";
 
-const translations = { en, zh, "zh-tw": zhTW, de, ru, ja };
+const translations = { en, zh, "zh-tw": zhTW, de, ru, ja, fr, ko };
 
 export type Locale = keyof typeof translations;
 
@@ -49,7 +51,9 @@ export function useTranslation() {
         | typeof zhTW
         | typeof de
         | typeof ru
-        | typeof ja,
+        | typeof ja
+        | typeof fr
+        | typeof ko,
       path: string[],
     ): string => {
       return path.reduce((acc, key) => {

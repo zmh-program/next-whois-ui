@@ -93,7 +93,7 @@ export function toSearchURI(query: string) {
 
   if (typeof window !== "undefined") {
     const path = window.location.pathname;
-    const match = path.match(/^\/([a-z]{2})(\/|$)/);
+    const match = path.match(/^\/([a-z]{2}(?:-[a-z]{2})?)(\/|$)/);
     if (match) {
       locale = match[1];
     } else {
@@ -104,12 +104,13 @@ export function toSearchURI(query: string) {
           ?.split("=")[1] ||
         navigator.language.split("-")[0] ||
         "en";
-      if (!["en", "zh"].includes(locale)) locale = "en";
+      if (!["en", "zh", "zh-tw", "de", "ru", "ja"].includes(locale))
+        locale = "en";
     }
   }
 
-  if (locale === "en") {
-    return q ? `/${encodeURIComponent(q)}` : "/";
+  if (!["en", "zh", "zh-tw", "de", "ru", "ja"].includes(locale)) {
+    locale = "en";
   }
 
   return q ? `/${locale}/${encodeURIComponent(q)}` : `/${locale}`;

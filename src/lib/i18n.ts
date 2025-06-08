@@ -1,8 +1,12 @@
 import { useRouter } from "next/router";
 import en from "../../locales/en.json";
 import zh from "../../locales/zh.json";
+import zhTW from "../../locales/zh-tw.json";
+import de from "../../locales/de.json";
+import ru from "../../locales/ru.json";
+import ja from "../../locales/ja.json";
 
-const translations = { en, zh };
+const translations = { en, zh, "zh-tw": zhTW, de, ru, ja };
 
 export type Locale = keyof typeof translations;
 
@@ -38,7 +42,16 @@ export function useTranslation() {
   const locale = (router.locale || "en") as Locale;
 
   function t(key: TranslationKey, values?: InterpolationValues): string {
-    const getValue = (obj: typeof en | typeof zh, path: string[]): string => {
+    const getValue = (
+      obj:
+        | typeof en
+        | typeof zh
+        | typeof zhTW
+        | typeof de
+        | typeof ru
+        | typeof ja,
+      path: string[],
+    ): string => {
       return path.reduce((acc, key) => {
         if (acc && typeof acc === "object" && key in acc) {
           const value = (acc as any)[key];

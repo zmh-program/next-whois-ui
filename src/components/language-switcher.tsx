@@ -11,6 +11,10 @@ import { RiEarthFill } from "@remixicon/react";
 const languageNames = {
   en: "English",
   zh: "简体中文",
+  "zh-tw": "繁體中文",
+  de: "Deutsch",
+  ru: "Русский",
+  ja: "日本語",
 } as const;
 
 export function LanguageSwitcher() {
@@ -31,7 +35,7 @@ export function LanguageSwitcher() {
           <span className="sr-only">Language</span>
         </button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="w-24">
+      <DropdownMenuContent align="end" className="w-32">
         {Object.entries(languageNames).map(([key, name]) => (
           <DropdownMenuItem
             key={key}

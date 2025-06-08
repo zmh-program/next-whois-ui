@@ -27,10 +27,22 @@ function getLocale(request: NextRequest): string {
 
 export function middleware(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
+
+  const currentLocale = locales.find(
+    (locale) => pathname === `/${locale}` || pathname.startsWith(`/${locale}/`),
+  );
+
+  const pathWithoutLocale = currentLocale
+    ? pathname.replace(`/${currentLocale}`, "")
+    : pathname;
+
+  const isDomainQuery =
+    pathWithoutLocale.split("/").length === 2 && pathWithoutLocale !== "/";
+  if (isDomainQuery) return;
+
   const pathnameHasLocale = locales.some(
     (locale) => pathname.startsWith(`/${locale}/`) || pathname === `/${locale}`,
   );
-
   if (pathnameHasLocale) return;
 
   const locale = getLocale(request);
@@ -38,12 +50,12 @@ export function middleware(request: NextRequest) {
   const response = NextResponse.redirect(request.nextUrl);
   response.cookies.set("NEXT_LOCALE", locale, {
     path: "/",
-    maxAge: 60 * 60 * 24 * 365, // 1 year
+    maxAge: 60 * 60 * 24 * 365,
   });
 
   return response;
 }
 
 export const config = {
-  matcher: ["/((?!_next|api|favicon.ico).*)"],
+  matcher: ["/((?!_next|api|favicon.ico|icons|images|.*\\..*).*)"],
 };

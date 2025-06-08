@@ -63,6 +63,7 @@ interface SearchBoxProps {
   onSearch: (value: string) => void;
   loading?: boolean;
   className?: string;
+  autoFocus?: boolean;
 }
 
 interface SuggestionGroup {
@@ -75,6 +76,7 @@ export function SearchBox({
   onSearch,
   loading = false,
   className,
+  autoFocus = false,
 }: SearchBoxProps) {
   const [inputValue, setInputValue] = useState(initialValue);
   const [suggestions, setSuggestions] = useState<SuggestionGroup[]>([]);
@@ -105,6 +107,12 @@ export function SearchBox({
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
+
+  useEffect(() => {
+    if (autoFocus && inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, [autoFocus]);
 
   const predictQueryType = (value: string): string => {
     if (!value) return "domain";
@@ -341,7 +349,7 @@ export function SearchBox({
       <div className="relative flex flex-row items-center w-full">
         <Input
           ref={inputRef}
-          className="w-full text-center pr-20 transition-all duration-300 hover:shadow focus-visible:ring-primary/20 focus-visible:ring-offset-0"
+          className="w-full text-center pr-12 transition-all duration-300 hover:shadow focus-visible:ring-primary/20 focus-visible:ring-offset-0"
           placeholder="Search Domain, IPv4, IPv6, ASN, or CIDR"
           value={inputValue}
           onChange={handleInputChange}

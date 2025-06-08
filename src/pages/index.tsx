@@ -112,7 +112,7 @@ export default function Home() {
           Next Whois Lookup
         </h1>
         <div className={"w-full mt-2"}>
-          <SearchBox onSearch={handleSearch} loading={loading} />
+          <SearchBox onSearch={handleSearch} loading={loading} autoFocus />
         </div>
 
         <div className="w-full flex flex-row items-center justify-between mt-8 mb-2">

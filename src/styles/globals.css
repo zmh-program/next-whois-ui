@@ -10,6 +10,7 @@
     --background-hover: 5 12% 100%;
     --background-container: 0, 0%, 97%, 0.8;
     --foreground: 240 10% 3.9%;
+    --dot-color: 240 10% 3.9%;
 
     --card: 0 0% 100%;
     --card-hover: 0 0% 97%;
@@ -68,6 +69,7 @@
     --background-hover: 0 0% 7.8%;
     --background-container: 0, 0%, 7.8%, 0.8;
     --foreground: 210 40% 98%;
+    --dot-color: 210 40% 98%;
 
     --card: 240 10% 3.9%;
     --card-hover: 240 11% 12.5%;
@@ -112,6 +114,16 @@
   }
   body {
     @apply bg-background text-foreground;
+  }
+}
+
+@layer utilities {
+  .bg-dot-pattern {
+    background-image: radial-gradient(
+      currentColor 1px,
+      transparent 1px
+    );
+    background-size: 16px 16px;
   }
 }
 

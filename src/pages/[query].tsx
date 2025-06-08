@@ -53,6 +53,7 @@ import InfoText from "@/components/items/info-text";
 import Clickable from "@/components/motion/clickable";
 import { SearchBox } from "@/components/search_box";
 import { useTranslation } from "@/lib/i18n";
+import { motion } from "framer-motion";
 
 type Props = {
   data: WhoisResult;
@@ -632,29 +633,50 @@ export default function Lookup({ data, target }: Props) {
           "relative w-full min-h-full grid place-items-center px-4 pb-6"
         }
       >
-        <div
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, ease: "easeOut" }}
           className={
             "flex flex-col items-center w-full h-fit max-w-[568px] m-2 mt-4"
           }
         >
-          <div className="w-full flex items-center justify-start">
+          <motion.div
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.5, delay: 0.1, ease: "easeOut" }}
+            className="w-full flex items-center justify-start"
+          >
             <Link href="/">
               <button className="flex items-center text-secondary hover:text-primary transition-colors text-xs duration-300">
                 <RiArrowLeftSLine className="w-4 h-4 mr-1" />
                 {t("back")}
               </button>
             </Link>
-          </div>
+          </motion.div>
 
-          <div className={"w-full mt-1.5"}>
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.5, delay: 0.2, ease: "easeOut" }}
+            className={"w-full mt-1.5"}
+          >
             <SearchBox
               initialValue={target}
               onSearch={handleSearch}
               loading={loading}
             />
-          </div>
-          <ResultComp data={data} target={target} />
-        </div>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.4, ease: "easeOut" }}
+            className="w-full"
+          >
+            <ResultComp data={data} target={target} />
+          </motion.div>
+        </motion.div>
       </main>
     </ScrollArea>
   );

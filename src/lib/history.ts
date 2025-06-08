@@ -19,57 +19,84 @@ export function detectQueryType(query: string): HistoryItem["queryType"] {
   return "domain";
 }
 
+// Helper function to check if localStorage is available
+function isLocalStorageAvailable(): boolean {
+  try {
+    return (
+      typeof window !== "undefined" &&
+      typeof window.localStorage !== "undefined"
+    );
+  } catch {
+    return false;
+  }
+}
+
 export function listHistory(): HistoryItem[] {
-  const history = localStorage.getItem("history");
-  if (!history || history === "[]") return [];
+  if (!isLocalStorageAvailable()) return [];
 
-  const parsed = JSON.parse(history);
-  if (!Array.isArray(parsed)) return [];
+  try {
+    const history = localStorage.getItem("history");
+    if (!history || history === "[]") return [];
 
-  return parsed
-    .filter(
-      (item: any) =>
-        typeof item === "object" &&
-        typeof item.query === "string" &&
-        typeof item.timestamp === "number" &&
-        typeof item.queryType === "string",
-    )
-    .map((item: HistoryItem) => ({
-      ...item,
-      query: item.query.trim(),
-    }))
-    .filter((item: HistoryItem) => item.query.length > 0);
+    const parsed = JSON.parse(history);
+    if (!Array.isArray(parsed)) return [];
+
+    return parsed
+      .filter(
+        (item: any) =>
+          typeof item === "object" &&
+          typeof item.query === "string" &&
+          typeof item.timestamp === "number" &&
+          typeof item.queryType === "string",
+      )
+      .map((item: HistoryItem) => ({
+        ...item,
+        query: item.query.trim(),
+      }))
+      .filter((item: HistoryItem) => item.query.length > 0);
+  } catch (error) {
+    console.warn("Failed to read history from localStorage:", error);
+    return [];
+  }
 }
 
 export function addHistory(query: string) {
-  if (!query || query.length === 0) return;
+  if (!query || query.length === 0 || !isLocalStorageAvailable()) return;
 
-  let history = listHistory();
-  const domain = query.trim();
-  const newItem: HistoryItem = {
-    query: domain,
-    timestamp: Date.now(),
-    queryType: detectQueryType(domain),
-  };
+  try {
+    let history = listHistory();
+    const domain = query.trim();
+    const newItem: HistoryItem = {
+      query: domain,
+      timestamp: Date.now(),
+      queryType: detectQueryType(domain),
+    };
 
-  history = history.filter((item) => item.query !== domain);
+    history = history.filter((item) => item.query !== domain);
 
-  if (HISTORY_LIMIT < 0) {
-    history = [newItem, ...history];
-  } else {
-    history = [newItem, ...history].slice(0, HISTORY_LIMIT);
+    if (HISTORY_LIMIT < 0) {
+      history = [newItem, ...history];
+    } else {
+      history = [newItem, ...history].slice(0, HISTORY_LIMIT);
+    }
+    localStorage.setItem("history", JSON.stringify(history));
+  } catch (error) {
+    console.warn("Failed to save history to localStorage:", error);
   }
-  localStorage.setItem("history", JSON.stringify(history));
 }
 
 export function removeHistory(query: string) {
-  if (!query || query.length === 0) return;
+  if (!query || query.length === 0 || !isLocalStorageAvailable()) return;
 
-  let history = listHistory();
-  const domain = query.trim();
+  try {
+    let history = listHistory();
+    const domain = query.trim();
 
-  history = history.filter((item) => item.query !== domain);
-  localStorage.setItem("history", JSON.stringify(history));
+    history = history.filter((item) => item.query !== domain);
+    localStorage.setItem("history", JSON.stringify(history));
+  } catch (error) {
+    console.warn("Failed to remove history from localStorage:", error);
+  }
 }
 
 export function searchHistory(searchTerm: string): HistoryItem[] {
@@ -85,5 +112,11 @@ export function searchHistory(searchTerm: string): HistoryItem[] {
 }
 
 export function clearHistory() {
-  localStorage.setItem("history", "[]");
+  if (!isLocalStorageAvailable()) return;
+
+  try {
+    localStorage.setItem("history", "[]");
+  } catch (error) {
+    console.warn("Failed to clear history from localStorage:", error);
+  }
 }

@@ -1,6 +1,6 @@
 {
-  "name": "Next Whois UI",
-  "short_name": "Next Whois UI",
+  "name": "Next Whois",
+  "short_name": "Next Whois",
   "description": "🧪 Your Next Generation Of Whois Lookup Tool With Modern UI.",
   "start_url": "/",
   "display": "standalone",

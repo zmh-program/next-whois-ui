@@ -1,6 +1,6 @@
 <div align="center">
 
-# 🧪 Next Whois UI
+# 🧪 Next Whois
 
 😎 現代代 Whois 查詢工具
 

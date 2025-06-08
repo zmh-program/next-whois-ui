@@ -9,14 +9,14 @@ import { inter } from "@/lib/fonts";
 import PWAInstaller from "@/components/pwa_installer";
 import { Navbar } from "@/components/navbar";
 
-const siteTitle = strEnv("NEXT_PUBLIC_SITE_TITLE", "Next Whois UI");
+const siteTitle = strEnv("NEXT_PUBLIC_SITE_TITLE", "Next Whois");
 const siteDescription = strEnv(
   "NEXT_PUBLIC_SITE_DESCRIPTION",
   "🧪 Your Next Generation Of Whois Lookup Tool With Modern UI. Support Domain/IPv4/IPv6/ASN/CIDR Whois Lookup And Powerful Features.",
 );
 const siteKeywords = strEnv(
   "NEXT_PUBLIC_SITE_KEYWORDS",
-  "Whois, Lookup, Tool, Next Whois UI",
+  "Whois, Lookup, Tool, Next Whois",
 );
 
 export default function App({ Component, pageProps }: AppProps) {
@@ -38,7 +38,7 @@ export default function App({ Component, pageProps }: AppProps) {
       >
         <PWAInstaller
           manifest-url="/manifest.json"
-          name="Next Whois UI"
+          name="Next Whois"
           description="🧪 Your Next Generation Of Whois Lookup Tool With Modern UI. Support Domain/IPv4/IPv6/ASN/CIDR Whois Lookup And Powerful Features."
         />
         <div className={cn(`relative w-full min-h-screen`, inter.className)}>

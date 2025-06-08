@@ -1,6 +1,6 @@
 <div align="center">
 
-# 🧪 Next Whois UI
+# 🧪 Next Whois
 😎 Lightweight & Beautiful Whois Query Tool
 
 [English](README.md) · [简体中文](README_CN.md) · [繁體中文](README_TW.md) · [Русский](README_RU.md) · [日本語](README_JP.md) · [Deutsch](README_DE.md)

@@ -9,7 +9,10 @@ import { inter } from "@/lib/fonts";
 import PWAInstaller from "@/components/pwa_installer";
 import { Navbar } from "@/components/navbar";
 
-const siteTitle = strEnv("NEXT_PUBLIC_SITE_TITLE", "Next Whois");
+const siteTitle = strEnv(
+  "NEXT_PUBLIC_SITE_TITLE",
+  "Next Whois - Easily Lookup Whois Information",
+);
 const siteDescription = strEnv(
   "NEXT_PUBLIC_SITE_DESCRIPTION",
   "🧪 Your Next Generation Of Whois Lookup Tool With Modern UI. Support Domain/IPv4/IPv6/ASN/CIDR Whois Lookup And Powerful Features.",
@@ -42,8 +45,8 @@ export default function App({ Component, pageProps }: AppProps) {
           description="🧪 Your Next Generation Of Whois Lookup Tool With Modern UI. Support Domain/IPv4/IPv6/ASN/CIDR Whois Lookup And Powerful Features."
         />
         <div className="fixed inset-0 -z-10">
-          <div className="absolute inset-0 bg-dot-pattern opacity-[0.1]" />
-          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-background/50 to-background" />
+          <div className="absolute inset-0 bg-dot-pattern opacity-10" />
+          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-background/20 to-background" />
         </div>
         <div className={cn(`relative w-full min-h-screen`, inter.className)}>
           <Navbar />

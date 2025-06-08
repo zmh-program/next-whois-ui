@@ -22,10 +22,10 @@ No need to say more, just try it out! 🥳
 6. 📡 **Open API**: Simple API for whois query, easy to integrate with other services.
 7. 🌍 **IPv4 & IPv6 Whois**: Support IPv4, IPv6, Domain, ASN, CIDR whois query.
 8. 📦 **Result Capture**: Capture whois result, easy to share and save.
-9. 📡 **Whois Cache**: Support whois cache based on Redis, improve query speed.
-10. 🌍 [WIP] **Internationalization**: Support multiple languages. ([#6](https://github.com/zmh-program/next-whois-ui/issues/6))
+9. 📡 **Result Caching**: Redis-based Whois caching for faster queries.
+10. 🌍 **Internationalization**: Multi-language support
 
-👉 [Create Pull Request](https://github.com/zmh-program/next-whois-ui/pulls)
+👉 [Contribute](https://github.com/zmh-program/next-whois-ui/pulls)
 
 ## Deploy
 #### `1` 🚀 Platforms (Recommended)

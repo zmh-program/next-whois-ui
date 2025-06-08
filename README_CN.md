@@ -25,7 +25,7 @@
 7. 🌍 **强大支持**：支持 IPv4、IPv6、域名、ASN、CIDR 的 Whois 查询。
 8. 📦 **结果分享**：支持获取 Whois 查询结果，方便分享和保存。
 9. 📡 **结果缓存**：支持基于 Redis 的 Whois 缓存，提升查询速度。
-10. 🌍 [计划] **国际化**：支持多语言 ([#6](https://github.com/zmh-program/next-whois-ui/issues/6))
+10. 🌍 **国际化**：支持多语言
 
 👉 [贡献代码](https://github.com/zmh-program/next-whois-ui/pulls)
 

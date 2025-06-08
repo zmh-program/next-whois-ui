@@ -24,10 +24,10 @@
 6. 📡 **オープンAPI**: シンプルなWhoisクエリAPIで、他のサービスとの統合が容易です。
 7. 🌍 **IPv4＆IPv6 Whois**: IPv4、IPv6、ドメイン、ASN、CIDRのWhoisクエリをサポート。
 8. 📦 **結果キャプチャ**: Whois結果をキャプチャし、共有や保存が簡単です。
-9. 📡 **Whoisキャッシュ**: RedisベースのWhoisキャッシュをサポートし、クエリ速度を向上させます。
-10. 🌍 [進行中] **国際化**: 複数の言語をサポート。 ([#6](https://github.com/zmh-program/next-whois-ui/issues/6))
+9. 📡 **結果キャッシュ**：Redisベースのキャッシュで高速なクエリを実現。
+10. 🌍 **国際化**：多言語対応
 
-👉 [プルリクエストを作成](https://github.com/zmh-program/next-whois-ui/pulls)
+👉 [コントリビュート](https://github.com/zmh-program/next-whois-ui/pulls)
 
 ## デプロイ
 

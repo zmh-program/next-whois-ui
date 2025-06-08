@@ -12,6 +12,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { cn, isEnter } from "@/lib/utils";
 import { listHistory, HistoryItem } from "@/lib/history";
 import { Badge } from "@/components/ui/badge";
+import { useTranslation } from "@/lib/i18n";
 
 const commonDomains = [
   // Generic TLDs
@@ -78,6 +79,7 @@ export function SearchBox({
   className,
   autoFocus = false,
 }: SearchBoxProps) {
+  const { t } = useTranslation();
   const [inputValue, setInputValue] = useState(initialValue);
   const [suggestions, setSuggestions] = useState<SuggestionGroup[]>([]);
   const [history, setHistory] = useState<HistoryItem[]>([]);
@@ -215,7 +217,7 @@ export function SearchBox({
 
     if (historySuggestions.length > 0) {
       suggestionGroups.push({
-        title: "Recent Searches",
+        title: t("recent_searches"),
         items: historySuggestions.slice(0, 5),
       });
     }
@@ -257,7 +259,7 @@ export function SearchBox({
     }
 
     suggestionGroups.push({
-      title: "Quick Suggestions",
+      title: t("quick_suggestions"),
       items: typeSuggestions.length > 0 ? typeSuggestions.slice(0, 8) : [value],
     });
 
@@ -314,7 +316,7 @@ export function SearchBox({
 
       setSelectedIndex(currentIndex);
       setSelectedGroup(currentGroup);
-    } else if (e.key === "Enter") {
+    } else if (isEnter(e)) {
       setIsEnterPressed(true);
       setTimeout(() => setIsEnterPressed(false), 200);
       if (
@@ -350,7 +352,7 @@ export function SearchBox({
         <Input
           ref={inputRef}
           className="w-full text-center pr-12 transition-all duration-300 hover:shadow focus-visible:ring-primary/20 focus-visible:ring-offset-0"
-          placeholder="Search Domain, IPv4, IPv6, ASN, or CIDR"
+          placeholder={t("search_placeholder")}
           value={inputValue}
           onChange={handleInputChange}
           onKeyDown={handleKeyDown}
@@ -419,11 +421,11 @@ export function SearchBox({
                         <Badge
                           variant="outline"
                           className={cn(
-                            "ml-2 text-[10px] px-1.5 py-0 font-normal border-dashed",
+                            "ml-2 text-[10px] px-1.5 py-0 font-normal border-dashed rounded-sm",
                             isHistory
                               ? "opacity-60 bg-muted/20"
                               : "opacity-40 group-hover:opacity-60",
-                            "transition-opacity duration-150",
+                            "transition-opacity duration-150 bg-primary/20",
                           )}
                         >
                           {type.toUpperCase()}

@@ -5,6 +5,7 @@ import { toast } from "sonner";
 import { getDomain } from "tldjs";
 import { ParsedUrlQuery } from "node:querystring";
 import { getSpecialDomain } from "@/lib/whois/lib";
+import { useTranslation } from "@/lib/i18n";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -56,36 +57,63 @@ export function useClipboard() {
    * const copy = useClipboard();
    * copy("Hello world!");
    */
+  const { t } = useTranslation();
 
   return async (text: string) => {
     try {
       await copyClipboard(text);
-      toast.success("Copied!");
+      toast.success(t("toast.copied"));
     } catch (e) {
       console.error(e);
 
       const err = e as Error;
-      toast.error(`Failed to copy: ${err.message}`);
+      toast.error(t("toast.copy_failed", { message: err.message }));
     }
   };
 }
 
 export function useSaver() {
+  const { t } = useTranslation();
+
   return (filename: string, content: string) => {
     try {
       saveAsFile(filename, content);
-      toast.success("Saved!");
+      toast.success(t("toast.saved"));
     } catch (e) {
       console.error(e);
 
-      toast.error(`Failed to save: ${toErrorMessage(e)}`);
+      toast.error(t("toast.save_failed", { message: toErrorMessage(e) }));
     }
   };
 }
 
 export function toSearchURI(query: string) {
   const q = query.trim();
-  return q ? `/${encodeURIComponent(q)}` : "/";
+  let locale = "en";
+
+  if (typeof window !== "undefined") {
+    const path = window.location.pathname;
+    const match = path.match(/^\/([a-z]{2}(?:-[a-z]{2})?)(\/|$)/);
+    if (match) {
+      locale = match[1];
+    } else {
+      locale =
+        document.cookie
+          .split("; ")
+          .find((row) => row.startsWith("NEXT_LOCALE="))
+          ?.split("=")[1] ||
+        navigator.language.split("-")[0] ||
+        "en";
+      if (!["en", "zh", "zh-tw", "de", "ru", "ja"].includes(locale))
+        locale = "en";
+    }
+  }
+
+  if (!["en", "zh", "zh-tw", "de", "ru", "ja"].includes(locale)) {
+    locale = "en";
+  }
+
+  return q ? `/${locale}/${encodeURIComponent(q)}` : `/${locale}`;
 }
 
 export function toReadableISODate(date: string | null) {

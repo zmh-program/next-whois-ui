@@ -17,6 +17,7 @@ import {
 import React, { useEffect } from "react";
 import Link from "next/link";
 import { cn, toSearchURI } from "@/lib/utils";
+import { useTranslation } from "@/lib/i18n";
 import {
   HistoryItem,
   listHistory,
@@ -49,6 +50,7 @@ import {
 } from "@/components/ui/pagination";
 
 export default function Home() {
+  const { t } = useTranslation();
   const [loading, setLoading] = React.useState<boolean>(false);
   const [history, setHistory] = React.useState<HistoryItem[]>([]);
   const [trashMode, setTrashMode] = React.useState<boolean>(false);
@@ -104,14 +106,10 @@ export default function Home() {
   return (
     <main className={"w-full h-full grid place-items-center p-4 md:p-6"}>
       <div className={"flex flex-col items-center w-full h-fit max-w-[568px]"}>
-        <h1
-          className={
-            "text-lg md:text-xl lg:text-2xl font-thin flex flex-row items-center select-none"
-          }
-        >
-          Next Whois Lookup
+        <h1 className="text-lg md:text-xl lg:text-2xl font-thin select-none mb-4">
+          {t("title")}
         </h1>
-        <div className={"w-full mt-2"}>
+        <div className={"w-full"}>
           <SearchBox onSearch={handleSearch} loading={loading} autoFocus />
         </div>
 
@@ -120,7 +118,7 @@ export default function Home() {
             <div className="relative">
               <Input
                 className="w-24 sm:w-48 lg:w-64 h-8 text-xs pl-8 border-dashed focus:border-solid"
-                placeholder="Search history..."
+                placeholder={t("search_history")}
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
@@ -143,7 +141,7 @@ export default function Home() {
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="w-48">
                 <DropdownMenuLabel className="text-xs font-normal text-muted-foreground">
-                  FILTER BY TYPE
+                  {t("filter_by_type")}
                 </DropdownMenuLabel>
                 <DropdownMenuSeparator className="my-1.5" />
                 <DropdownMenuRadioGroup
@@ -151,22 +149,22 @@ export default function Home() {
                   onValueChange={setSelectedType}
                 >
                   <DropdownMenuRadioItem value="all" className="text-xs">
-                    All Types
+                    {t("all_types")}
                   </DropdownMenuRadioItem>
                   <DropdownMenuRadioItem value="domain" className="text-xs">
-                    Domain Only
+                    {t("domain_only")}
                   </DropdownMenuRadioItem>
                   <DropdownMenuRadioItem value="ipv4" className="text-xs">
-                    IPv4 Only
+                    {t("ipv4_only")}
                   </DropdownMenuRadioItem>
                   <DropdownMenuRadioItem value="ipv6" className="text-xs">
-                    IPv6 Only
+                    {t("ipv6_only")}
                   </DropdownMenuRadioItem>
                   <DropdownMenuRadioItem value="asn" className="text-xs">
-                    ASN Only
+                    {t("asn_only")}
                   </DropdownMenuRadioItem>
                   <DropdownMenuRadioItem value="cidr" className="text-xs">
-                    CIDR Only
+                    {t("cidr_only")}
                   </DropdownMenuRadioItem>
                 </DropdownMenuRadioGroup>
               </DropdownMenuContent>
@@ -213,7 +211,7 @@ export default function Home() {
                     <Card
                       className={cn(
                         "group transition-all duration-300 hover:shadow-sm border-dashed",
-                        "bg-secondary/25 hover:bg-secondary/50",
+                        "bg-secondary/25 hover:bg-secondary/50 backdrop-blur-sm",
                         trashMode &&
                           "hover:border-destructive hover:border-solid",
                       )}
@@ -428,19 +426,18 @@ export default function Home() {
           </>
         ) : (
           <div className="w-full mt-12 flex flex-col items-center text-center">
-            <div className="w-16 h-16 rounded-full bg-muted/20 grid place-items-center mb-4 border-2 border-dashed">
+            <div className="w-16 h-16 backdrop-blur-sm rounded-full bg-muted/20 grid place-items-center mb-4 border-2 border-dashed">
               <RiHistoryLine className="w-8 h-8 text-muted-foreground" />
             </div>
             <h3 className="text-lg font-medium tracking-wide mb-2">
-              No History Yet
+              {t("no_history_title")}
             </h3>
             <p className="text-sm text-muted-foreground max-w-[300px] leading-relaxed">
-              Your search history will appear here. Start by searching for a
-              domain, IP, or ASN above.
+              {t("no_history_description")}
             </p>
-            <div className="mt-6 flex items-center gap-2 text-xs text-muted-foreground border border-dashed rounded-full px-3 py-1.5">
+            <div className="mt-6 flex items-center gap-2 text-xs text-muted-foreground border border-dashed rounded-full px-3 py-1.5 bg-secondary/25 backdrop-blur-sm">
               <RiInformationLine className="w-3.5 h-3.5" />
-              <span>History is stored locally in your browser</span>
+              <span>{t("local_storage_info")}</span>
             </div>
           </div>
         )}

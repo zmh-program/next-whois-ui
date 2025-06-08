@@ -24,8 +24,8 @@
 6. 📡 **開放接口**：提供簡單的 whois 查詢 API，易於與其他服務集成。
 7. 🌍 **強大支持**：支持 IPv4、IPv6、域名、ASN、CIDR 的 Whois 查詢。
 8. 📦 **結果分享**：支持獲取 Whois 查詢結果，方便分享和保存。
-9. 📡 **結果緩存**：支持基於 Redis 的 Whois 緩存，提昇查詢速度。
-10. 🌍 [計劃] **國際化**：支持多語言 ([#6](https://github.com/zmh-program/next-whois-ui/issues/6))
+9. 📡 **結果快取**：支援基於 Redis 的 Whois 快取，提升查詢速度。
+10. 🌍 **國際化**：支援多語言
 
 👉 [貢獻代碼](https://github.com/zmh-program/next-whois-ui/pulls)
 

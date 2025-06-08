@@ -1,6 +1,7 @@
 import { toJpeg, toPng, toSvg } from "html-to-image";
 import { toast } from "sonner";
 import React from "react";
+import { useTranslation } from "@/lib/i18n";
 
 export enum CaptureTypes {
   PNG = "png",
@@ -37,15 +38,17 @@ export async function captureImage(
 }
 
 export function useImageCapture(el: React.RefObject<HTMLElement>) {
+  const { t } = useTranslation();
+
   return async (filename: string, type?: CaptureType) => {
     try {
       await captureImage(filename, el, type);
-      toast.success("Saved!");
+      toast.success(t("toast.saved"));
     } catch (e) {
       console.error(e);
 
       const err = e as Error;
-      toast.error(`Failed to save: ${err.message}`);
+      toast.error(t("toast.save_failed", { message: err.message }));
     }
   };
 }

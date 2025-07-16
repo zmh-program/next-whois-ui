@@ -50,7 +50,7 @@
     "whois-raw": "^0.1.10"
   },
   "devDependencies": {
-    "@types/node": "^20",
+    "@types/node": "^20.19.8",
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "@types/tldjs": "^2.3.4",

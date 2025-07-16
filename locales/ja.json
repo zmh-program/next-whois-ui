@@ -41,11 +41,16 @@
     "registrant_email": "登録メールアドレス",
     "name_servers": "ネームサーバー",
     "dnssec": "DNSSEC",
-    "origin_as": "オリジンAS"
+    "origin_as": "オリジンAS",
+    "moz_stats": "MOZ 統計"
   },
   "abuse": "不正使用",
   "utc": "UTC",
   "capture": "キャプチャ",
+  "years": "年",
+  "register_price": "登録料：",
+  "renew_price": "更新料：",
+  "expiring_soon": "まもなく期限切れ",
   "toast": {
     "copied": "コピーしました！",
     "copy_failed": "コピーに失敗しました：{{message}}",

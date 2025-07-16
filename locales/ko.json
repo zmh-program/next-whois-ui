@@ -41,11 +41,16 @@
     "registrant_email": "등록자 이메일",
     "name_servers": "네임서버",
     "dnssec": "DNSSEC",
-    "origin_as": "원본 AS"
+    "origin_as": "원본 AS",
+    "moz_stats": "MOZ 통계"
   },
   "abuse": "악용",
   "utc": "UTC",
   "capture": "캡처",
+  "years": "년",
+  "register_price": "등록 가격: ",
+  "renew_price": "갱신 가격: ",
+  "expiring_soon": "곧 만료됨",
   "toast": {
     "copied": "복사됨!",
     "copy_failed": "복사 실패: {{message}}",

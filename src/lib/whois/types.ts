@@ -1,3 +1,5 @@
+import { DomainPricing } from "../pricing/client";
+
 export type WhoisResult = {
   status: boolean;
   time: number;
@@ -24,6 +26,20 @@ export type WhoisAnalyzeResult = {
   registrantEmail: string;
   dnssec: string;
   rawWhoisContent: string;
+
+  // Domain age and expiration
+  domainAge: number | null;
+  remainingDays: number | null;
+
+  // Domain pricing
+  registerPrice: DomainPricing | null;
+  renewPrice: DomainPricing | null;
+  transferPrice: DomainPricing | null;
+
+  // Moz statistics
+  mozDomainAuthority: number;
+  mozPageAuthority: number;
+  mozSpamScore: number;
 
   cidr: string;
   inetNum: string;
@@ -57,6 +73,20 @@ export const initialWhoisAnalyzeResult: WhoisAnalyzeResult = {
   registrantEmail: "Unknown",
   dnssec: "",
   rawWhoisContent: "",
+
+  // Domain age and expiration
+  domainAge: null,
+  remainingDays: null,
+
+  // Domain pricing
+  registerPrice: null,
+  renewPrice: null,
+  transferPrice: null,
+
+  // Moz statistics
+  mozDomainAuthority: 0,
+  mozPageAuthority: 0,
+  mozSpamScore: 0,
 
   cidr: "Unknown",
   inetNum: "Unknown",

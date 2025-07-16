@@ -16,7 +16,7 @@ import {
   RiFileCopyLine,
   RiExternalLinkLine,
   RiLinkM,
-  RiSearchLine,
+  RiBarChartBoxAiFill,
   RiShareLine,
   RiShieldLine,
   RiQuestionFill,
@@ -28,6 +28,10 @@ import {
   RiWhatsappLine,
   RiTelegramLine,
   RiArrowLeftSLine,
+  RiLinksLine,
+  RiTimeLine,
+  RiExchangeDollarFill,
+  RiBillLine,
 } from "@remixicon/react";
 import {
   Drawer,
@@ -101,6 +105,7 @@ function ResultTable({ result, target }: ResultTableProps) {
     value,
     children,
     hidden,
+    badge,
     likeLink,
   }: {
     name: string;
@@ -108,6 +113,7 @@ function ResultTable({ result, target }: ResultTableProps) {
     hidden?: boolean;
     children?: React.ReactNode;
     likeLink?: boolean;
+    badge?: React.ReactNode;
   }) =>
     !hidden && (
       <tr>
@@ -118,7 +124,7 @@ function ResultTable({ result, target }: ResultTableProps) {
         </td>
         <td
           className={cn(
-            `py-1 pl-2 text-left text-primary whitespace-pre-wrap break-all`,
+            `py-1 pl-2 text-left text-primary whitespace-pre-wrap break-all flex items-center`,
             likeLink && `cursor-pointer hover:underline`,
           )}
           onClick={() => {
@@ -133,6 +139,7 @@ function ResultTable({ result, target }: ResultTableProps) {
         >
           {value}
           {children}
+          {badge}
         </td>
       </tr>
     );
@@ -197,6 +204,17 @@ function ResultTable({ result, target }: ResultTableProps) {
           <Row
             name={t("whois_fields.name")}
             value={result.domain || target.toUpperCase()}
+            badge={
+              result.remainingDays !== null &&
+              result.remainingDays <= 60 && (
+                <Badge
+                  className="ml-1.5 py-0.25 px-1.5 rounded border-dashed font-normal"
+                  variant="outline"
+                >
+                  {t("expiring_soon")}
+                </Badge>
+              )
+            }
           />
           <Row name={t("whois_fields.status")} value={<StatusComp />} />
           <Row
@@ -390,8 +408,59 @@ const ResultComp = React.forwardRef<HTMLDivElement, Props>(
       >
         {!isCapture && (
           <div
-            className={`inline-flex flex-row items-center w-full h-fit select-none mb-1 space-x-1`}
+            className={`inline-flex flex-row items-center w-full h-fit select-none mb-1 space-x-2`}
           >
+            {result && result?.domainAge !== null && (
+              <div className="flex items-center space-x-1.5">
+                <div className="px-2 py-0.5 rounded-md border bg-background flex items-center space-x-1">
+                  <RiTimeLine className="w-3 h-3 text-muted-foreground shrink-0 hidden sm:block" />
+                  <span className="text-[11px] sm:text-xs font-normal text-muted-foreground">
+                    {result.domainAge === 0 ? "<1" : result.domainAge}{" "}
+                    {t("years")}
+                  </span>
+                </div>
+              </div>
+            )}
+
+            {result?.registerPrice && (
+              <Link
+                target="_blank"
+                href={result.registerPrice.externalLink}
+                className="px-2 py-0.5 rounded-md border bg-background flex items-center space-x-1 cursor-pointer hover:border-muted-foreground/50 transition-colors duration-300"
+              >
+                <RiBillLine className="w-3 h-3 text-muted-foreground shrink-0 hidden sm:block" />
+                <span
+                  className={cn(
+                    "text-[11px] sm:text-xs font-normal text-muted-foreground break-words",
+                    result.registerPrice.isPremium && "text-red-500",
+                  )}
+                >
+                  {t("register_price")}
+                  {result.registerPrice.new}{" "}
+                  {result.registerPrice.currency.toUpperCase()}
+                </span>
+              </Link>
+            )}
+
+            {result?.renewPrice && (
+              <Link
+                href={result.renewPrice.externalLink}
+                target="_blank"
+                className="px-2 py-0.5 rounded-md border bg-background flex items-center space-x-1 cursor-pointer hover:border-muted-foreground/50 transition-colors duration-300"
+              >
+                <RiExchangeDollarFill className="w-3 h-3 text-muted-foreground shrink-0 hidden sm:block" />
+                <span
+                  className={
+                    "text-[11px] sm:text-xs font-normal text-muted-foreground break-words"
+                  }
+                >
+                  {t("renew_price")}
+                  {result.renewPrice.renew}{" "}
+                  {result.renewPrice.currency.toUpperCase()}
+                </span>
+              </Link>
+            )}
+
             <div className={`flex-grow`} />
             <Drawer>
               <DrawerTrigger asChild>
@@ -606,6 +675,92 @@ const ResultComp = React.forwardRef<HTMLDivElement, Props>(
             </CardContent>
           </CardHeader>
         </Card>
+        {!isCapture && result && result.mozDomainAuthority !== -1 && (
+          <div className="mt-3 w-full">
+            <Card className="shadow-sm border bg-muted/10">
+              <CardHeader className="pb-4">
+                <CardTitle className="text-sm font-medium flex items-center space-x-2 w-full">
+                  <RiBarChartBoxAiFill className="w-4 h-4" />
+                  <span>{t("whois_fields.moz_stats")}</span>
+                  <Link
+                    href="https://moz.com/learn/seo/domain-authority"
+                    target="_blank"
+                    className="p-0.5 text-muted-foreground hover:text-primary transition-colors duration-300 !ml-auto flex-shrink-0"
+                  >
+                    <RiExternalLinkLine className="w-3.5 h-3.5" />
+                  </Link>
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="grid grid-cols-3 gap-3">
+                  <div
+                    className={cn(
+                      "flex flex-col items-center rounded-lg p-3 bg-background border",
+                      result.mozDomainAuthority > 50 &&
+                        "bg-green-50/50 dark:bg-green-950/20 border-green-200 dark:border-green-800",
+                    )}
+                  >
+                    <span className="text-xs text-muted-foreground mb-1">
+                      Domain Authority
+                    </span>
+                    <span
+                      className={cn(
+                        "text-lg font-semibold",
+                        result.mozDomainAuthority > 50
+                          ? "text-green-600 dark:text-green-400"
+                          : "text-secondary",
+                      )}
+                    >
+                      {result.mozDomainAuthority}
+                    </span>
+                  </div>
+                  <div
+                    className={cn(
+                      "flex flex-col items-center rounded-lg p-3 bg-background border",
+                      result.mozPageAuthority > 50 &&
+                        "bg-green-50/50 dark:bg-green-950/20 border-green-200 dark:border-green-800",
+                    )}
+                  >
+                    <span className="text-xs text-muted-foreground mb-1">
+                      Page Authority
+                    </span>
+                    <span
+                      className={cn(
+                        "text-lg font-semibold",
+                        result.mozPageAuthority > 50
+                          ? "text-green-600 dark:text-green-400"
+                          : "text-secondary",
+                      )}
+                    >
+                      {result.mozPageAuthority}
+                    </span>
+                  </div>
+                  <div
+                    className={cn(
+                      "flex flex-col items-center rounded-lg p-3 bg-background border",
+                      result.mozSpamScore > 5 &&
+                        "bg-red-50/50 dark:bg-red-950/20 border-red-200 dark:border-red-800",
+                    )}
+                  >
+                    <span className="text-xs text-muted-foreground mb-1">
+                      Spam Score
+                    </span>
+                    <span
+                      className={cn(
+                        "text-lg font-semibold",
+                        result.mozSpamScore > 5
+                          ? "text-red-600 dark:text-red-400"
+                          : "text-green-600 dark:text-green-400",
+                      )}
+                    >
+                      {result.mozSpamScore}
+                    </span>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        )}
       </div>
     );
   },

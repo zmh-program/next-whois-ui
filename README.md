@@ -57,6 +57,10 @@ pnpm dev
 - `NEXT_PUBLIC_MAX_WHOIS_FOLLOW`: Max Domain Whois Follow (Default: 0)
 - `NEXT_PUBLIC_MAX_IP_WHOIS_FOLLOW`: Max IP Whois Follow (Default: 5)
 
+### MOZ API
+- `MOZ_ACCESS_ID`: Moz API Access ID (Required for domain metrics)
+- `MOZ_SECRET_KEY`: Moz API Secret Key (Required for domain metrics)
+
 ### CACHE
 - `REDIS_HOST`: Redis Host (CACHE DISABLED WHEN EMPTY)
 - `REDIS_PORT`: Redis Port (Default: 6379)

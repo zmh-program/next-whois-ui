@@ -4,6 +4,9 @@ import {
   WhoisAnalyzeResult,
 } from "@/lib/whois/types";
 import { includeArgs } from "@/lib/utils";
+import moment from "moment";
+import { getMozMetrics } from "@/lib/moz/client";
+import { getDomainPricing } from "@/lib/pricing/client";
 
 function analyzeDomainStatus(status: string): DomainStatusProps {
   const segments = status.split(" ");
@@ -27,7 +30,25 @@ function analyzeTime(time: string): string {
   }
 }
 
-export function analyzeWhois(data: string): WhoisAnalyzeResult {
+function calculateDomainAge(creationDate: string): number {
+  if (creationDate === "Unknown") return 0;
+
+  const created = moment(creationDate);
+  const now = moment();
+
+  return now.diff(created, "years");
+}
+
+function calculateRemainingDays(expirationDate: string): number {
+  if (expirationDate === "Unknown") return 0;
+
+  const expiry = moment(expirationDate);
+  const now = moment();
+
+  return Math.max(0, expiry.diff(now, "days"));
+}
+
+export async function analyzeWhois(data: string): Promise<WhoisAnalyzeResult> {
   const lines = data
     .split("\n")
     .map((line) => line.trim())
@@ -263,6 +284,27 @@ export function analyzeWhois(data: string): WhoisAnalyzeResult {
     newStatus.push(status);
   }
   result.status = newStatus;
+
+  // Calculate domain age and remaining days
+  result.domainAge =
+    !result.creationDate || result.creationDate === "Unknown"
+      ? null
+      : calculateDomainAge(result.creationDate);
+  result.remainingDays =
+    !result.expirationDate || result.expirationDate === "Unknown"
+      ? null
+      : calculateRemainingDays(result.expirationDate);
+
+  // Get pricing information
+  result.registerPrice = await getDomainPricing(result.domain, "new");
+  result.renewPrice = await getDomainPricing(result.domain, "renew");
+  result.transferPrice = await getDomainPricing(result.domain, "transfer");
+
+  // Get Moz metrics
+  const mozMetrics = await getMozMetrics(result.domain);
+  result.mozDomainAuthority = mozMetrics.domainAuthority;
+  result.mozPageAuthority = mozMetrics.pageAuthority;
+  result.mozSpamScore = mozMetrics.spamScore;
 
   return result;
 }

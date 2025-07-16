@@ -57,6 +57,10 @@ pnpm dev
 - `NEXT_PUBLIC_MAX_WHOIS_FOLLOW`: Suivi max des domaines Whois (Par défaut: 0)
 - `NEXT_PUBLIC_MAX_IP_WHOIS_FOLLOW`: Suivi max des IP Whois (Par défaut: 5)
 
+### MOZ API
+- `MOZ_ACCESS_ID`: ID d'accès Moz API (Requis pour les métriques de domaine)
+- `MOZ_SECRET_KEY`: Clé secrète Moz API (Requise pour les métriques de domaine)
+
 ### CACHE
 - `REDIS_HOST`: Hôte Redis (CACHE DÉSACTIVÉ SI VIDE)
 - `REDIS_PORT`: Port Redis (Par défaut: 6379)

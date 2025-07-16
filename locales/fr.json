@@ -41,11 +41,16 @@
     "registrant_email": "Email du titulaire",
     "name_servers": "Serveurs de noms",
     "dnssec": "DNSSEC",
-    "origin_as": "AS d'origine"
+    "origin_as": "AS d'origine",
+    "moz_stats": "Statistiques MOZ"
   },
   "abuse": "Abus",
   "utc": "UTC",
   "capture": "Capture",
+  "years": "ans",
+  "register_price": "Enregistrement : ",
+  "renew_price": "Renouvellement : ",
+  "expiring_soon": "Expire bientôt",
   "toast": {
     "copied": "Copié !",
     "copy_failed": "Échec de la copie : {{message}}",

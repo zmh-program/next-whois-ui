@@ -40,11 +40,17 @@
     "registrant_phone": "注册人电话",
     "registrant_email": "注册人邮箱",
     "name_servers": "域名服务器",
-    "dnssec": "DNSSEC"
+    "dnssec": "DNSSEC",
+    "origin_as": "源 AS",
+    "moz_stats": "MOZ 统计"
   },
   "abuse": "滥用",
   "utc": "UTC",
   "capture": "截图",
+  "years": "年",
+  "register_price": "注册价格：",
+  "renew_price": "续费价格：",
+  "expiring_soon": "即将过期",
   "toast": {
     "copied": "已复制！",
     "copy_failed": "复制失败：{{message}}",

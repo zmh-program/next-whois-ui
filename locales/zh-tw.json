@@ -41,11 +41,16 @@
     "registrant_email": "註冊電子郵件",
     "name_servers": "名稱伺服器",
     "dnssec": "DNSSEC",
-    "origin_as": "來源 AS"
+    "origin_as": "源 AS",
+    "moz_stats": "MOZ 統計"
   },
   "abuse": "濫用",
   "utc": "UTC",
   "capture": "截圖",
+  "years": "年",
+  "register_price": "註冊價格：",
+  "renew_price": "續費價格：",
+  "expiring_soon": "即將過期",
   "toast": {
     "copied": "已複製！",
     "copy_failed": "複製失敗：{{message}}",

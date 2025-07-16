@@ -28,8 +28,8 @@ export type WhoisAnalyzeResult = {
   rawWhoisContent: string;
 
   // Domain age and expiration
-  domainAge: number;
-  remainingDays: number;
+  domainAge: number | null;
+  remainingDays: number | null;
 
   // Domain pricing
   registerPrice: DomainPricing | null;
@@ -75,8 +75,8 @@ export const initialWhoisAnalyzeResult: WhoisAnalyzeResult = {
   rawWhoisContent: "",
 
   // Domain age and expiration
-  domainAge: 0,
-  remainingDays: 0,
+  domainAge: null,
+  remainingDays: null,
 
   // Domain pricing
   registerPrice: null,

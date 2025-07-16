@@ -286,8 +286,14 @@ export async function analyzeWhois(data: string): Promise<WhoisAnalyzeResult> {
   result.status = newStatus;
 
   // Calculate domain age and remaining days
-  result.domainAge = calculateDomainAge(result.creationDate);
-  result.remainingDays = calculateRemainingDays(result.expirationDate);
+  result.domainAge =
+    !result.creationDate || result.creationDate === "Unknown"
+      ? null
+      : calculateDomainAge(result.creationDate);
+  result.remainingDays =
+    !result.expirationDate || result.expirationDate === "Unknown"
+      ? null
+      : calculateRemainingDays(result.expirationDate);
 
   // Get pricing information
   result.registerPrice = await getDomainPricing(result.domain, "new");

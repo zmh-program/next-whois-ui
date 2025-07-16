@@ -205,7 +205,8 @@ function ResultTable({ result, target }: ResultTableProps) {
             name={t("whois_fields.name")}
             value={result.domain || target.toUpperCase()}
             badge={
-              result.remainingDays < 30 && (
+              result.remainingDays !== null &&
+              result.remainingDays <= 60 && (
                 <Badge
                   className="ml-1.5 py-0.25 px-1.5 rounded border-dashed font-normal"
                   variant="outline"
@@ -409,12 +410,12 @@ const ResultComp = React.forwardRef<HTMLDivElement, Props>(
           <div
             className={`inline-flex flex-row items-center w-full h-fit select-none mb-1 space-x-2`}
           >
-            {result?.domainAge !== undefined && (
+            {result && result?.domainAge !== null && (
               <div className="flex items-center space-x-1.5">
                 <div className="px-2 py-0.5 rounded-md border bg-background flex items-center space-x-1">
                   <RiTimeLine className="w-3 h-3 text-muted-foreground shrink-0 hidden sm:block" />
                   <span className="text-[11px] sm:text-xs font-normal text-muted-foreground">
-                    {result.domainAge < 1 ? "<1" : result.domainAge}{" "}
+                    {result.domainAge === 0 ? "<1" : result.domainAge}{" "}
                     {t("years")}
                   </span>
                 </div>

@@ -24,6 +24,7 @@
 8. 📦 **결과 캡처**: whois 결과를 캡처하여 쉽게 공유하고 저장
 9. 📡 **결과 캐싱**: Redis 기반 Whois 캐싱으로 더 빠른 쿼리
 10. 🌍 **국제화**: 다국어 지원
+11. 🚀 **RDAP 지원**: 현대적인 RDAP 프로토콜 지원과 WHOIS로의 자동 대체
 
 👉 [기여하기](https://github.com/zmh-program/next-whois-ui/pulls)
 
@@ -72,6 +73,7 @@ pnpm dev
 - Next.js
 - Shadcn UI & Tailwind CSS
 - Whois Core Lib (@[whois-raw](https://www.npmjs.com/package/whois-raw))
+- RDAP 지원 (@[node-rdap](https://www.npmjs.com/package/node-rdap))
 
 ## 💪 TLD 지원
 👉 [TLD Whois 파서 라이브러리 소스 코드](./src/lib/whois/lib.ts)

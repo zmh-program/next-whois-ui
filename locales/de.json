@@ -18,6 +18,7 @@
   "share": "Teilen",
   "share_description": "Ergebnis mit anderen teilen",
   "raw_whois_response": "Rohe Whois-Antwort",
+  "raw_rdap_response": "Rohe RDAP-Antwort (JSON)",
   "whois_fields": {
     "name": "Name",
     "status": "Status",

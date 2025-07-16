@@ -288,7 +288,6 @@ function ResultTable({ result, target }: ResultTableProps) {
             likeLink
             hidden={!result.whoisServer || result.whoisServer === "Unknown"}
           />
-
           <Row
             name={t("whois_fields.creation_date")}
             value={toReadableISODate(result.creationDate)}
@@ -663,12 +662,24 @@ const ResultComp = React.forwardRef<HTMLDivElement, Props>(
                   <ResultTable result={result} target={target} />
 
                   {!isCapture && (
-                    <RichTextarea
-                      className={`mt-2`}
-                      name={t("raw_whois_response")}
-                      value={result?.rawWhoisContent}
-                      saveFileName={`${target.replace(/\./g, "-")}-whois.txt`}
-                    />
+                    <>
+                      {result?.rawRdapContent && (
+                        <RichTextarea
+                          className={`mt-2`}
+                          name={t("raw_rdap_response")}
+                          value={result.rawRdapContent}
+                          saveFileName={`${target.replace(/\./g, "-")}-rdap.json`}
+                        />
+                      )}
+                      {result?.rawWhoisContent && (
+                        <RichTextarea
+                          className={`mt-2`}
+                          name={t("raw_whois_response")}
+                          value={result.rawWhoisContent}
+                          saveFileName={`${target.replace(/\./g, "-")}-whois.txt`}
+                        />
+                      )}
+                    </>
                   )}
                 </div>
               )}

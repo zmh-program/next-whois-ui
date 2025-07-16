@@ -18,6 +18,7 @@
   "share": "共有",
   "share_description": "結果を他の人と共有",
   "raw_whois_response": "Whois生レスポンス",
+  "raw_rdap_response": "RDAP生レスポンス (JSON)",
   "whois_fields": {
     "name": "名前",
     "status": "ステータス",

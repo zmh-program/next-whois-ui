@@ -24,6 +24,7 @@ Pas besoin d'en dire plus, essayez-le ! 🥳
 8. 📦 **Capture des résultats**: Capturez les résultats whois, faciles à partager.
 9. 📡 **Mise en cache**: Mise en cache Whois basée sur Redis pour des requêtes plus rapides.
 10. 🌍 **Internationalisation**: Support multi-langues
+11. 🚀 **Support RDAP**: Support du protocole RDAP moderne avec repli automatique vers WHOIS
 
 👉 [Contribuer](https://github.com/zmh-program/next-whois-ui/pulls)
 
@@ -72,6 +73,7 @@ pnpm dev
 - Next.js
 - Shadcn UI & Tailwind CSS
 - Whois Core Lib (@[whois-raw](https://www.npmjs.com/package/whois-raw))
+- Support RDAP (@[node-rdap](https://www.npmjs.com/package/node-rdap))
 
 ## 💪 Support TLD
 👉 [Code source de la bibliothèque d'analyse Whois TLD](./src/lib/whois/lib.ts)

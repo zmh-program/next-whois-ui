@@ -6,6 +6,7 @@ type Data = {
   status: boolean;
   time: number;
   cached?: boolean;
+  source?: "rdap" | "whois";
   result?: WhoisAnalyzeResult;
   error?: string;
 };
@@ -22,11 +23,11 @@ export default async function handler(
       .json({ time: -1, status: false, error: "Query is required" });
   }
 
-  const { time, status, result, error, cached } =
+  const { time, status, result, error, cached, source } =
     await lookupWhoisWithCache(query);
   if (!status) {
     return res.status(500).json({ time, status, error });
   }
 
-  return res.status(200).json({ time, status, result, cached });
+  return res.status(200).json({ time, status, result, cached, source });
 }

@@ -4,6 +4,7 @@ export type WhoisResult = {
   status: boolean;
   time: number;
   cached?: boolean;
+  source?: "rdap" | "whois";
   result?: WhoisAnalyzeResult;
   error?: string;
 };
@@ -26,6 +27,7 @@ export type WhoisAnalyzeResult = {
   registrantEmail: string;
   dnssec: string;
   rawWhoisContent: string;
+  rawRdapContent?: string;
 
   // Domain age and expiration
   domainAge: number | null;

@@ -18,6 +18,7 @@
   "share": "공유",
   "share_description": "결과를 다른 사람과 공유",
   "raw_whois_response": "원본 Whois 응답",
+  "raw_rdap_response": "원본 RDAP 응답 (JSON)",
   "whois_fields": {
     "name": "이름",
     "status": "상태",

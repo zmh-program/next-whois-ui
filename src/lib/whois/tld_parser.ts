@@ -4,7 +4,10 @@ import { getDomainRegex } from "@/lib/whois/lib";
 import { DomainStatusProps, WhoisAnalyzeResult } from "@/lib/whois/types";
 import { analyzeWhois } from "@/lib/whois/common_parser";
 
-export function parseWhoisData(rawData: string, domain: string) {
+export async function parseWhoisData(
+  rawData: string,
+  domain: string,
+): Promise<WhoisAnalyzeResult> {
   // preflight check
   if (!rawData) {
     throw new Error("No Whois data received");
@@ -53,7 +56,7 @@ export function parseWhoisData(rawData: string, domain: string) {
   }
 
   // pre set result
-  const result: WhoisAnalyzeResult = analyzeWhois(rawData);
+  const result: WhoisAnalyzeResult = await analyzeWhois(rawData);
 
   // domainName Match
   if (filterRegex.domainName) {

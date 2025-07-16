@@ -205,7 +205,7 @@ export async function convertRdapToWhoisResult(
     registrar: entityData.registrar,
     registrarURL: entityData.registrarURL,
     ianaId: entityData.ianaId,
-    whoisServer: "RDAP",
+    whoisServer: "https://rdap.org",
     updatedDate,
     creationDate,
     expirationDate,

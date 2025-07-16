@@ -26,6 +26,7 @@ Keine Notwendigkeit, mehr zu sagen, probieren Sie es einfach aus! 🥳
 8. 📦 **Ergebnis erfassen**: Erfassen von Whois-Ergebnissen, einfach zu teilen und zu speichern.
 9. 📡 **Ergebnis-Caching**: Redis-basiertes Whois-Caching für schnellere Abfragen.
 10. 🌍 **Internationalisierung**: Unterstützung mehrerer Sprachen
+11. 🚀 **RDAP-Unterstützung**: Unterstützung des modernen RDAP-Protokolls mit automatischem Fallback auf WHOIS
 
 👉 [Beitragen](https://github.com/zmh-program/next-whois-ui/pulls)
 
@@ -90,6 +91,7 @@ pnpm dev
   "time": 1.547,
   "status": true,
   "cached": false,
+  "source": "rdap",
   "result": {
     "domain": "GOOGLE.COM",
     "registrar": "MarkMonitor Inc.",
@@ -136,7 +138,8 @@ pnpm dev
     "registrantCountry": "Unknown",
     "registrantPhone": "+1 2086851750",
     "registrantEmail": "Unknown",
-    "rawWhoisContent": "..."
+    "rawWhoisContent": "...",
+    "rawRdapContent": "..."
   }
 }
 ```
@@ -174,6 +177,7 @@ pnpm dev
 - Next.js
 - Shadcn UI & Tailwind CSS
 - Whois Core Lib (@[whois-raw](https://www.npmjs.com/package/whois-raw))
+- RDAP-Unterstützung (@[node-rdap](https://www.npmjs.com/package/node-rdap))
 
 ## 💪 TLDs-Unterstützung
 

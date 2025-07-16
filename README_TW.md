@@ -26,6 +26,7 @@
 8. 📦 **結果分享**：支持獲取 Whois 查詢結果，方便分享和保存。
 9. 📡 **結果快取**：支援基於 Redis 的 Whois 快取，提升查詢速度。
 10. 🌍 **國際化**：支援多語言
+11. 🚀 **RDAP 支援**：支援現代 RDAP 協議，自動回退到 WHOIS
 
 👉 [貢獻代碼](https://github.com/zmh-program/next-whois-ui/pulls)
 
@@ -91,6 +92,7 @@ pnpm dev
   "time": 1.547,
   "status": true,
   "cached": false,
+  "source": "rdap",
   "result": {
     "domain": "GOOGLE.COM",
     "registrar": "MarkMonitor Inc.",
@@ -137,7 +139,8 @@ pnpm dev
     "registrantCountry": "Unknown",
     "registrantPhone": "+1 2086851750",
     "registrantEmail": "Unknown",
-    "rawWhoisContent": "..."
+    "rawWhoisContent": "...",
+    "rawRdapContent": "..."
   }
 }
 ```
@@ -175,6 +178,7 @@ pnpm dev
 - Next.js
 - Shadcn UI & Tailwind CSS
 - Whois Core Lib (@[whois-raw](https://www.npmjs.com/package/whois-raw))
+- RDAP 支援 (@[node-rdap](https://www.npmjs.com/package/node-rdap))
 
 ## 💪 TLDs 支持
 

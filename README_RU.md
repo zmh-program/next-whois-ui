@@ -26,6 +26,7 @@
 8. 📦 **Сохранение результатов**: Сохранение результатов whois, легко делиться и сохранять.
 9. 📡 **Кэширование результатов**: Кэширование Whois на основе Redis для более быстрых запросов.
 10. 🌍 **Интернационализация**: Поддержка нескольких языков
+11. 🚀 **Поддержка RDAP**: Поддержка современного протокола RDAP с автоматическим переходом на WHOIS
 
 👉 [Внести свой вклад](https://github.com/zmh-program/next-whois-ui/pulls)
 
@@ -90,6 +91,7 @@ pnpm dev
   "time": 1.547,
   "status": true,
   "cached": false,
+  "source": "rdap",
   "result": {
     "domain": "GOOGLE.COM",
     "registrar": "MarkMonitor Inc.",
@@ -136,7 +138,8 @@ pnpm dev
     "registrantCountry": "Unknown",
     "registrantPhone": "+1 2086851750",
     "registrantEmail": "Unknown",
-    "rawWhoisContent": "..."
+    "rawWhoisContent": "...",
+    "rawRdapContent": "..."
   }
 }
 ```
@@ -174,6 +177,7 @@ pnpm dev
 - Next.js
 - Shadcn UI & Tailwind CSS
 - Whois Core Lib (@[whois-raw](https://www.npmjs.com/package/whois-raw))
+- Поддержка RDAP (@[node-rdap](https://www.npmjs.com/package/node-rdap))
 
 ## 💪 Поддержка TLDs
 

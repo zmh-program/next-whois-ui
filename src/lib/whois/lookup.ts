@@ -3,6 +3,7 @@ import { WhoisResult } from "@/lib/whois/types";
 import { getJsonRedisValue, setJsonRedisValue } from "@/lib/server/redis";
 import { analyzeWhois } from "@/lib/whois/common_parser";
 import { extractDomain } from "@/lib/utils";
+import { lookupRdap, convertRdapToWhoisResult } from "@/lib/whois/rdap_client";
 import whois from "whois-raw";
 
 function getLookupOptions(domain: string) {
@@ -58,23 +59,45 @@ export async function lookupWhois(domain: string): Promise<WhoisResult> {
   const startTime = performance.now();
 
   try {
-    const whoisData = await getLookupRawWhois(domain, getLookupOptions(domain));
-    const result = await analyzeWhois(whoisData);
+    const rdapData = await lookupRdap(domain);
+    const result = await convertRdapToWhoisResult(rdapData, domain);
 
     return {
       time: (performance.now() - startTime) / 1000,
       status: true,
       cached: false,
+      source: "rdap",
       result,
     };
-  } catch (error: unknown) {
-    const errorMessage =
-      error instanceof Error ? error.message : "Unknown error occurred";
-    return {
-      time: (performance.now() - startTime) / 1000,
-      status: false,
-      cached: false,
-      error: errorMessage,
-    };
+  } catch (rdapError: unknown) {
+    console.log("RDAP lookup failed, fallback to WHOIS:", rdapError);
+
+    try {
+      const whoisData = await getLookupRawWhois(
+        domain,
+        getLookupOptions(domain),
+      );
+      const result = await analyzeWhois(whoisData);
+
+      return {
+        time: (performance.now() - startTime) / 1000,
+        status: true,
+        cached: false,
+        source: "whois",
+        result,
+      };
+    } catch (whoisError: unknown) {
+      const errorMessage =
+        whoisError instanceof Error
+          ? whoisError.message
+          : "Unknown error occurred";
+      return {
+        time: (performance.now() - startTime) / 1000,
+        status: false,
+        cached: false,
+        source: "whois",
+        error: errorMessage,
+      };
+    }
   }
 }

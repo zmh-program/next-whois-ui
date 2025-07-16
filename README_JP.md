@@ -26,6 +26,7 @@
 8. 📦 **結果キャプチャ**: Whois結果をキャプチャし、共有や保存が簡単です。
 9. 📡 **結果キャッシュ**：Redisベースのキャッシュで高速なクエリを実現。
 10. 🌍 **国際化**：多言語対応
+11. 🚀 **RDAP サポート**：最新のRDAPプロトコルをサポートし、自動的にWHOISにフォールバック
 
 👉 [コントリビュート](https://github.com/zmh-program/next-whois-ui/pulls)
 
@@ -91,6 +92,7 @@ pnpm dev
   "time": 1.547,
   "status": true,
   "cached": false,
+  "source": "rdap",
   "result": {
     "domain": "GOOGLE.COM",
     "registrar": "MarkMonitor Inc.",
@@ -137,7 +139,8 @@ pnpm dev
     "registrantCountry": "Unknown",
     "registrantPhone": "+1 2086851750",
     "registrantEmail": "Unknown",
-    "rawWhoisContent": "..."
+    "rawWhoisContent": "...",
+    "rawRdapContent": "..."
   }
 }
 ```
@@ -175,6 +178,7 @@ pnpm dev
 - Next.js
 - Shadcn UI & Tailwind CSS
 - Whois Core Lib (@[whois-raw](https://www.npmjs.com/package/whois-raw))
+- RDAP サポート (@[node-rdap](https://www.npmjs.com/package/node-rdap))
 
 ## 💪 TLDsサポート
 

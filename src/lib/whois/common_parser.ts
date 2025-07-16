@@ -48,6 +48,31 @@ function calculateRemainingDays(expirationDate: string): number {
   return Math.max(0, expiry.diff(now, "days"));
 }
 
+export async function applyParams(result: WhoisAnalyzeResult) {
+  // Calculate domain age and remaining days
+  result.domainAge =
+    !result.creationDate || result.creationDate === "Unknown"
+      ? null
+      : calculateDomainAge(result.creationDate);
+  result.remainingDays =
+    !result.expirationDate || result.expirationDate === "Unknown"
+      ? null
+      : calculateRemainingDays(result.expirationDate);
+
+  // Get pricing information
+  result.registerPrice = await getDomainPricing(result.domain, "new");
+  result.renewPrice = await getDomainPricing(result.domain, "renew");
+  result.transferPrice = await getDomainPricing(result.domain, "transfer");
+
+  // Get Moz metrics
+  const mozMetrics = await getMozMetrics(result.domain);
+  result.mozDomainAuthority = mozMetrics.domainAuthority;
+  result.mozPageAuthority = mozMetrics.pageAuthority;
+  result.mozSpamScore = mozMetrics.spamScore;
+
+  return result;
+}
+
 export async function analyzeWhois(data: string): Promise<WhoisAnalyzeResult> {
   const lines = data
     .split("\n")
@@ -285,26 +310,5 @@ export async function analyzeWhois(data: string): Promise<WhoisAnalyzeResult> {
   }
   result.status = newStatus;
 
-  // Calculate domain age and remaining days
-  result.domainAge =
-    !result.creationDate || result.creationDate === "Unknown"
-      ? null
-      : calculateDomainAge(result.creationDate);
-  result.remainingDays =
-    !result.expirationDate || result.expirationDate === "Unknown"
-      ? null
-      : calculateRemainingDays(result.expirationDate);
-
-  // Get pricing information
-  result.registerPrice = await getDomainPricing(result.domain, "new");
-  result.renewPrice = await getDomainPricing(result.domain, "renew");
-  result.transferPrice = await getDomainPricing(result.domain, "transfer");
-
-  // Get Moz metrics
-  const mozMetrics = await getMozMetrics(result.domain);
-  result.mozDomainAuthority = mozMetrics.domainAuthority;
-  result.mozPageAuthority = mozMetrics.pageAuthority;
-  result.mozSpamScore = mozMetrics.spamScore;
-
-  return result;
+  return await applyParams(result);
 }

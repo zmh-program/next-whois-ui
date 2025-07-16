@@ -25,6 +25,20 @@ export type WhoisAnalyzeResult = {
   dnssec: string;
   rawWhoisContent: string;
 
+  // Domain age and expiration
+  domainAge: number;
+  remainingDays: number;
+
+  // Domain pricing
+  registerPrice: string;
+  renewPrice: string;
+  isExpensive: boolean;
+
+  // Moz statistics
+  mozDomainAuthority: number;
+  mozPageAuthority: number;
+  mozSpamScore: number;
+
   cidr: string;
   inetNum: string;
   inet6Num: string;
@@ -57,6 +71,20 @@ export const initialWhoisAnalyzeResult: WhoisAnalyzeResult = {
   registrantEmail: "Unknown",
   dnssec: "",
   rawWhoisContent: "",
+
+  // Domain age and expiration
+  domainAge: 0,
+  remainingDays: 0,
+
+  // Domain pricing
+  registerPrice: "Unknown",
+  renewPrice: "Unknown",
+  isExpensive: false,
+
+  // Moz statistics
+  mozDomainAuthority: 0,
+  mozPageAuthority: 0,
+  mozSpamScore: 0,
 
   cidr: "Unknown",
   inetNum: "Unknown",

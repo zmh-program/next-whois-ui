@@ -41,11 +41,16 @@
     "registrant_email": "Email владельца",
     "name_servers": "Серверы имен",
     "dnssec": "DNSSEC",
-    "origin_as": "Исходный AS"
+    "origin_as": "Исходный AS",
+    "moz_stats": "Статистика MOZ"
   },
   "abuse": "Злоупотребление",
   "utc": "UTC",
   "capture": "Снимок",
+  "years": "лет",
+  "register_price": "Регистрация: ",
+  "renew_price": "Продление: ",
+  "expiring_soon": "Скоро истекает",
   "toast": {
     "copied": "Скопировано!",
     "copy_failed": "Ошибка копирования: {{message}}",

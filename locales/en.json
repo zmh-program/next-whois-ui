@@ -41,11 +41,16 @@
     "registrant_email": "Registrant Email",
     "name_servers": "Name Servers",
     "dnssec": "DNSSEC",
-    "origin_as": "Origin AS"
+    "origin_as": "Origin AS",
+    "moz_stats": "MOZ Stats"
   },
   "abuse": "Abuse",
   "utc": "UTC",
   "capture": "Capture",
+  "years": "years",
+  "register_price": "Register: ",
+  "renew_price": "Renew: ",
+  "expiring_soon": "Expiring Soon",
   "toast": {
     "copied": "Copied!",
     "copy_failed": "Failed to copy: {{message}}",

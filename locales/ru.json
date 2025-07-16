@@ -18,6 +18,7 @@
   "share": "Поделиться",
   "share_description": "Поделиться результатом с другими",
   "raw_whois_response": "Исходный ответ Whois",
+  "raw_rdap_response": "Исходный ответ RDAP (JSON)",
   "whois_fields": {
     "name": "Имя",
     "status": "Статус",

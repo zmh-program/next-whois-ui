@@ -666,7 +666,7 @@ const ResultComp = React.forwardRef<HTMLDivElement, Props>(
                       {result?.rawRdapContent && (
                         <RichTextarea
                           className={`mt-2`}
-                          name="Raw RDAP Response (JSON)"
+                          name={t("raw_rdap_response")}
                           value={result.rawRdapContent}
                           saveFileName={`${target.replace(/\./g, "-")}-rdap.json`}
                         />

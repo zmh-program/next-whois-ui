@@ -18,6 +18,7 @@
   "share": "Partager",
   "share_description": "Partager le résultat avec d'autres",
   "raw_whois_response": "Réponse Whois brute",
+  "raw_rdap_response": "Réponse RDAP brute (JSON)",
   "whois_fields": {
     "name": "Nom",
     "status": "Statut",

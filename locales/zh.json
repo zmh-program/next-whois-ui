@@ -18,6 +18,7 @@
   "share": "分享",
   "share_description": "与他人分享结果",
   "raw_whois_response": "原始 Whois 响应",
+  "raw_rdap_response": "原始 RDAP 响应 (JSON)",
   "whois_fields": {
     "name": "名称",
     "status": "状态",

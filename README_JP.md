@@ -66,6 +66,11 @@ pnpm dev
 - `NEXT_PUBLIC_MAX_WHOIS_FOLLOW`: 最大ドメインWhoisフォロー数（デフォルト値：0）
 - `NEXT_PUBLIC_MAX_IP_WHOIS_FOLLOW`: 最大IP Whoisフォロー数（デフォルト値：5）
 
+### MOZ API
+
+- `MOZ_ACCESS_ID`: Moz APIアクセスID（ドメインメトリクスに必要）
+- `MOZ_SECRET_KEY`: Moz APIシークレットキー（ドメインメトリクスに必要）
+
 ### キャッシュ
 
 - `REDIS_HOST`: Redisホスト（空の場合はキャッシュ無効）

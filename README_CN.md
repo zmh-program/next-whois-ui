@@ -66,6 +66,11 @@ pnpm dev
 - `NEXT_PUBLIC_MAX_WHOIS_FOLLOW`: 最大域名 Whois 跟随数（默认值：0）
 - `NEXT_PUBLIC_MAX_IP_WHOIS_FOLLOW`: 最大 IP Whois 跟随数（默认值：5）
 
+### MOZ API
+
+- `MOZ_ACCESS_ID`: Moz API 访问 ID（获取域名指标所需）
+- `MOZ_SECRET_KEY`: Moz API 密钥（获取域名指标所需）
+
 ### 缓存
 
 - `REDIS_HOST`: Redis 主机（如果为空则禁用缓存）

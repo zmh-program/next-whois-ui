@@ -16,7 +16,7 @@ import {
   RiFileCopyLine,
   RiExternalLinkLine,
   RiLinkM,
-  RiFirefoxBrowserFill,
+  RiBarChartBoxAiFill,
   RiShareLine,
   RiShieldLine,
   RiQuestionFill,
@@ -436,26 +436,19 @@ const ResultComp = React.forwardRef<HTMLDivElement, Props>(
                 <div
                   className={cn(
                     "px-2.5 py-1 rounded-md border bg-background flex items-center space-x-1.5",
-                    result.isExpensive &&
-                      "border-red-200 bg-red-50/50 dark:bg-red-950/20",
+                    result.isPremium &&
+                      "border-red-200 bg-red-50/50 dark:bg-red-950/20 dark:border-red-800",
                   )}
                 >
                   <RiExchangeDollarFill
                     className={cn(
                       "w-3.5 h-3.5",
-                      result.isExpensive
+                      result.isPremium
                         ? "text-red-500"
                         : "text-muted-foreground",
                     )}
                   />
-                  <span
-                    className={cn(
-                      "text-xs font-normal",
-                      result.isExpensive
-                        ? "text-red-600 dark:text-red-400"
-                        : "text-muted-foreground",
-                    )}
-                  >
+                  <span className={"text-xs font-normal text-muted-foreground"}>
                     {t("renew_price")}
                     {result.renewPrice}
                   </span>
@@ -677,12 +670,12 @@ const ResultComp = React.forwardRef<HTMLDivElement, Props>(
             </CardContent>
           </CardHeader>
         </Card>
-        {!isCapture && result && (
+        {!isCapture && result && result.mozDomainAuthority !== -1 && (
           <div className="mt-3 w-full">
             <Card className="shadow-sm border bg-muted/10">
               <CardHeader className="pb-4">
                 <CardTitle className="text-sm font-medium flex items-center space-x-2 w-full">
-                  <RiFirefoxBrowserFill className="w-4 h-4" />
+                  <RiBarChartBoxAiFill className="w-4 h-4" />
                   <span>{t("whois_fields.moz_stats")}</span>
                   <Link
                     href="https://moz.com/learn/seo/domain-authority"

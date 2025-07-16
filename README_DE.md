@@ -66,6 +66,10 @@ pnpm dev
 - `NEXT_PUBLIC_MAX_WHOIS_FOLLOW`: Maximale Domain-Whois-Verfolgung (Standard: 0)
 - `NEXT_PUBLIC_MAX_IP_WHOIS_FOLLOW`: Maximale IP-Whois-Verfolgung (Standard: 5)
 
+### MOZ API
+- `MOZ_ACCESS_ID`: Moz API Zugangs-ID (Erforderlich für Domain-Metriken)
+- `MOZ_SECRET_KEY`: Moz API Geheimschlüssel (Erforderlich für Domain-Metriken)
+
 ### CACHE
 
 - `REDIS_HOST`: Redis-Host (CACHE DEAKTIVIERT, WENN LEER)

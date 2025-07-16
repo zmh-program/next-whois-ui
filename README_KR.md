@@ -57,6 +57,10 @@ pnpm dev
 - `NEXT_PUBLIC_MAX_WHOIS_FOLLOW`: 최대 도메인 Whois 추적 (기본값: 0)
 - `NEXT_PUBLIC_MAX_IP_WHOIS_FOLLOW`: 최대 IP Whois 추적 (기본값: 5)
 
+### MOZ API
+- `MOZ_ACCESS_ID`: Moz API 액세스 ID (도메인 메트릭스에 필요)
+- `MOZ_SECRET_KEY`: Moz API 시크릿 키 (도메인 메트릭스에 필요)
+
 ### CACHE
 - `REDIS_HOST`: Redis 호스트 (비어있을 경우 캐시 비활성화)
 - `REDIS_PORT`: Redis 포트 (기본값: 6379)

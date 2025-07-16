@@ -62,17 +62,22 @@ pnpm dev
 
 ### WHOIS
 
-- `NEXT_PUBLIC_HISTORY_LIMIT`: 曆史記錄限製（默認值：-1）
-- `NEXT_PUBLIC_MAX_WHOIS_FOLLOW`: 最大域名 Whois 跟隨數（默認值：0）
-- `NEXT_PUBLIC_MAX_IP_WHOIS_FOLLOW`: 最大 IP Whois 跟隨數（默認值：5）
+- `NEXT_PUBLIC_HISTORY_LIMIT`: 歷史記錄限制（預設值：-1）
+- `NEXT_PUBLIC_MAX_WHOIS_FOLLOW`: 最大域名 Whois 跟隨數（預設值：0）
+- `NEXT_PUBLIC_MAX_IP_WHOIS_FOLLOW`: 最大 IP Whois 跟隨數（預設值：5）
 
-### 緩存
+### MOZ API
 
-- `REDIS_HOST`: Redis 主機（如果爲空則禁用緩存）
-- `REDIS_PORT`: Redis 端口（默認值：6379）
+- `MOZ_ACCESS_ID`: Moz API 存取 ID（取得域名指標所需）
+- `MOZ_SECRET_KEY`: Moz API 密鑰（取得域名指標所需）
+
+### 快取
+
+- `REDIS_HOST`: Redis 主機（如果為空則停用快取）
+- `REDIS_PORT`: Redis 連接埠（預設值：6379）
 - `REDIS_PASSWORD`: Redis 密碼（可選）
-- `REDIS_DB`: Redis 數據庫（默認值：0）
-- `REDIS_CACHE_TTL`: Redis 緩存 TTL 秒數（默認值：3600）
+- `REDIS_DB`: Redis 資料庫（預設值：0）
+- `REDIS_CACHE_TTL`: Redis 快取 TTL 秒數（預設值：3600）
 
 ## 📝 API 文檔
 

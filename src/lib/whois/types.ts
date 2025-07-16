@@ -32,7 +32,7 @@ export type WhoisAnalyzeResult = {
   // Domain pricing
   registerPrice: string;
   renewPrice: string;
-  isExpensive: boolean;
+  isPremium: boolean;
 
   // Moz statistics
   mozDomainAuthority: number;
@@ -79,7 +79,7 @@ export const initialWhoisAnalyzeResult: WhoisAnalyzeResult = {
   // Domain pricing
   registerPrice: "Unknown",
   renewPrice: "Unknown",
-  isExpensive: false,
+  isPremium: false,
 
   // Moz statistics
   mozDomainAuthority: 0,

@@ -31,6 +31,7 @@ import {
   RiLinksLine,
   RiTimeLine,
   RiExchangeDollarFill,
+  RiBillLine,
 } from "@remixicon/react";
 import {
   Drawer,
@@ -408,52 +409,55 @@ const ResultComp = React.forwardRef<HTMLDivElement, Props>(
           <div
             className={`inline-flex flex-row items-center w-full h-fit select-none mb-1 space-x-2`}
           >
-            {result?.domainAge && result.domainAge > 0 && (
+            {result?.domainAge !== undefined && (
               <div className="flex items-center space-x-1.5">
-                <div className="px-2.5 py-1 rounded-md border bg-background flex items-center space-x-1.5">
-                  <RiTimeLine className="w-3.5 h-3.5 text-muted-foreground" />
-                  <span className="text-xs font-normal text-muted-foreground">
-                    {result.domainAge} {t("years")}
+                <div className="px-2 py-0.5 rounded-md border bg-background flex items-center space-x-1">
+                  <RiTimeLine className="w-3 h-3 text-muted-foreground shrink-0 hidden sm:block" />
+                  <span className="text-[11px] sm:text-xs font-normal text-muted-foreground">
+                    {result.domainAge < 1 ? "<1" : result.domainAge}{" "}
+                    {t("years")}
                   </span>
                 </div>
               </div>
             )}
 
-            {result?.registerPrice && result.registerPrice !== "Unknown" && (
-              <div className="flex items-center space-x-1.5">
-                <div className="px-2.5 py-1 rounded-md border bg-background flex items-center space-x-1.5">
-                  <RiExchangeDollarFill className="w-3.5 h-3.5 text-muted-foreground" />
-                  <span className="text-xs font-normal text-muted-foreground">
-                    {t("register_price")}
-                    {result.registerPrice}
-                  </span>
-                </div>
-              </div>
-            )}
-
-            {result?.renewPrice && result.renewPrice !== "Unknown" && (
-              <div className="flex items-center space-x-1.5">
-                <div
+            {result?.registerPrice && (
+              <Link
+                target="_blank"
+                href={result.registerPrice.externalLink}
+                className="px-2 py-0.5 rounded-md border bg-background flex items-center space-x-1 cursor-pointer hover:border-muted-foreground/50 transition-colors duration-300"
+              >
+                <RiBillLine className="w-3 h-3 text-muted-foreground shrink-0 hidden sm:block" />
+                <span
                   className={cn(
-                    "px-2.5 py-1 rounded-md border bg-background flex items-center space-x-1.5",
-                    result.isPremium &&
-                      "border-red-200 bg-red-50/50 dark:bg-red-950/20 dark:border-red-800",
+                    "text-[11px] sm:text-xs font-normal text-muted-foreground break-words",
+                    result.registerPrice.isPremium && "text-red-500",
                   )}
                 >
-                  <RiExchangeDollarFill
-                    className={cn(
-                      "w-3.5 h-3.5",
-                      result.isPremium
-                        ? "text-red-500"
-                        : "text-muted-foreground",
-                    )}
-                  />
-                  <span className={"text-xs font-normal text-muted-foreground"}>
-                    {t("renew_price")}
-                    {result.renewPrice}
-                  </span>
-                </div>
-              </div>
+                  {t("register_price")}
+                  {result.registerPrice.new}{" "}
+                  {result.registerPrice.currency.toUpperCase()}
+                </span>
+              </Link>
+            )}
+
+            {result?.renewPrice && (
+              <Link
+                href={result.renewPrice.externalLink}
+                target="_blank"
+                className="px-2 py-0.5 rounded-md border bg-background flex items-center space-x-1 cursor-pointer hover:border-muted-foreground/50 transition-colors duration-300"
+              >
+                <RiExchangeDollarFill className="w-3 h-3 text-muted-foreground shrink-0 hidden sm:block" />
+                <span
+                  className={
+                    "text-[11px] sm:text-xs font-normal text-muted-foreground break-words"
+                  }
+                >
+                  {t("renew_price")}
+                  {result.renewPrice.renew}{" "}
+                  {result.renewPrice.currency.toUpperCase()}
+                </span>
+              </Link>
             )}
 
             <div className={`flex-grow`} />

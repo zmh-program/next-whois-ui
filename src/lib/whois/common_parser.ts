@@ -6,6 +6,7 @@ import {
 import { includeArgs } from "@/lib/utils";
 import moment from "moment";
 import { getMozMetrics } from "@/lib/moz/client";
+import { getDomainPricing } from "@/lib/pricing/client";
 
 function analyzeDomainStatus(status: string): DomainStatusProps {
   const segments = status.split(" ");
@@ -45,22 +46,6 @@ function calculateRemainingDays(expirationDate: string): number {
   const now = moment();
 
   return Math.max(0, expiry.diff(now, "days"));
-}
-
-interface DomainPricing {
-  renewPrice: string;
-  registerPrice: string;
-  isPremium: boolean;
-}
-
-function calculatePricing(domain: string): DomainPricing {
-  // This is a placeholder implementation
-  // In a real application, this would call a domain pricing API
-  return {
-    renewPrice: "Unknown",
-    registerPrice: "Unknown",
-    isPremium: false,
-  };
 }
 
 export async function analyzeWhois(data: string): Promise<WhoisAnalyzeResult> {
@@ -304,11 +289,10 @@ export async function analyzeWhois(data: string): Promise<WhoisAnalyzeResult> {
   result.domainAge = calculateDomainAge(result.creationDate);
   result.remainingDays = calculateRemainingDays(result.expirationDate);
 
-  // Calculate pricing
-  const pricing = calculatePricing(result.domain);
-  result.renewPrice = pricing.renewPrice || "Unknown";
-  result.registerPrice = pricing.registerPrice || "Unknown";
-  result.isPremium = pricing.isPremium;
+  // Get pricing information
+  result.registerPrice = await getDomainPricing(result.domain, "new");
+  result.renewPrice = await getDomainPricing(result.domain, "renew");
+  result.transferPrice = await getDomainPricing(result.domain, "transfer");
 
   // Get Moz metrics
   const mozMetrics = await getMozMetrics(result.domain);

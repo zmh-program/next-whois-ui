@@ -1,3 +1,5 @@
+import { DomainPricing } from "../pricing/client";
+
 export type WhoisResult = {
   status: boolean;
   time: number;
@@ -30,9 +32,9 @@ export type WhoisAnalyzeResult = {
   remainingDays: number;
 
   // Domain pricing
-  registerPrice: string;
-  renewPrice: string;
-  isPremium: boolean;
+  registerPrice: DomainPricing | null;
+  renewPrice: DomainPricing | null;
+  transferPrice: DomainPricing | null;
 
   // Moz statistics
   mozDomainAuthority: number;
@@ -77,9 +79,9 @@ export const initialWhoisAnalyzeResult: WhoisAnalyzeResult = {
   remainingDays: 0,
 
   // Domain pricing
-  registerPrice: "Unknown",
-  renewPrice: "Unknown",
-  isPremium: false,
+  registerPrice: null,
+  renewPrice: null,
+  transferPrice: null,
 
   // Moz statistics
   mozDomainAuthority: 0,

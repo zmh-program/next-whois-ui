@@ -23,7 +23,7 @@ function analyzeTime(time: string): string {
   if (!time || time.length === 0) return time;
 
   try {
-    const date = new Date(time);
+    const date = new Date(time.replace("<", "").replace(">", "").trim());
     return date.toISOString();
   } catch (e) {
     return time;

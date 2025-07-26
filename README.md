@@ -1,5 +1,7 @@
 <div align="center">
 
+<img src="/public/icons/icon-512x512.png" alt="Next Whois" width="64" height="64">
+
 # 🧪 Next Whois
 😎 Lightweight & Beautiful Whois Query Tool
 
